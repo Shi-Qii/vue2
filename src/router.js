@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
-
+import Theater from './views/theater.vue';
 Vue.use(Router);
 
 export const router = new Router({
@@ -21,6 +21,9 @@ export const router = new Router({
     {
       path: '/login',
       component: Login
+    },{
+      path: '/theater',
+      component: Theater
     },
     {
       path: '/register',
