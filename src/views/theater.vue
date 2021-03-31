@@ -1,67 +1,80 @@
 <template>
   <div>
-    <div
-      id="carouselExampleCaptions"
-      class="carousel slide"
-      data-ride="carousel"
-    >
-      <ol class="carousel-indicators">
-        <li
-          data-target="#carouselExampleCaptions"
-          data-slide-to="0"
-          class="active"
-        ></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="../assets/api.png" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="../assets/api.png" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="../assets/api.png" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Third slide label</h5>
-            <p>Some representative placeholder content for the third slide.</p>
-          </div>
+    <button type="button" class="btn btn-primary">首頁</button>
+    <button type="button" class="btn btn-secondary">動作</button>
+    <button type="button" class="btn btn-success">喜劇</button>
+    <button type="button" class="btn btn-danger">愛情</button>
+    <button type="button" class="btn btn-warning">恐怖</button>
+    <button type="button" class="btn btn-primary"  @click="addcomment()">新增影評文章</button>
+    <div class="card-deck">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="../assets/noimage.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ Cardtitle }}</h5>
+          <p class="card-text">
+            {{ CardContent }}
+          </p>
+          <!-- <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p> -->
+          <button type="button" class="btn btn-warning">看影評</button>
         </div>
       </div>
-      <a
-        class="carousel-control-prev"
-        href="#carouselExampleCaptions"
-        role="button"
-        data-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a
-        class="carousel-control-next"
-        href="#carouselExampleCaptions"
-        role="button"
-        data-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="../assets/noimage.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural
+            lead-in to additional content. This content is a little bit longer.
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p>
+          <button type="button" class="btn btn-warning">看影評</button>
+        </div>
+      </div>
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="../assets/noimage.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">
+            This is a longer card with supporting text below as a natural
+            lead-in to additional content. This content is a little bit longer.
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </p>
+          <button type="button" class="btn btn-warning">看影評</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      Cardtitle: "Noimage",
+      CardContent: "test",
+    };
+  },
+  methods: {
+    addcomment() {
+      this.$router.push(`/comment/-1`);
+    },
   },
 };
 </script>

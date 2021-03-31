@@ -1,15 +1,24 @@
+
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href class="navbar-brand" @click.prevent>影評網</a>
+      <a class="navbar-brand">影評網</a>
       <div class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <router-link to="/theater" class="nav-link">
             <font-awesome-icon icon="home" />Theater
           </router-link>
+        </li> -->
+        <li v-if="showAdmin" class="nav-item">
+          <router-link to="/management" class="nav-link">
+            <font-awesome-icon icon="home" />後台管理
+          </router-link>
         </li>
-        
-      
+        <li class="nav-item">
+          <router-link to="/filmCritics" class="nav-link">
+            <font-awesome-icon icon="home" />影評觀賞
+          </router-link>
+        </li>
       </div>
 
       <div v-if="!currentUser" class="navbar-nav ml-auto">
@@ -26,11 +35,27 @@
       </div>
 
       <div v-if="currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">
+        <!-- <li class="nav-item">
+          
             <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
+            暱稱:{{ currentUser.username }}
+          <router-link to="/profile" class="nav-link">
           </router-link>
+        </li> -->
+        <li class="nav-item dropdown">
+          <h4
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+           歡迎 {{ currentUser.username }} 到來
+          </h4>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/profile">個人資料中心</a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href @click.prevent="logOut">
@@ -48,19 +73,17 @@
 
 <script>
 export default {
+  data() {
+    return {};
+  },
+
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
     },
-    showAdminBoard() {
+    showAdmin() {
       if (this.currentUser && this.currentUser.roles) {
         return this.currentUser.roles.includes("ROLE_ADMIN");
-      }
-      return false;
-    },
-    showModeratorBoard() {
-      if (this.currentUser && this.currentUser.roles) {
-        return this.currentUser.roles.includes("ROLE_MODERATOR");
       }
       return false;
     },

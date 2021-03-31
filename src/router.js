@@ -21,7 +21,7 @@ export const router = new Router({
     {
       path: '/login',
       component: Login
-    },{
+    }, {
       path: '/theater',
       component: Theater
     },
@@ -54,16 +54,30 @@ export const router = new Router({
       component: () => import('./views/BoardUser.vue')
     },
     {
-   
-      path: "/courses",
+
+      path: "/management",
       name: "Courses",
-      component: () => import("./components/Courses.vue")
-    }, 
-{
-      path: "/courses/:id",
-      name: "Course Details",
-      component: () => import("./components/Course.vue")
+      component: () => import("./components/management.vue")
     },
+    {
+      path: "/addFilmCritics/:id",
+      name: "addFilmCritics",
+      component: () => import("./components/addFilmCritics.vue")
+    }, {
+      path: "/comment/:id",
+      name: "comment Details",
+      component: () => import("./components/comment.vue")
+    }, {
+
+      path: "/readcomment/:id",
+      name: "Readcomment",
+      component: () => import("./components/readcomment.vue")
+    }, {
+      path: "/filmCritics",
+      name: "FilmCritics",
+      component: () => import("./components/filmCritics.vue")
+    }
+
   ]
 });
 
