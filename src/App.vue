@@ -2,21 +2,27 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a class="navbar-brand">影評網</a>
+<!--      <a class="navbar-brand">影評網</a>-->
+      <a class="navbar-brand">股票</a>
       <div class="navbar-nav mr-auto">
         <!-- <li class="nav-item">
           <router-link to="/theater" class="nav-link">
             <font-awesome-icon icon="home" />Theater
           </router-link>
         </li> -->
-        <li v-if="showAdmin" class="nav-item">
-          <router-link to="/management" class="nav-link">
-            <font-awesome-icon icon="home" />後台管理
-          </router-link>
-        </li>
+<!--        <li v-if="showAdmin" class="nav-item">-->
+<!--          <router-link to="/management" class="nav-link">-->
+<!--            <font-awesome-icon icon="home" />後台管理-->
+<!--          </router-link>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <router-link to="/filmCritics" class="nav-link">-->
+<!--            <font-awesome-icon icon="home" />股票-->
+<!--          </router-link>-->
+<!--        </li>-->
         <li class="nav-item">
-          <router-link to="/filmCritics" class="nav-link">
-            <font-awesome-icon icon="home" />影評觀賞
+          <router-link to="/test123564" class="nav-link">
+            <font-awesome-icon icon="home" />股票
           </router-link>
         </li>
       </div>
