@@ -27,17 +27,18 @@ export default {
         console.log(stockData)
         // const data = res.data;
 
-        let obj = {
-          Processing_date: null,
-          Stock_num: null,
-          Stock_name: null,
-          Foreign_investors: null,
-          Investment_trust: null,
-          Dealer: null,
-          Total_buysell: null,
-        }
+
 
         for (let i = 0; i < stockData.Dealer.length; i++) {
+          let obj = {
+            Processing_date: null,
+            Stock_num: null,
+            Stock_name: null,
+            Foreign_investors: null,
+            Investment_trust: null,
+            Dealer: null,
+            Total_buysell: null,
+          }
           obj.Processing_date = stockData.Processing_date[i]
           obj.Stock_num = stockData.Stock_num[i]
           obj.Stock_name = stockData.Stock_name[i]
