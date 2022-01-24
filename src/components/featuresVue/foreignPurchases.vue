@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ '個股查詢' }}
+    {{ '外資買超' }}
     <div>
       <b-form-select v-model="allData.selected"
                      :options="allData.options"
@@ -19,6 +19,7 @@
     </div>
 
     <b-table
+        sort
         :items="items"
         :fields="fields1"
         responsive="sm"
