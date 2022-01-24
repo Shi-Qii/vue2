@@ -78,11 +78,21 @@ export const router = new Router({
             name: "FilmCritics",
             component: () => import("./components/filmCritics.vue")
         },
-      {
-        path: "/test123564",
-        name: "test123564",
-        component: () => import("./components/test123564.vue")
-      }
+        {
+            path: "/stockHome",
+            name: "stockHome",
+            component: () => import("./components/stockHome.vue")
+        },
+        {
+            path: "/foreignPurchases",
+            name: "foreignPurchases",
+            component: () => import("./components/featuresVue/foreignPurchases.vue")
+        },
+        {
+            path: "/sndividualStockInquiry",
+            name: "sndividualStockInquiry",
+            component: () => import("./components/featuresVue/sndividualStockInquiry.vue")
+        }
 
     ]
 });

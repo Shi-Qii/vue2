@@ -21,9 +21,36 @@
 <!--          </router-link>-->
 <!--        </li>-->
         <li class="nav-item">
-          <router-link to="/test123564" class="nav-link">
+          <router-link to="/stockHome" class="nav-link">
             <font-awesome-icon icon="home" />股票
           </router-link>
+        </li>
+        <li class="nav-item">
+          <b-button v-b-toggle.sidebar-1>各項選單</b-button>
+          <b-sidebar backdrop id="sidebar-1" title="選單" shadow>
+            <div class="px-3 py-2">
+              <b-dropdown Block  id="dropdown-dropright" dropright text="個股查詢" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/sndividualStockInquiry">
+                    <font-awesome-icon icon="user-plus" />個股查詢
+                  </router-link>
+                  </b-dropdown-item>
+              </b-dropdown>
+            </div>
+            <div  class="px-3 py-2">
+              <b-dropdown Block  id="dropdown-dropright" dropright text="法人進出" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/foreignPurchases" >
+                    <font-awesome-icon icon="user-plus" />外資買超排行
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>外資賣超排行</b-dropdown-item>
+                <b-dropdown-item>自營買超排行</b-dropdown-item>
+                <b-dropdown-item>自營賣超排行</b-dropdown-item>
+              </b-dropdown>
+            </div>
+
+          </b-sidebar>
         </li>
       </div>
 
@@ -102,3 +129,8 @@ export default {
   },
 };
 </script>
+<style>
+.setWigth{
+  width: 30px;
+}
+</style>
