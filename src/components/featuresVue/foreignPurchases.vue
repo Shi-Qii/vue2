@@ -1,13 +1,15 @@
 <template>
   <div>
     {{ '個股查詢' }}
-    <b-table
-        :items="items"
-        :fields="fields1"
-        responsive="sm"
-    >
-    </b-table>
-
+    <div>
+      <b-form-select v-model="allData.selected"
+                     :options="allData.options"
+                     size="sm" class="mt-3 col-2"></b-form-select>
+      <b-form-select v-model="allData.selected"
+                     :options="allData.options"
+                     size="sm" class="mt-3 col-2"></b-form-select>
+    </div>
+    <!--    等後端轉圈-->
     <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
       <b-spinner
           v-for="variant in variants.value"
@@ -15,6 +17,14 @@
           :key="variant"
       ></b-spinner>
     </div>
+
+    <b-table
+        :items="items"
+        :fields="fields1"
+        responsive="sm"
+    >
+    </b-table>
+
 
   </div>
 </template>
@@ -28,21 +38,18 @@ Vue.use(VueCompositionAPI)
 export default {
   setup() {
     const items = ref([]);
+    const fields1 = ref([]);
     const showSidebar = ref(true)
     const showSpinner = ref(true)
     const variants = reactive({
-      value:['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
+      value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
     onMounted(() => {
-      let selectKey='Listed_Foreign_Buy'
+      let selectKey = 'Listed_Foreign_Buy'
       GetStockData.getUserBoard(selectKey).then(res => {
         const stockData = res.data;
         // this.items=res.data;
-
         console.log(stockData)
-        // const data = res.data;
-
-
         for (let i = 0; i < stockData.Dealer.length; i++) {
           let obj = {
             Processing_date: null,
@@ -69,25 +76,27 @@ export default {
               {key: 'Investment_trust', label: '投資買賣超張數'},
               {key: 'Processing_date', label: '日期'},
               {key: 'Total_buysell', label: '總買賣超張數'})
-
-          console.log('items:', items)
+          // console.log('items:', items)
         }
-
       }).then(() => {
         showSpinner.value = false
       }).catch(() => {
         showSpinner.value = true
       })
-
-
     })
-    const test1 = ref('123')
-
-
-    const fields1 = ref([]);
+    const allData = reactive({
+      selected: null,
+      options: [
+        {value: null, text: 'Please select an option'},
+        {value: 'a', text: 'This is First option'},
+        {value: 'b', text: 'Selected Option'},
+        {value: {C: '3PO'}, text: 'This is an option with object value'},
+        {value: 'd', text: 'This one is disabled', disabled: true}
+      ]
+    })
 
     return {
-      test1, items, fields1, showSidebar, showSpinner, variants
+      items, fields1, showSidebar, showSpinner, variants, allData
     }
   }
 
