@@ -2,12 +2,12 @@
   <div>
     {{ '外資買超' }}
     <div>
-      <b-form-select v-model="allData.selected"
-                     :options="allData.options"
-                     size="sm" class="mt-3 col-2"></b-form-select>
-      <b-form-select v-model="allData.selected"
-                     :options="allData.options"
-                     size="sm" class="mt-3 col-2"></b-form-select>
+<!--      <b-form-select v-model="allData.selected"-->
+<!--                     :options="allData.options"-->
+<!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
+<!--      <b-form-select v-model="allData.selected"-->
+<!--                     :options="allData.options"-->
+<!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
     </div>
     <!--    等後端轉圈-->
     <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
@@ -21,7 +21,7 @@
     <b-table
         sort
         :items="items"
-        :fields="fields1"
+        :fields="fields"
         responsive="sm"
     >
     </b-table>
@@ -39,7 +39,7 @@ Vue.use(VueCompositionAPI)
 export default {
   setup() {
     const items = ref([]);
-    const fields1 = ref([]);
+    const fields = ref([]);
     const showSidebar = ref(true)
     const showSpinner = ref(true)
     const variants = reactive({
@@ -48,28 +48,26 @@ export default {
     onMounted(() => {
       let selectKey = 'Listed_Foreign_Buy'
       GetStockData.getUserBoard(selectKey).then(res => {
-        const stockData = res.data;
-        // this.items=res.data;
-        console.log(stockData)
-        for (let i = 0; i < stockData.Dealer.length; i++) {
-          let obj = {
-            Processing_date: null,
-            Stock_num: null,
-            Stock_name: null,
-            Foreign_investors: null,
-            Investment_trust: null,
-            Dealer: null,
-            Total_buysell: null,
-          }
-          obj.Processing_date = stockData.Processing_date[i]
-          obj.Stock_num = stockData.Stock_num[i]
-          obj.Stock_name = stockData.Stock_name[i]
-          obj.Foreign_investors = stockData.Foreign_investors[i]
-          obj.Investment_trust = stockData.Investment_trust[i]
-          obj.Dealer = stockData.Dealer[i]
-          obj.Total_buysell = stockData.Total_buysell[i]
-          items.value.push(obj)
-          fields1.value.push(
+        items.value=res.data;
+        // for (let i = 0; i < stockData.Dealer.length; i++) {
+        //   let obj = {
+        //     Processing_date: null,
+        //     Stock_num: null,
+        //     Stock_name: null,
+        //     Foreign_investors: null,
+        //     Investment_trust: null,
+        //     Dealer: null,
+        //     Total_buysell: null,
+        //   }
+        //   obj.Processing_date = stockData.Processing_date[i]
+        //   obj.Stock_num = stockData.Stock_num[i]
+        //   obj.Stock_name = stockData.Stock_name[i]
+        //   obj.Foreign_investors = stockData.Foreign_investors[i]
+        //   obj.Investment_trust = stockData.Investment_trust[i]
+        //   obj.Dealer = stockData.Dealer[i]
+        //   obj.Total_buysell = stockData.Total_buysell[i]
+        //   items.value.push(obj)
+          fields.value.push(
               {key: 'Stock_num', label: '公司代號'},
               {key: 'Stock_name', label: '股票名稱'},
               {key: 'Dealer', label: '自營買賣超張數'},
@@ -78,7 +76,7 @@ export default {
               {key: 'Processing_date', label: '日期'},
               {key: 'Total_buysell', label: '總買賣超張數'})
           // console.log('items:', items)
-        }
+        // }
       }).then(() => {
         showSpinner.value = false
       }).catch(() => {
@@ -97,7 +95,7 @@ export default {
     })
 
     return {
-      items, fields1, showSidebar, showSpinner, variants, allData
+      items, fields, showSidebar, showSpinner, variants, allData
     }
   }
 
