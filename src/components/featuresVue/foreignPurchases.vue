@@ -18,26 +18,64 @@
       ></b-spinner>
     </div>
 
-    <b-table
-        sort
-        :items="items"
-        :fields="fields"
-        responsive="sm"
-    >
-    </b-table>
+
+    <div class="overflow-auto">
+<!--      <b-pagination-->
+<!--          v-model="currentPage"-->
+<!--          :total-rows="rows"-->
+<!--          :per-page="perPage"-->
+<!--          aria-controls="my-table"-->
+<!--      ></b-pagination>-->
+            <b-pagination
+                number-of-pages="10"
+                base-url="#"
+                class="mt-4"
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                aria-controls="my-table"
+            >
+              <template #first-text><span class="text-success">First</span></template>
+              <template #prev-text><span class="text-danger">Prev</span></template>
+              <template #next-text><span class="text-warning">Next</span></template>
+              <template #last-text><span class="text-info">Last</span></template>
+              <template #ellipsis-text>
+                <b-spinner small type="grow"></b-spinner>
+                <b-spinner small type="grow"></b-spinner>
+                <b-spinner small type="grow"></b-spinner>
+              </template>
+              <template #page="{ page, active }">
+                <b v-if="active">{{ page }}</b>
+                <i v-else>{{ page }}</i>
+              </template>
+            </b-pagination>
 
 
+      <b-table
+          sort
+          :items="items"
+          responsive="sm"
+          :per-page="perPage"
+          :current-page="currentPage"
+      >
+      </b-table>
+
+    </div>
   </div>
 </template>
 
 <script>
-import VueCompositionAPI, {onMounted, ref, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {onMounted, ref, reactive, computed} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 
 Vue.use(VueCompositionAPI)
 export default {
+
   setup() {
+    const rows = computed(() => {
+      return items.value.length
+    })
     const items = ref([]);
     const fields = ref([]);
     const showSidebar = ref(true)
@@ -45,7 +83,13 @@ export default {
     const variants = reactive({
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
+    const perPage = ref(3)
+    const currentPage = ref(1)
+    // perPage: 3,
+    //     currentPage: 1,
     onMounted(() => {
+
+
       let selectKey = {
         key1: 'Listed_Foreign_Buy',
         key2: '上市',
@@ -101,7 +145,7 @@ export default {
     })
 
     return {
-      items, fields, showSidebar, showSpinner, variants, allData
+      items, fields, showSidebar, showSpinner, variants, allData, perPage, currentPage, rows
     }
   }
 
