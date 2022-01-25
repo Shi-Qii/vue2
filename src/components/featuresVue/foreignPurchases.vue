@@ -2,12 +2,12 @@
   <div>
     {{ '外資買超' }}
     <div>
-<!--      <b-form-select v-model="allData.selected"-->
-<!--                     :options="allData.options"-->
-<!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
-<!--      <b-form-select v-model="allData.selected"-->
-<!--                     :options="allData.options"-->
-<!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
+      <!--      <b-form-select v-model="allData.selected"-->
+      <!--                     :options="allData.options"-->
+      <!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
+      <!--      <b-form-select v-model="allData.selected"-->
+      <!--                     :options="allData.options"-->
+      <!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
     </div>
     <!--    等後端轉圈-->
     <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
@@ -46,9 +46,15 @@ export default {
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
     onMounted(() => {
-      let selectKey = 'Listed_Foreign_Buy'
+      let selectKey = {
+        key1: 'Listed_Foreign_Buy',
+        key2: '上市',
+        key3: 'buy'
+      }
+      //上市
+      //buy
       GetStockData.getUserBoard(selectKey).then(res => {
-        items.value=res.data;
+        items.value = res.data;
         // for (let i = 0; i < stockData.Dealer.length; i++) {
         //   let obj = {
         //     Processing_date: null,
@@ -67,15 +73,15 @@ export default {
         //   obj.Dealer = stockData.Dealer[i]
         //   obj.Total_buysell = stockData.Total_buysell[i]
         //   items.value.push(obj)
-          fields.value.push(
-              {key: 'Stock_num', label: '公司代號'},
-              {key: 'Stock_name', label: '股票名稱'},
-              {key: 'Dealer', label: '自營買賣超張數'},
-              {key: 'Foreign_investors', label: '外資買賣超張數'},
-              {key: 'Investment_trust', label: '投資買賣超張數'},
-              {key: 'Processing_date', label: '日期'},
-              {key: 'Total_buysell', label: '總買賣超張數'})
-          // console.log('items:', items)
+        fields.value.push(
+            {key: 'Stock_num', label: '公司代號'},
+            {key: 'Stock_name', label: '股票名稱'},
+            {key: 'Dealer', label: '自營買賣超張數'},
+            {key: 'Foreign_investors', label: '外資買賣超張數'},
+            {key: 'Investment_trust', label: '投資買賣超張數'},
+            {key: 'Processing_date', label: '日期'},
+            {key: 'Total_buysell', label: '總買賣超張數'})
+        // console.log('items:', items)
         // }
       }).then(() => {
         showSpinner.value = false
