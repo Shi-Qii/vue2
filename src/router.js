@@ -92,6 +92,11 @@ export const router = new Router({
             path: "/sndividualStockInquiry",
             name: "sndividualStockInquiry",
             component: () => import("./components/featuresVue/sndividualStockInquiry.vue")
+        },
+        {
+            path: "/hightcharts_sndividualStockInquiry",
+            name: "hightcharts_sndividualStockInquiry",
+            component: () => import("./components/chartFolder/hightcharts_sndividualStockInquiry.vue")
         }
 
     ]

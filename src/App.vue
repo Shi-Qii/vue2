@@ -49,7 +49,17 @@
                 <b-dropdown-item>自營賣超排行</b-dropdown-item>
               </b-dropdown>
             </div>
+            <div  class="px-3 py-2">
+              <b-dropdown Block  id="dropdown-dropright" dropright text="圖表" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/hightcharts_sndividualStockInquiry" >
+                    <font-awesome-icon icon="user-plus" />圖表_個股查詢
+                  </router-link>
+                </b-dropdown-item>
 
+
+              </b-dropdown>
+            </div>
           </b-sidebar>
         </li>
       </div>

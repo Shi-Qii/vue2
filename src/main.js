@@ -20,10 +20,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import highcharts from 'highcharts'
 library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
 
 Vue.config.productionTip = false;
 Vue.use(CarouselPlugin)
+Vue.component('highcgart',highcharts)
 Vue.component('b-form-file', BFormFile)
 Vue.component('b-carousel-slide', BCarouselSlide)
 Vue.component('b-carousel', BCarousel)
