@@ -10,7 +10,7 @@
 
     <datalist id="my-list-id">
       <option>2330</option>
-            <option v-for="size in sizes" :key="size">{{ size }}</option>
+      <option v-for="size in sizes" :key="size">{{ size }}</option>
     </datalist>
     <b-table
         v-if="showTable"
@@ -41,7 +41,7 @@ export default {
   setup() {
     const stockCode = ref(null);
     const items = ref([]);
-    const fields1 = ref([]);
+    const fields1 =[];
     const showSidebar = ref(true)
     const showTable = ref(false)
     const showSpinner = ref(false)
@@ -50,6 +50,14 @@ export default {
     })
     const sizes = ref(['2618', '2615', '2303', '3008'])
     const search = function () {
+      fields1.push(
+          {key: 'Stock_num', label: '公司代號'},
+          {key: 'Stock_name', label: '股票名稱'},
+          {key: 'Dealer', label: '自營買賣超張數'},
+          {key: 'Foreign_investors', label: '外資買賣超張數'},
+          {key: 'Investment_trust', label: '投資買賣超張數'},
+          {key: 'Processing_date', label: '日期', formatter: numberFormatter},
+          {key: 'Total_buysell', label: '總買賣超張數'})
       let selectKey = {
         key1: 'Ind_Institutional_Investors_Day',
         key2: stockCode.value,
@@ -65,8 +73,6 @@ export default {
         showSpinner.value = true
       })
     }
-
-
     // for (let i = 0; i < stockData.Dealer.length; i++) {
     //   let obj = {
     //     Processing_date: null,
@@ -85,15 +91,13 @@ export default {
     //   obj.Dealer = stockData.Dealer[i]
     //   obj.Total_buysell = stockData.Total_buysell[i]
     //   items.value.push(obj)
-    fields1.value.push(
-        {key: 'Stock_num', label: '公司代號'},
-        {key: 'Stock_name', label: '股票名稱'},
-        {key: 'Dealer', label: '自營買賣超張數'},
-        {key: 'Foreign_investors', label: '外資買賣超張數'},
-        {key: 'Investment_trust', label: '投資買賣超張數'},
-        {key: 'Processing_date', label: '日期'},
-        {key: 'Total_buysell', label: '總買賣超張數'})
-
+    const numberFormatter = function (num) {
+      if (typeof num === 'number'){
+        console.log('判斷型態:',typeof num)
+        let dd = new Date(num);
+        return dd.getFullYear() + '-' + Number(dd.getMonth()+1) + '-' + dd.getDate()
+      }
+    }
 
     return {
       items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes
