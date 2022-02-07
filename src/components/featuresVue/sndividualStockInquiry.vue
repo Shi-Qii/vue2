@@ -5,7 +5,7 @@
     <div class="input-group m-5">
       <span class="input-group-text">個股查詢:</span>
       <input class="form-control col-5" type="text" v-model="stockCode" list="my-list-id">
-      <b-button class="col-2" @click="search">送出</b-button>
+      <b-button class="col-2" @click="search" variant="primary">送出</b-button>
     </div>
 
     <datalist id="my-list-id">
