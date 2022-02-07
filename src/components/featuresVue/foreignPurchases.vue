@@ -9,48 +9,16 @@
       <!--                     :options="allData.options"-->
       <!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
     </div>
-    <!--    等後端轉圈-->
-    <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
-      <b-spinner
-          v-for="variant in variants.value"
-          :variant="variant"
-          :key="variant"
-      ></b-spinner>
-    </div>
 
 
     <div class="overflow-auto">
-<!--      <b-pagination-->
-<!--          v-model="currentPage"-->
-<!--          :total-rows="rows"-->
-<!--          :per-page="perPage"-->
-<!--          aria-controls="my-table"-->
-<!--      ></b-pagination>-->
-            <b-pagination
-                number-of-pages="10"
-                base-url="#"
-                class="mt-4"
-                v-model="currentPage"
-                :total-rows="rows"
-                :per-page="perPage"
-                aria-controls="my-table"
-            >
-              <template #first-text><span class="text-success">First</span></template>
-              <template #prev-text><span class="text-danger">Prev</span></template>
-              <template #next-text><span class="text-warning">Next</span></template>
-              <template #last-text><span class="text-info">Last</span></template>
-              <template #ellipsis-text>
-                <b-spinner small type="grow"></b-spinner>
-                <b-spinner small type="grow"></b-spinner>
-                <b-spinner small type="grow"></b-spinner>
-              </template>
-              <template #page="{ page, active }">
-                <b v-if="active">{{ page }}</b>
-                <i v-else>{{ page }}</i>
-              </template>
-            </b-pagination>
-
-
+      <!--      <b-pagination-->
+      <!--          v-model="currentPage"-->
+      <!--          :total-rows="rows"-->
+      <!--          :per-page="perPage"-->
+      <!--          aria-controls="my-table"-->
+      <!--      ></b-pagination>-->
+      <!--    等後端轉圈-->
       <b-table
           sort
           :items="items"
@@ -59,6 +27,40 @@
           :current-page="currentPage"
       >
       </b-table>
+      <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
+        <b-spinner
+            v-for="variant in variants.value"
+            :variant="variant"
+            :key="variant"
+        ></b-spinner>
+      </div>
+      <b-pagination
+          v-if="!showSpinner"
+          size="sm"
+          number-of-pages="10"
+          base-url="#"
+          align="center"
+          class="mt-4 text-center"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+      >
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+        <template #ellipsis-text>
+          <b-spinner small type="grow"></b-spinner>
+          <b-spinner small type="grow"></b-spinner>
+          <b-spinner small type="grow"></b-spinner>
+        </template>
+        <template #page="{ page, active }">
+          <b v-if="active">{{ page }}</b>
+          <i v-else>{{ page }}</i>
+        </template>
+      </b-pagination>
+
 
     </div>
   </div>

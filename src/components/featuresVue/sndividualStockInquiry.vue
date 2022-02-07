@@ -1,7 +1,19 @@
 <template>
   <div>
-    {{ '個股查詢' }}
+
+
+    <div class="input-group m-5">
+      <span class="input-group-text">個股查詢:</span>
+      <input class="form-control col-5" type="text" v-model="stockCode" list="my-list-id">
+      <b-button class="col-2" @click="search">送出</b-button>
+    </div>
+
+    <datalist id="my-list-id">
+      <option>2330</option>
+            <option v-for="size in sizes" :key="size">{{ size }}</option>
+    </datalist>
     <b-table
+        v-if="showTable"
         :items="items"
         :fields="fields1"
         responsive="sm"
@@ -20,73 +32,71 @@
 </template>
 
 <script>
-import VueCompositionAPI, {onMounted, ref, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {ref, reactive} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 
 Vue.use(VueCompositionAPI)
 export default {
   setup() {
+    const stockCode = ref(null);
     const items = ref([]);
+    const fields1 = ref([]);
     const showSidebar = ref(true)
-    const showSpinner = ref(true)
+    const showTable = ref(false)
+    const showSpinner = ref(false)
     const variants = reactive({
-      value:['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
+      value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
-    onMounted(() => {
+    const sizes = ref(['2618', '2615', '2303', '3008'])
+    const search = function () {
       let selectKey = {
         key1: 'Ind_Institutional_Investors_Day',
-        key2: '2330',
+        key2: stockCode.value,
         key3: '10'
       }
+      showSpinner.value = true
+      showTable.value = true
       GetStockData.getUserBoard(selectKey).then(res => {
-        items.value= res.data;
-
-        // for (let i = 0; i < stockData.Dealer.length; i++) {
-        //   let obj = {
-        //     Processing_date: null,
-        //     Stock_num: null,
-        //     Stock_name: null,
-        //     Foreign_investors: null,
-        //     Investment_trust: null,
-        //     Dealer: null,
-        //     Total_buysell: null,
-        //   }
-        //   obj.Processing_date = stockData.Processing_date[i]
-        //   obj.Stock_num = stockData.Stock_num[i]
-        //   obj.Stock_name = stockData.Stock_name[i]
-        //   obj.Foreign_investors = stockData.Foreign_investors[i]
-        //   obj.Investment_trust = stockData.Investment_trust[i]
-        //   obj.Dealer = stockData.Dealer[i]
-        //   obj.Total_buysell = stockData.Total_buysell[i]
-        //   items.value.push(obj)
-          fields1.value.push(
-              {key: 'Stock_num', label: '公司代號'},
-              {key: 'Stock_name', label: '股票名稱'},
-              {key: 'Dealer', label: '自營買賣超張數'},
-              {key: 'Foreign_investors', label: '外資買賣超張數'},
-              {key: 'Investment_trust', label: '投資買賣超張數'},
-              {key: 'Processing_date', label: '日期'},
-              {key: 'Total_buysell', label: '總買賣超張數'})
-        //
-        //   console.log('items:', items)
-        // }
-
+        items.value = res.data;
       }).then(() => {
         showSpinner.value = false
       }).catch(() => {
         showSpinner.value = true
       })
+    }
 
 
-    })
-    const test1 = ref('123')
+    // for (let i = 0; i < stockData.Dealer.length; i++) {
+    //   let obj = {
+    //     Processing_date: null,
+    //     Stock_num: null,
+    //     Stock_name: null,
+    //     Foreign_investors: null,
+    //     Investment_trust: null,
+    //     Dealer: null,
+    //     Total_buysell: null,
+    //   }
+    //   obj.Processing_date = stockData.Processing_date[i]
+    //   obj.Stock_num = stockData.Stock_num[i]
+    //   obj.Stock_name = stockData.Stock_name[i]
+    //   obj.Foreign_investors = stockData.Foreign_investors[i]
+    //   obj.Investment_trust = stockData.Investment_trust[i]
+    //   obj.Dealer = stockData.Dealer[i]
+    //   obj.Total_buysell = stockData.Total_buysell[i]
+    //   items.value.push(obj)
+    fields1.value.push(
+        {key: 'Stock_num', label: '公司代號'},
+        {key: 'Stock_name', label: '股票名稱'},
+        {key: 'Dealer', label: '自營買賣超張數'},
+        {key: 'Foreign_investors', label: '外資買賣超張數'},
+        {key: 'Investment_trust', label: '投資買賣超張數'},
+        {key: 'Processing_date', label: '日期'},
+        {key: 'Total_buysell', label: '總買賣超張數'})
 
-
-    const fields1 = ref([]);
 
     return {
-      test1, items, fields1, showSidebar, showSpinner, variants
+      items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes
     }
   }
 
