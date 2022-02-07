@@ -1,30 +1,20 @@
 <template>
   <div>
     {{ '外資買超' }}
+    <hr/>
+
+
     <div>
-      <!--      <b-form-select v-model="allData.selected"-->
-      <!--                     :options="allData.options"-->
-      <!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
-      <!--      <b-form-select v-model="allData.selected"-->
-      <!--                     :options="allData.options"-->
-      <!--                     size="sm" class="mt-3 col-2"></b-form-select>-->
-    </div>
-
-
-    <div class="overflow-auto">
-      <!--      <b-pagination-->
-      <!--          v-model="currentPage"-->
-      <!--          :total-rows="rows"-->
-      <!--          :per-page="perPage"-->
-      <!--          aria-controls="my-table"-->
-      <!--      ></b-pagination>-->
-      <!--    等後端轉圈-->
       <b-table
+          outlined
           sort
+          striped
+          bordered
           :items="items"
           responsive="sm"
           :per-page="perPage"
           :current-page="currentPage"
+          sticky-header="900px"
       >
       </b-table>
       <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
@@ -85,7 +75,7 @@ export default {
     const variants = reactive({
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
-    const perPage = ref(3)
+    const perPage = ref(10)
     const currentPage = ref(1)
     // perPage: 3,
     //     currentPage: 1,
