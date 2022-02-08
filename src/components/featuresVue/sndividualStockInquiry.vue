@@ -9,7 +9,6 @@
     </div>
     <hr/>
     <datalist id="my-list-id">
-      <option>2330</option>
       <option v-for="size in sizes" :key="size">{{ size }}</option>
     </datalist>
     <b-table
@@ -54,7 +53,7 @@ export default {
     const variants = reactive({
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
-    const sizes = ref(['2618', '2615', '2303', '3008'])
+    const sizes = ref(['2330','2618', '2615', '2303', '3008'])
     const search = function () {
       //newObj.thClass = 'text-center text-nowrap';
       // newObj.tdClass = 'text-center text-nowrap';
@@ -67,6 +66,7 @@ export default {
           {key: 'Investment_trust', label: '投資買賣超張數',thClass:'text-center',tdClass:'text-center', sortable: true},
           {key: 'Total_buysell', label: '總買賣超張數',thClass:'text-center',tdClass:'text-center', sortable: true})
       let selectKey = {
+        //Ind_Institutional_Investors_Day
         key1: 'Ind_Institutional_Investors_Day',
         key2: stockCode.value,
         key3: '10'
@@ -105,6 +105,7 @@ export default {
         let dd = new Date(num);
         return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
       }
+      return num
     }
 
     return {
