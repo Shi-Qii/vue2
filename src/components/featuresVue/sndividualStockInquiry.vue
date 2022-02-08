@@ -11,6 +11,8 @@
     <datalist id="my-list-id">
       <option v-for="size in sizes" :key="size">{{ size }}</option>
     </datalist>
+    <spline :initChartData="initChartData"></spline>
+    <hr/>
     <b-table
         outlined
         sort
@@ -40,9 +42,13 @@
 import VueCompositionAPI, {ref, reactive} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
+import Spline from "../chartFolder/spline.vue"
 
 Vue.use(VueCompositionAPI)
 export default {
+  components: {
+    Spline
+  },
   setup() {
     const stockCode = ref(null);
     const items = ref([]);
@@ -53,18 +59,25 @@ export default {
     const variants = reactive({
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
-    const sizes = ref(['2330','2618', '2615', '2303', '3008'])
+    const sizes = ref(['2330', '2618', '2615', '2303', '3008'])
     const search = function () {
       //newObj.thClass = 'text-center text-nowrap';
       // newObj.tdClass = 'text-center text-nowrap';
       fields1.push(
-          {key: 'Processing_date', label: '日期', formatter: numberFormatter,thClass:'text-center',tdClass:'text-center', sortable: true},
-          {key: 'Stock_num', label: '公司代號',thClass:'text-center',tdClass:'text-center', sortable: true},
-          {key: 'Stock_name', label: '股票名稱',thClass:'text-center',tdClass:'text-center', sortable: true},
-          {key: 'Dealer', label: '自營買賣超張數',thClass:'text-center',tdClass:'text-center', sortable: true},
-          {key: 'Foreign_investors', label: '外資買賣超張數',thClass:'text-center',tdClass:'text-center', sortable: true},
-          {key: 'Investment_trust', label: '投資買賣超張數',thClass:'text-center',tdClass:'text-center', sortable: true},
-          {key: 'Total_buysell', label: '總買賣超張數',thClass:'text-center',tdClass:'text-center', sortable: true})
+          {
+            key: 'Processing_date',
+            label: '日期',
+            formatter: numberFormatter,
+            thClass: 'text-center',
+            tdClass: 'text-center',
+            sortable: true
+          },
+          {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Foreign_investors', label: '外資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true})
       let selectKey = {
         //Ind_Institutional_Investors_Day
         key1: 'Ind_Institutional_Investors_Day',
@@ -107,9 +120,9 @@ export default {
       }
       return num
     }
-
+    const initChartData = {aa:1,bb:2}
     return {
-      items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes
+      items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes, initChartData
     }
   }
 

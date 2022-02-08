@@ -109,14 +109,22 @@ export default {
         //   obj.Dealer = stockData.Dealer[i]
         //   obj.Total_buysell = stockData.Total_buysell[i]
         //   items.value.push(obj)
-        fields.value.push(
-            {key: 'Stock_num', label: '公司代號'},
-            {key: 'Stock_name', label: '股票名稱'},
-            {key: 'Dealer', label: '自營買賣超張數'},
-            {key: 'Foreign_investors', label: '外資買賣超張數'},
-            {key: 'Investment_trust', label: '投資買賣超張數'},
-            {key: 'Processing_date', label: '日期'},
-            {key: 'Total_buysell', label: '總買賣超張數'})
+        fields.push(
+            {
+              key: 'Processing_date',
+              label: '日期',
+              formatter: numberFormatter,
+              thClass: 'text-center',
+              tdClass: 'text-center',
+              sortable: true
+            },
+            {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+            {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+            {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+            {key: 'Foreign_investors', label: '外資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+            {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+            {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true})
+
         // console.log('items:', items)
         // }
       }).then(() => {
@@ -135,7 +143,14 @@ export default {
         {value: 'd', text: 'This one is disabled', disabled: true}
       ]
     })
-
+    const numberFormatter = function (num) {
+      if (typeof num === 'number') {
+        console.log('判斷型態:', typeof num)
+        let dd = new Date(num);
+        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
+      }
+      return num
+    }
     return {
       items, fields, showSidebar, showSpinner, variants, allData, perPage, currentPage, rows
     }
