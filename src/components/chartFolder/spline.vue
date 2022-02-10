@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div>
+    <div v-if="state">
+      <hr/>
       {{ '圖表' }}
-      <highcharts :options="chartOptions"></highcharts>
+      <highcharts  :options="chartOptions"></highcharts>
 
     </div>
 
@@ -12,7 +13,7 @@
 <script>
 
 import {Chart} from 'highcharts-vue';
-import VueCompositionAPI, {reactive} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, watch, ref} from "@vue/composition-api";
 import Vue from 'vue'
 
 Vue.use(VueCompositionAPI)
@@ -24,8 +25,53 @@ export default {
     initChartData: Object
   },
   setup(prop) {
-    const initChartData1 = prop.initChartData
-    console.log('initChartData1:', initChartData1['aa'])
+    let state = ref(false);
+    const initChart = ref(prop.initChartData)
+    console.log('data__:', initChart.value['data'])
+    const chartOptionsData = reactive({
+      date: null
+      , seriesData1: null
+      , seriesData2: null
+      , seriesData3: null
+      , seriesData4: null
+    })
+    watch(initChart.value, (newValue) => {
+      /* ... */
+      console.log('newValue:', newValue)
+      // console.log('data__:', initChartData1.value['data'])
+      chartOptionsData.date = []
+      chartOptionsData.seriesData1 = []
+      chartOptionsData.seriesData2 = []
+      chartOptionsData.seriesData3 = []
+      chartOptionsData.seriesData4 = []
+      newValue.data.forEach(f => {
+        chartOptionsData.date.push(numberFormatter(f.Processing_date))
+        chartOptionsData.seriesData1.push(f.Dealer)
+        chartOptionsData.seriesData2.push(f.Foreign_investors)
+        chartOptionsData.seriesData3.push(f.Investment_trust)
+        chartOptionsData.seriesData4.push(f.Total_buysell)
+      })
+      chartOptions.xAxis[0].categories = chartOptionsData.date;
+      chartOptions.series[0].data = chartOptionsData.seriesData1;
+      chartOptions.series[1].data = chartOptionsData.seriesData2;
+      chartOptions.series[2].data = chartOptionsData.seriesData3;
+      chartOptions.series[3].data = chartOptionsData.seriesData4;
+      if (newValue.data !== null){
+        console.log('newValue!== null:', newValue)
+        console.log('chartOptionsData', chartOptionsData)
+        state.value = true;
+      }
+
+    })
+
+    const numberFormatter = function (num) {
+      if (typeof num === 'number') {
+        console.log('判斷型態:', typeof num)
+        let dd = new Date(num);
+        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
+      }
+      return num
+    }
     const chartOptions = reactive({
       chart: {
         type: 'spline'
@@ -38,20 +84,7 @@ export default {
         text: ''
       },
       xAxis: [{
-        categories: [
-          '2021-12-29',
-          '2021-12-30',
-          '2021-12-31',
-          '2022-01-03',
-          '2022-01-04',
-          '2022-01-05',
-          '2022-01-06',
-          '2022-01-07',
-          '2022-01-10',
-          '2022-01-11',
-          '2022-01-12',
-          '2022-01-13',
-        ],
+        categories: [],
         crosshair: true
       }],
       yAxis: {
@@ -74,23 +107,39 @@ export default {
       },
       series: [{
         name: '自營買賣超張數',
-        color:'rgba(250,231,137,0.92)',
+        color: 'rgba(250,231,137,0.92)',
         marker: {
           symbol: 'square'
         },
-        data: [345, -1005, 425, 1176, 1181, -281, 1195, 2133, 359, 923]
+        data: []
 
       }, {
         name: '外資買賣超張數',
-        color:'#e24a4a',
+        color: '#e24a4a',
         marker: {
           symbol: 'diamond'
         },
-        data: [15115, 8261, -343, -10093, -11445, 4788, 29781, 32537, -46, 4949]
-      }],
+        data: []
+      },
+        {
+          name: '投資買賣超張數',
+          color: '#95d25b',
+          marker: {
+            symbol: 'diamond'
+          },
+          data: []
+        },{
+          name: '總買賣超張數',
+          color: '#58ace8',
+          marker: {
+            symbol: 'diamond'
+          },
+          data: []
+        }
+      ],
 
     });
-    return {chartOptions}
+    return {chartOptions, initChart, chartOptionsData,state}
   }
 
 }

@@ -12,7 +12,7 @@
       <option v-for="size in sizes" :key="size">{{ size }}</option>
     </datalist>
     <spline :initChartData="initChartData"></spline>
-    <hr/>
+
     <b-table
         outlined
         sort
@@ -82,12 +82,17 @@ export default {
         //Ind_Institutional_Investors_Day
         key1: 'Ind_Institutional_Investors_Day',
         key2: stockCode.value,
-        key3: '10'
+        key3: '10',
+        key4: 'Foreign_investors',
+        key5: '20',
+        //objectHashMap.put("parameter4", "Foreign_investors");
+        // objectHashMap.put("parameter5", "20");
       }
       showSpinner.value = true
       showTable.value = true
       GetStockData.getUserBoard(selectKey).then(res => {
         items.value = res.data;
+        initChartData.data=res.data;
       }).then(() => {
         showSpinner.value = false
       }).catch(() => {
@@ -120,7 +125,7 @@ export default {
       }
       return num
     }
-    const initChartData = {aa:1,bb:2}
+    const initChartData = {data:null}
     return {
       items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes, initChartData
     }
