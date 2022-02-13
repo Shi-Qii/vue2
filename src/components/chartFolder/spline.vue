@@ -74,7 +74,18 @@ export default {
     }
     const chartOptions = reactive({
       chart: {
-        type: 'spline'
+        // type: 'spline',
+        // inverted: true
+        type: 'spline',
+        scrollablePlotArea: {
+          minWidth: 600,
+          scrollPositionX: 1
+        }
+      },
+      navigation: {
+        menuItemStyle: {
+          fontSize: '10px'
+        }
       },
       title: {
         text: ' ',
@@ -98,10 +109,15 @@ export default {
       },
       plotOptions: {
         spline: {
+          lineWidth: 2,
+          states: {
+            hover: {
+              lineWidth: 3
+            }
+          },
           marker: {
-            radius: 4,
-            lineColor: '#666666',
-            lineWidth: 1
+            radius:3,
+            enabled: true
           }
         }
       },
@@ -109,7 +125,7 @@ export default {
         name: '自營買賣超張數',
         color: 'rgba(250,231,137,0.92)',
         marker: {
-          symbol: 'square'
+          symbol: 'circle'
         },
         data: []
 
@@ -117,7 +133,7 @@ export default {
         name: '外資買賣超張數',
         color: '#e24a4a',
         marker: {
-          symbol: 'diamond'
+          symbol: 'circle'
         },
         data: []
       },
@@ -125,14 +141,14 @@ export default {
           name: '投資買賣超張數',
           color: '#95d25b',
           marker: {
-            symbol: 'diamond'
+            symbol: 'circle'
           },
           data: []
         },{
           name: '總買賣超張數',
           color: '#58ace8',
           marker: {
-            symbol: 'diamond'
+            symbol: 'circle'
           },
           data: []
         }
