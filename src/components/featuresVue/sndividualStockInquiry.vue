@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <div class="input-group m-5">
       <span class="input-group-text">個股查詢:</span>
       <input class="form-control col-5" type="text" v-model="stockCode" list="my-list-id">
@@ -36,6 +34,7 @@
     </div>
 
   </div>
+
 </template>
 
 <script>
@@ -43,6 +42,7 @@ import VueCompositionAPI, {ref, reactive} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import Spline from "../chartFolder/spline.vue"
+import GetAppVueInit from "@/services/getAppVueInit";
 
 Vue.use(VueCompositionAPI)
 export default {
@@ -50,16 +50,17 @@ export default {
     Spline
   },
   setup() {
+    const variants = reactive({
+      value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
+    })
     const stockCode = ref(null);
     const items = ref([]);
     const fields1 = [];
     const showSidebar = ref(true)
     const showTable = ref(false)
     const showSpinner = ref(false)
-    const variants = reactive({
-      value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
-    })
-    const sizes = ref(['2330', '2618', '2615', '2303', '3008'])
+
+    const sizes = ref([])
     const search = function () {
       //newObj.thClass = 'text-center text-nowrap';
       // newObj.tdClass = 'text-center text-nowrap';
@@ -92,31 +93,15 @@ export default {
       showTable.value = true
       GetStockData.getUserBoard(selectKey).then(res => {
         items.value = res.data;
-        initChartData.data=res.data;
+        initChartData.data = res.data;
       }).then(() => {
         showSpinner.value = false
       }).catch(() => {
         showSpinner.value = true
       })
     }
-    // for (let i = 0; i < stockData.Dealer.length; i++) {
-    //   let obj = {
-    //     Processing_date: null,
-    //     Stock_num: null,
-    //     Stock_name: null,
-    //     Foreign_investors: null,
-    //     Investment_trust: null,
-    //     Dealer: null,
-    //     Total_buysell: null,
-    //   }
-    //   obj.Processing_date = stockData.Processing_date[i]
-    //   obj.Stock_num = stockData.Stock_num[i]
-    //   obj.Stock_name = stockData.Stock_name[i]
-    //   obj.Foreign_investors = stockData.Foreign_investors[i]
-    //   obj.Investment_trust = stockData.Investment_trust[i]
-    //   obj.Dealer = stockData.Dealer[i]
-    //   obj.Total_buysell = stockData.Total_buysell[i]
-    //   items.value.push(obj)
+
+
     const numberFormatter = function (num) {
       if (typeof num === 'number') {
         console.log('判斷型態:', typeof num)
@@ -125,7 +110,18 @@ export default {
       }
       return num
     }
-    const initChartData = {data:null}
+    const initChartData = {data: null}
+
+    function initFn() {
+      GetAppVueInit.getInitData().then((res) => {
+        let da = res.data
+        da.forEach(f => {
+          sizes.value.push(f['Stock_nm'])
+        })
+      }).catch()
+    }
+
+    initFn();
     return {
       items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes, initChartData
     }

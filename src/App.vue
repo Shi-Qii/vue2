@@ -121,15 +121,9 @@
 </template>
 
 <script>
-import GetAppVueInit from "@/services/getAppVueInit";
-
 export default {
   data() {
     return {};
-  }, mounted() {
-    GetAppVueInit.getInitData().then((res) => {
-      console.log('res:', res)
-    })
   }
   ,
   computed: {
