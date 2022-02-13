@@ -50,6 +50,7 @@ export default {
     Spline
   },
   setup() {
+
     const variants = reactive({
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
