@@ -1,42 +1,50 @@
 <template>
   <div>
-    <div class="input-group m-5">
-      <span class="input-group-text">個股查詢:</span>
-      <input class="form-control col-5" type="text" v-model="stockCode" list="my-list-id">
-      <b-button class="col-2" @click="search" variant="primary">送出</b-button>
+    <div>
+      <b-input-group prepend="個股查詢" class=" mt-3 ml-5 pl-4">
+        <b-form-input type="text" class="col-2" v-model="stockCode" list="my-list-id"></b-form-input>
+        <b-form-select
+            class="col-2"
+            v-model="activeNm.value"
+            :options="selectOptions"
+            value-field="item"
+            text-field="name"
+            disabled-field="notEnabled"
+        ></b-form-select>
+        <b-input-group-append>
+          <b-button @click="search" variant="outline-success">送出</b-button>
+        </b-input-group-append>
+      </b-input-group>
+      <hr/>
+      <datalist id="my-list-id">
+        <option v-for="size in sizes" :key="size">{{ size }}</option>
+      </datalist>
+      <spline :initChartData="initChartData"></spline>
+      <b-table
+          outlined
+          sort
+          striped
+          bordered
+          hover
+          sticky-header="900px"
+          v-if="showTable"
+          :items="items"
+          :fields="fields1"
+          responsive="sm"
+      >
+      </b-table>
+
+      <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
+        <b-spinner
+            v-for="variant in variants.value"
+            :variant="variant"
+            :key="variant"
+        ></b-spinner>
+      </div>
+
     </div>
-    <hr/>
-    <datalist id="my-list-id">
-      <option v-for="size in sizes" :key="size">{{ size }}</option>
-    </datalist>
-    <spline :initChartData="initChartData"></spline>
-
-    <b-table
-        outlined
-        sort
-        striped
-        bordered
-        hover
-        sticky-header="900px"
-        v-if="showTable"
-        :items="items"
-        :fields="fields1"
-        responsive="sm"
-    >
-    </b-table>
-
-    <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
-      <b-spinner
-          v-for="variant in variants.value"
-          :variant="variant"
-          :key="variant"
-      ></b-spinner>
-    </div>
-
   </div>
-
 </template>
-
 <script>
 import VueCompositionAPI, {ref, reactive} from "@vue/composition-api";
 import Vue from 'vue'
@@ -50,7 +58,7 @@ export default {
     Spline
   },
   setup() {
-
+    const activeNm = reactive({value: 'institutional_investors'})
     const variants = reactive({
       value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
     })
@@ -65,6 +73,7 @@ export default {
     const search = function () {
       //newObj.thClass = 'text-center text-nowrap';
       // newObj.tdClass = 'text-center text-nowrap';
+
       fields1.push(
           {
             key: 'Processing_date',
@@ -82,8 +91,9 @@ export default {
           {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true})
       let selectKey = {
         //Ind_Institutional_Investors_Day
+        idName: null,
         key1: 'Ind_Institutional_Investors_Day',
-        key2: stockCode.value,
+        key2: stockCode.value.toLocaleString().substring(0, 4),
         key3: '10',
         key4: 'Foreign_investors',
         key5: '20',
@@ -92,6 +102,8 @@ export default {
       }
       showSpinner.value = true
       showTable.value = true
+      selectKey.idName = activeNm.value
+
       GetStockData.getUserBoard(selectKey).then(res => {
         items.value = res.data;
         initChartData.data = res.data;
@@ -112,6 +124,14 @@ export default {
       return num
     }
     const initChartData = {data: null}
+    const selectOptions = [
+      {item: 'institutional_investors', name: '法人'},
+      {item: 'B', name: '個股'},
+      {item: 'B', name: '個股-1'},
+      {item: 'B', name: '個股-2'},
+      {item: 'B', name: '個股-3'},
+
+    ]
 
     function initFn() {
       GetAppVueInit.getInitData().then((res) => {
@@ -124,7 +144,10 @@ export default {
 
     initFn();
     return {
-      items, fields1, showSidebar, showSpinner, variants, stockCode, search, showTable, sizes, initChartData
+      selectOptions,
+      activeNm, items,
+      fields1, showSidebar, showSpinner,
+      variants, stockCode, search, showTable, sizes, initChartData
     }
   }
 
