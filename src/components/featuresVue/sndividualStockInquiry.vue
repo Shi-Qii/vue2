@@ -123,7 +123,7 @@ export default {
       selectKey.idName = individualVueData.activeNm.value
 
       GetStockData.getUserBoard(selectKey).then(res => {
-        individualVueData.items = res.data;
+        individualVueData.items.value = res.data;
         initChartData.data = res.data;
       }).then(() => {
         showState.showSpinner = false
