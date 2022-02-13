@@ -1,11 +1,11 @@
 <template>
   <div>
     <div>
-      <b-input-group prepend="個股查詢" class=" mt-3 ml-5 pl-4">
-        <b-form-input type="text" class="col-2" v-model="stockCode" list="my-list-id"></b-form-input>
+      <b-input-group prepend="個股查詢" class="mt-3">
+        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode.value" list="my-list-id"></b-form-input>
         <b-form-select
             class="col-2"
-            v-model="activeNm.value"
+            v-model="individualVueData.activeNm.value"
             :options="selectOptions"
             value-field="item"
             text-field="name"
@@ -17,7 +17,7 @@
       </b-input-group>
       <hr/>
       <datalist id="my-list-id">
-        <option v-for="size in sizes" :key="size">{{ size }}</option>
+        <option v-for="size in datalists" :key="size">{{ size }}</option>
       </datalist>
       <spline :initChartData="initChartData"></spline>
       <b-table
@@ -27,16 +27,16 @@
           bordered
           hover
           sticky-header="900px"
-          v-if="showTable"
-          :items="items"
-          :fields="fields1"
+          v-if="showState.showTable"
+          :items="individualVueData.items.value"
+          :fields="individualVueData.fields.value"
           responsive="sm"
       >
       </b-table>
 
-      <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
+      <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
         <b-spinner
-            v-for="variant in variants.value"
+            v-for="variant in individualVueData.spinnerVariants.value"
             :variant="variant"
             :key="variant"
         ></b-spinner>
@@ -58,23 +58,41 @@ export default {
     Spline
   },
   setup() {
-    const activeNm = reactive({value: 'institutional_investors'})
-    const variants = reactive({
-      value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
+    const individualVueData = reactive({
+      activeNm: {value: 'institutional_investors'},
+      spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
+      stockCode: {value: null},
+      items: {value: []},
+      fields: {value: []},
     })
-    const stockCode = ref(null);
-    const items = ref([]);
-    const fields1 = [];
-    const showSidebar = ref(true)
-    const showTable = ref(false)
-    const showSpinner = ref(false)
+    const showState = reactive({
+      showTable: false,
+      showSpinner: false,
+    })
+    const datalists = ref([])
+    const initChartData = {data: null}
+    const selectOptions = [
+      {item: 'institutional_investors', name: '法人'},
+      {item: 'B', name: '個股'},
+      {item: 'B', name: '個股-1'},
+      {item: 'B', name: '個股-2'},
+      {item: 'B', name: '個股-3'},
 
-    const sizes = ref([])
+    ]
+//==============function=================
+    const numberFormatter = function (num) {
+      if (typeof num === 'number') {
+        console.log('判斷型態:', typeof num)
+        let dd = new Date(num);
+        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
+      }
+      return num
+    }
     const search = function () {
       //newObj.thClass = 'text-center text-nowrap';
       // newObj.tdClass = 'text-center text-nowrap';
 
-      fields1.push(
+      individualVueData.fields.value.push(
           {
             key: 'Processing_date',
             label: '日期',
@@ -93,61 +111,44 @@ export default {
         //Ind_Institutional_Investors_Day
         idName: null,
         key1: 'Ind_Institutional_Investors_Day',
-        key2: stockCode.value.toLocaleString().substring(0, 4),
+        key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
         key3: '10',
         key4: 'Foreign_investors',
         key5: '20',
         //objectHashMap.put("parameter4", "Foreign_investors");
         // objectHashMap.put("parameter5", "20");
       }
-      showSpinner.value = true
-      showTable.value = true
-      selectKey.idName = activeNm.value
+      showState.showSpinne = true
+      showState.showTable = true
+      selectKey.idName = individualVueData.activeNm.value
 
       GetStockData.getUserBoard(selectKey).then(res => {
-        items.value = res.data;
+        individualVueData.items = res.data;
         initChartData.data = res.data;
       }).then(() => {
-        showSpinner.value = false
+        showState.showSpinner = false
       }).catch(() => {
-        showSpinner.value = true
+        showState.showSpinner = true
       })
     }
-
-
-    const numberFormatter = function (num) {
-      if (typeof num === 'number') {
-        console.log('判斷型態:', typeof num)
-        let dd = new Date(num);
-        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
-      }
-      return num
-    }
-    const initChartData = {data: null}
-    const selectOptions = [
-      {item: 'institutional_investors', name: '法人'},
-      {item: 'B', name: '個股'},
-      {item: 'B', name: '個股-1'},
-      {item: 'B', name: '個股-2'},
-      {item: 'B', name: '個股-3'},
-
-    ]
 
     function initFn() {
       GetAppVueInit.getInitData().then((res) => {
         let da = res.data
         da.forEach(f => {
-          sizes.value.push(f['Stock_nm'])
+          datalists.value.push(f['Stock_nm'])
         })
       }).catch()
     }
 
     initFn();
     return {
+      individualVueData,
+      showState,
       selectOptions,
-      activeNm, items,
-      fields1, showSidebar, showSpinner,
-      variants, stockCode, search, showTable, sizes, initChartData
+      search,
+      datalists,
+      initChartData
     }
   }
 
