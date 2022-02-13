@@ -45,11 +45,11 @@ export default {
       chartOptionsData.seriesData3 = []
       chartOptionsData.seriesData4 = []
       newValue.data.forEach(f => {
-        chartOptionsData.date.push(numberFormatter(f.Processing_date))
-        chartOptionsData.seriesData1.push(f.Dealer)
-        chartOptionsData.seriesData2.push(f.Foreign_investors)
-        chartOptionsData.seriesData3.push(f.Investment_trust)
-        chartOptionsData.seriesData4.push(f.Total_buysell)
+        chartOptionsData.date.unshift(numberFormatter(f.Processing_date))
+        chartOptionsData.seriesData1.unshift(f.Dealer)
+        chartOptionsData.seriesData2.unshift(f.Foreign_investors)
+        chartOptionsData.seriesData3.unshift(f.Investment_trust)
+        chartOptionsData.seriesData4.unshift(f.Total_buysell)
       })
       chartOptions.xAxis[0].categories = chartOptionsData.date;
       chartOptions.series[0].data = chartOptionsData.seriesData1;

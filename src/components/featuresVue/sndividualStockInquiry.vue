@@ -1,8 +1,18 @@
 <template>
   <div>
-    <div>
+    <div class="container-fluid">
+      <!--      <div class="row">-->
+      <!--        <div class="col-md-4">-->
+      <!--          <b-card v-if="showState.showBCardNm" bg-variant="info" text-variant="white" header="當前選擇" class="text-center">-->
+      <!--            <b-card-text>{{'股票資訊:'+ individualVueData.stockCode.value }}</b-card-text>-->
+      <!--            <b-card-text>{{'選擇顯示天數:'+individualVueData.stockCode.value }}</b-card-text>-->
+      <!--          </b-card>-->
+      <!--        </div>-->
+
+      <!--      </div>-->
       <b-input-group prepend="個股查詢" class="mt-3">
-        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode.value" list="my-list-id"></b-form-input>
+        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode.value"
+                      list="my-list-id"></b-form-input>
         <b-form-select
             class="col-2"
             v-model="individualVueData.activeNm.value"
@@ -13,12 +23,38 @@
         ></b-form-select>
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
+          <b-button v-b-toggle.collapse-3>Toggle Collapse</b-button>
         </b-input-group-append>
       </b-input-group>
       <hr/>
       <datalist id="my-list-id">
         <option v-for="size in datalists" :key="size">{{ size }}</option>
       </datalist>
+
+      <b-collapse visible id="collapse-3">
+        <b-card>
+          <div class="row col-12">
+            <b-input-group prepend="股票代號" class="col-3">
+              <b-form-input type="text" class="col-5" disabled v-model="individualVueData.stockInfo.note"
+              ></b-form-input>
+            </b-input-group>
+            <b-input-group prepend="公司名稱" class="col-3">
+              <b-form-input type="text" class="col-5" disabled
+                            v-model="individualVueData.stockInfo.name"></b-form-input>
+            </b-input-group>
+            <b-input-group prepend="選擇查詢天數" class=" col-6">
+              <b-form-select
+                  class="col-5"
+                  v-model="individualVueData.selectDay.value"
+                  :options="individualVueData.selectDayOptions.value"
+                  @change="changeSelectDay"
+                  disabled-field="notEnabled"
+              ></b-form-select>
+
+            </b-input-group>
+          </div>
+        </b-card>
+      </b-collapse>
       <spline :initChartData="initChartData"></spline>
       <b-table
           outlined
@@ -31,8 +67,36 @@
           :items="individualVueData.items.value"
           :fields="individualVueData.fields.value"
           responsive="sm"
+          :per-page="individualVueData.perPage"
+          :current-page="individualVueData.currentPage"
       >
       </b-table>
+      <b-pagination
+          v-if="!showState.showSpinner"
+          size="sm"
+          number-of-pages="10"
+          base-url="#"
+          align="center"
+          class="mt-4 text-center"
+          v-model="individualVueData.currentPage"
+          :total-rows="rows"
+          :per-page="individualVueData.perPage"
+          aria-controls="my-table"
+      >
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+        <template #ellipsis-text>
+          <b-spinner small type="grow"></b-spinner>
+          <b-spinner small type="grow"></b-spinner>
+          <b-spinner small type="grow"></b-spinner>
+        </template>
+        <template #page="{ page, active }">
+          <b v-if="active">{{ page }}</b>
+          <i v-else>{{ page }}</i>
+        </template>
+      </b-pagination>
 
       <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
         <b-spinner
@@ -46,7 +110,7 @@
   </div>
 </template>
 <script>
-import VueCompositionAPI, {ref, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {ref, reactive, computed} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import Spline from "../chartFolder/spline.vue"
@@ -60,14 +124,24 @@ export default {
   setup() {
     const individualVueData = reactive({
       activeNm: {value: 'institutional_investors'},
+      originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
+      selectDayOptions: {value: ['7', '10', '20', '30', '60']},
+      selectDay: {value: 7},
       stockCode: {value: null},
+      stockInfo: {name: null, note: null},
       items: {value: []},
       fields: {value: []},
+      currentPage: 1,
+      perPage: 10,
+    })
+    const rows = computed(() => {
+      return individualVueData.items.value.length
     })
     const showState = reactive({
       showTable: false,
       showSpinner: false,
+      showBCardNm: false,
     })
     const datalists = ref([])
     const initChartData = {data: null}
@@ -112,7 +186,7 @@ export default {
         idName: null,
         key1: 'Ind_Institutional_Investors_Day',
         key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
-        key3: '10',
+        key3: '60',
         key4: 'Foreign_investors',
         key5: '20',
         //objectHashMap.put("parameter4", "Foreign_investors");
@@ -123,13 +197,34 @@ export default {
       selectKey.idName = individualVueData.activeNm.value
 
       GetStockData.getUserBoard(selectKey).then(res => {
-        individualVueData.items.value = res.data;
-        initChartData.data = res.data;
+        let original = res.data
+        individualVueData.originalData.value = res.data
+        individualVueData.stockInfo.name = original[0]['Stock_name'];
+        individualVueData.stockInfo.note = original[0]['Stock_num'];
+        let num = 7
+        let filterData = original.filter((f, index) => {
+          return num > index
+        })
+        console.log('filterData:', filterData)
+        individualVueData.items.value = filterData;
+        initChartData.data = filterData;
       }).then(() => {
         showState.showSpinner = false
+        showState.showBCardNm = true
       }).catch(() => {
         showState.showSpinner = true
       })
+    }
+    const changeSelectDay = function () {
+      initChartData.data = null;
+      individualVueData.items.value = [];
+      let num = individualVueData.selectDay.value;
+      console.log('num:', num)
+      let filterforDay = individualVueData.originalData.value.filter((f, index) => {
+        return num > index
+      })
+      individualVueData.items.value = filterforDay;
+      initChartData.data = filterforDay;
     }
 
     function initFn() {
@@ -148,7 +243,8 @@ export default {
       selectOptions,
       search,
       datalists,
-      initChartData
+      initChartData,
+      changeSelectDay, rows
     }
   }
 
