@@ -63,12 +63,13 @@
           bordered
           hover
           sticky-header="900px"
-          v-if="showState.showTable"
+          v-if="true"
           :items="individualVueData.items.value"
           :fields="individualVueData.fields.value"
           responsive="sm"
           :per-page="individualVueData.perPage"
           :current-page="individualVueData.currentPage"
+
       >
       </b-table>
       <b-pagination
@@ -162,31 +163,30 @@ export default {
       }
       return num
     }
-    const search = function () {
-      //newObj.thClass = 'text-center text-nowrap';
-      // newObj.tdClass = 'text-center text-nowrap';
 
-      individualVueData.fields.value.push(
-          {
-            key: 'Processing_date',
-            label: '日期',
-            formatter: numberFormatter,
-            thClass: 'text-center',
-            tdClass: 'text-center',
-            sortable: true
-          },
-          {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Foreign_investors', label: '外資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true})
+
+    const search = function () {
+      // individualVueData.fields.value.push(
+      //     {
+      //       key: 'Processing_date',
+      //       label: '日期',
+      //       formatter: numberFormatter,
+      //       thClass: 'text-center',
+      //       tdClass: 'text-center',
+      //       sortable: true
+      //     },
+      //     {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+      //     {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+      //     {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+      //     {key: 'Foreign_investors', label: '外資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+      //     {key: 'Investment_trust', label: '投信買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+      //     {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true})
       let selectKey = {
         //Ind_Institutional_Investors_Day
         idName: null,
         key1: 'Ind_Institutional_Investors_Day',
         key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
-        key3: '60',
+        key3: '7',
         key4: 'Foreign_investors',
         key5: '20',
         //objectHashMap.put("parameter4", "Foreign_investors");
@@ -198,16 +198,17 @@ export default {
 
       GetStockData.getUserBoard(selectKey).then(res => {
         let original = res.data
-        individualVueData.originalData.value = res.data
-        individualVueData.stockInfo.name = original[0]['Stock_name'];
-        individualVueData.stockInfo.note = original[0]['Stock_num'];
-        let num = 7
-        let filterData = original.filter((f, index) => {
-          return num > index
-        })
-        console.log('filterData:', filterData)
-        individualVueData.items.value = filterData;
-        initChartData.data = filterData;
+        formatTable(original);
+        // individualVueData.originalData.value = res.data
+        // individualVueData.stockInfo.name = original[0]['Stock_name'];
+        // individualVueData.stockInfo.note = original[0]['Stock_num'];
+        // let num = 7
+        // let filterData = original.filter((f, index) => {
+        //   return num > index
+        // })
+        // console.log('filterData:', filterData)
+        // individualVueData.items.value = filterData;
+        // initChartData.data = filterData;
       }).then(() => {
         showState.showSpinner = false
         showState.showBCardNm = true
@@ -227,6 +228,119 @@ export default {
       initChartData.data = filterforDay;
     }
 
+    const formatTable = (val) => {
+      //  {"Processing_date":1641945600000,"Stock_num":"2330","Stock_name":"台積電"
+      // ,"Foreign_investors":15115,"Investment_trust":367,"Dealer":345,"Total_buysell":15828}
+      //
+      // let data = [{"Processing_date":1641945600000,"Stock_num":"2330","Stock_name":"台積電"
+      //                ,"Foreign_investors":15115,"Investment_trust":367,"Dealer":345,"Total_buysell":15828},
+      //              {"Processing_date":1641859200000,"Stock_num":"2330","Stock_name":"台積電",
+      //                "Foreign_investors":8261,"Investment_trust":260,"Dealer":-1005,"Total_buysell":7516} ]
+
+      let data = val
+      let tableItemsArr = []
+      let tableFieldsArr = []
+
+      let itemsObj1 = {}
+      let itemsObj2 = {}
+      let itemsObj3 = {}
+      let itemsObj4 = {}
+      let fieldsObj1 = {}
+      // let fieldsObj2 ={}
+
+      data.forEach(f => {
+        itemsObj1.Processing_date = '外資買賣超張數'
+        itemsObj2.Processing_date = '投信買賣超張數'
+        itemsObj3.Processing_date = '自營買賣超張數'
+        itemsObj4.Processing_date = '總買賣超張數'
+        // console.log(typeof f.Processing_date)
+        if (typeof f.Processing_date === 'number') {
+          let dateformat = numberFormatter(f.Processing_date);
+          itemsObj1[dateformat] = f.Foreign_investors
+          itemsObj2[dateformat] = f.Investment_trust
+          itemsObj3[dateformat] = f.Dealer
+          itemsObj4[dateformat] = f.Total_buysell
+          let fieldsObj2 = {
+            key: null,
+            label: null,
+            thClass: 'text-center',
+            tdClass: 'text-center',
+            sortable: true
+          }
+          fieldsObj2.key = dateformat
+          fieldsObj2.label = dateformat
+          tableFieldsArr.push(fieldsObj2)
+        } else {
+          let dateformat = f.Processing_date.toString();
+          itemsObj1[dateformat] = f.Foreign_investors
+          itemsObj2[dateformat] = f.Investment_trust
+          itemsObj3[dateformat] = f.Dealer
+          itemsObj4[dateformat] = f.Total_buysell
+
+          let fieldsObj2 = {
+            key: null,
+            label: null,
+            thClass: 'text-center',
+            tdClass: 'text-center',
+            sortable: true
+          }
+          fieldsObj2.key = dateformat
+          fieldsObj2.label = dateformat
+          tableFieldsArr.push(fieldsObj2)
+        }
+
+
+        //=============================================================
+
+        // let fieldsObj2 = {
+        //   key: null,
+        //   label: null,
+        //   thClass: 'text-center',
+        //   tdClass: 'text-center',
+        //   sortable: true
+        // }
+        // fieldsObj2.key = dateformat
+        // fieldsObj2.label = dateformat
+        // tableFieldsArr.push(fieldsObj2)
+        fieldsObj1.key = 'Processing_date'
+        fieldsObj1.label = '日期'
+        fieldsObj1.thClass = 'text-center'
+        fieldsObj1.tdClass = 'text-center'
+        fieldsObj1.sortable = true
+      })
+      tableItemsArr.push(itemsObj1)
+      tableItemsArr.push(itemsObj2)
+      tableItemsArr.push(itemsObj3)
+      tableItemsArr.push(itemsObj4)
+      tableFieldsArr.unshift(fieldsObj1)
+      // console.log('tableItemsArr:',tableItemsArr)
+      // console.log('tableFieldsArr:',tableFieldsArr)
+      individualVueData.items.value = tableItemsArr
+      individualVueData.fields.value = tableFieldsArr
+      //=============================================================
+      // individualVueData.items.value.push(
+      //     {"Processing_date":'外資買賣超張數',"2022-1-4":345},
+      //     {"Processing_date":'投信買賣超張數',"2022-1-4":345},
+      //     {"Processing_date":'自營買賣超張數',"2022-1-4":345},
+      //     {"Processing_date":'總買賣超張數',"2022-1-4":345}
+      // )
+      // //外資、投信、自營"總和
+      // individualVueData.fields.value.push({
+      //   key: 'Processing_date',
+      //   label: '日期',
+      //   thClass: 'text-center',
+      //   tdClass: 'text-center',
+      //   sortable: true
+      // },{
+      //   key: '2022-1-4',
+      //   label: '2022-1-4',
+      //   thClass: 'text-center',
+      //   tdClass: 'text-center',
+      //   sortable: true
+      // })
+    }
+
+
     function initFn() {
       GetAppVueInit.getInitData().then((res) => {
         let da = res.data
@@ -236,6 +350,7 @@ export default {
       }).catch()
     }
 
+    // formatTable();
     initFn();
     return {
       individualVueData,
@@ -250,3 +365,8 @@ export default {
 
 }
 </script>
+<style scoped>
+table#table-transition-example .flip-list-move {
+  transition: transform 1s;
+}
+</style>
