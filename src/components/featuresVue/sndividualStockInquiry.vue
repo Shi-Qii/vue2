@@ -24,7 +24,7 @@
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
           <b-button @click="clean" variant="danger">清除</b-button>
-<!--          <b-button v-b-toggle.collapse-3>Toggle Collapse</b-button>-->
+          <!--          <b-button v-b-toggle.collapse-3>Toggle Collapse</b-button>-->
         </b-input-group-append>
       </b-input-group>
       <hr/>
@@ -56,7 +56,7 @@
           </div>
         </b-card>
       </b-collapse>
-      <spline  v-if="showState.showTable" :initChartData="initChartData"></spline>
+      <spline v-if="showState.showTable" :initChartData="initChartData"></spline>
       <b-table
           outlined
           sort
@@ -73,42 +73,39 @@
           class="setTB"
       >
       </b-table>
-      <div class="overflow-auto">
-        <ul>
-          <li>
-            <b-button class="setpage">1</b-button>
-          </li>
-          <li>
-            <b-button class="setpage">2</b-button>
-          </li>
-        </ul>
+      <div>
+        <b-button-group>
+          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination1">1</b-button>
+          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination2">2</b-button>
+          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination3">3</b-button>
+        </b-button-group>
       </div>
-<!--      <b-pagination-->
-<!--          v-if="!showState.showSpinner"-->
-<!--          size="sm"-->
-<!--          number-of-pages="10"-->
-<!--          base-url="#"-->
-<!--          align="center"-->
-<!--          class="mt-4 text-center"-->
-<!--          v-model="individualVueData.currentPage"-->
-<!--          :total-rows="rows"-->
-<!--          :per-page="individualVueData.perPage"-->
-<!--          aria-controls="my-table"-->
-<!--      >-->
-<!--        <template #first-text><span class="text-success">First</span></template>-->
-<!--        <template #prev-text><span class="text-danger">Prev</span></template>-->
-<!--        <template #next-text><span class="text-warning">Next</span></template>-->
-<!--        <template #last-text><span class="text-info">Last</span></template>-->
-<!--        <template #ellipsis-text>-->
-<!--          <b-spinner small type="grow"></b-spinner>-->
-<!--          <b-spinner small type="grow"></b-spinner>-->
-<!--          <b-spinner small type="grow"></b-spinner>-->
-<!--        </template>-->
-<!--        <template #page="{ page, active }">-->
-<!--          <b v-if="active">{{ page }}</b>-->
-<!--          <i v-else>{{ page }}</i>-->
-<!--        </template>-->
-<!--      </b-pagination>-->
+      <!--      <b-pagination-->
+      <!--          v-if="!showState.showSpinner"-->
+      <!--          size="sm"-->
+      <!--          number-of-pages="10"-->
+      <!--          base-url="#"-->
+      <!--          align="center"-->
+      <!--          class="mt-4 text-center"-->
+      <!--          v-model="individualVueData.currentPage"-->
+      <!--          :total-rows="rows"-->
+      <!--          :per-page="individualVueData.perPage"-->
+      <!--          aria-controls="my-table"-->
+      <!--      >-->
+      <!--        <template #first-text><span class="text-success">First</span></template>-->
+      <!--        <template #prev-text><span class="text-danger">Prev</span></template>-->
+      <!--        <template #next-text><span class="text-warning">Next</span></template>-->
+      <!--        <template #last-text><span class="text-info">Last</span></template>-->
+      <!--        <template #ellipsis-text>-->
+      <!--          <b-spinner small type="grow"></b-spinner>-->
+      <!--          <b-spinner small type="grow"></b-spinner>-->
+      <!--          <b-spinner small type="grow"></b-spinner>-->
+      <!--        </template>-->
+      <!--        <template #page="{ page, active }">-->
+      <!--          <b v-if="active">{{ page }}</b>-->
+      <!--          <i v-else>{{ page }}</i>-->
+      <!--        </template>-->
+      <!--      </b-pagination>-->
 
       <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
         <b-spinner
@@ -148,7 +145,9 @@ export default {
       perPage: 5,
     })
     const rows = computed(() => {
-      return individualVueData.items.value.length
+
+      // return individualVueData.fields.value.length
+      return individualVueData.selectDay.value
     })
     const showState = reactive({
       showTable: false,
@@ -178,6 +177,7 @@ export default {
 
 
     const search = function () {
+      individualVueData.selectDay.value = 7;
       let selectKey = {
         //Ind_Institutional_Investors_Day
         idName: null,
@@ -196,12 +196,12 @@ export default {
 
       GetStockData.getUserBoard(selectKey).then(res => {
         let original = res.data
-        console.log('original.length:',original.length)
+        console.log('original.length:', original.length)
         individualVueData.originalData.value = res.data //把全部資料裝到裡面
         individualVueData.stockInfo.name = original[0]['Stock_name'];
         individualVueData.stockInfo.note = original[0]['Stock_num'];
         let defSelectDay = 7 // 預設初選天數為七天
-        formatTable(defSelectDay);
+        formatTable(defSelectDay, 0);
       }).then(() => {
         showState.showSpinner = false
         showState.showBCardNm = true
@@ -213,13 +213,25 @@ export default {
       initChartData.data = null;
       individualVueData.items.value = [];
       let num = individualVueData.selectDay.value;
-      formatTable(num)
+      formatTable(num, 0)
+      console.log('rows:', rows.value)
     }
 
-    const formatTable = (defNumber) => {
+    const formatTable = (defNumber, cutTableNum) => {
       let data = individualVueData.originalData.value
-      console.log('data.length:',data.length)
-      let num = defNumber
+      console.log('data.length:', data.length)
+      let num1 = defNumber
+      let cuttb = cutTableNum
+      let num = null
+      console.log('num1', num1)
+      if (num1 > 7 && cuttb > 0) {
+        console.log('cuttb', cuttb)
+        num = num1
+      } else {
+        num = 7
+      }
+
+
       let filterData = data.filter((f, index) => {
         return num > index
       })
@@ -301,12 +313,202 @@ export default {
         })
       }).catch()
     }
+
     function clean() {
       showState.showTable = false
       showState.showCollapse = false
     }
+
     initFn();
+    // pagination3
+
+    const pagination = reactive({
+      pagination1: () => {
+        if (Number(rows.value) >= 10) {
+          let a = Number(rows.value)
+          let num = 7
+          let filterData = []
+          let chartData = []
+          console.log('a:', a)
+          // console.log('1:', individualVueData.fields.value)
+          // console.log('2:', individualVueData.originalData.value)
+          for (let i = 0 + 1; i <= num; i++) {
+            // let filterData = individualVueData.originalData.value[i]
+            console.log('i:', i)
+            console.log('filterData:', individualVueData.originalData.value[i])
+            chartData.push(individualVueData.originalData.value[i])
+            filterData.unshift(individualVueData.originalData.value[i])
+          }
+
+
+          // let filterData = data.filter((f, index) => {
+          //   return num > index
+          // })
+          initChartData.data = chartData; // 圖表val
+          let tableItemsArr = []
+          let tableFieldsArr = []
+          let itemsObj1 = {}
+          let itemsObj2 = {}
+          let itemsObj3 = {}
+          let itemsObj4 = {}
+          let fieldsObj1 = {}
+          // let fieldsObj2 ={}
+
+          filterData.forEach(f => {
+            itemsObj1.Processing_date = '外資買賣超張數'
+            itemsObj2.Processing_date = '投信買賣超張數'
+            itemsObj3.Processing_date = '自營買賣超張數'
+            itemsObj4.Processing_date = '總買賣超張數'
+            // console.log(typeof f.Processing_date)
+            if (typeof f.Processing_date === 'number') {
+              let dateformat = numberFormatter(f.Processing_date);
+              itemsObj1[dateformat] = f.Foreign_investors
+              itemsObj2[dateformat] = f.Investment_trust
+              itemsObj3[dateformat] = f.Dealer
+              itemsObj4[dateformat] = f.Total_buysell
+              let fieldsObj2 = {
+                key: null,
+                label: null,
+                thClass: 'text-center',
+                tdClass: 'text-center',
+                sortable: true
+              }
+              fieldsObj2.key = dateformat
+              fieldsObj2.label = dateformat
+              tableFieldsArr.push(fieldsObj2)
+            } else {
+              let dateformat = f.Processing_date.toString();
+              itemsObj1[dateformat] = f.Foreign_investors
+              itemsObj2[dateformat] = f.Investment_trust
+              itemsObj3[dateformat] = f.Dealer
+              itemsObj4[dateformat] = f.Total_buysell
+
+              let fieldsObj2 = {
+                key: null,
+                label: null,
+                thClass: 'text-center',
+                tdClass: 'text-center',
+                sortable: true
+              }
+              fieldsObj2.key = dateformat
+              fieldsObj2.label = dateformat
+              tableFieldsArr.push(fieldsObj2)
+            }
+            //=============================================================
+            fieldsObj1.key = 'Processing_date'
+            fieldsObj1.label = '日期'
+            fieldsObj1.thClass = 'text-center'
+            fieldsObj1.tdClass = 'text-center'
+            fieldsObj1.sortable = true
+          })
+          tableItemsArr.push(itemsObj1)
+          tableItemsArr.push(itemsObj2)
+          tableItemsArr.push(itemsObj3)
+          tableItemsArr.push(itemsObj4)
+          tableFieldsArr.unshift(fieldsObj1)
+          // console.log('tableItemsArr:',tableItemsArr)
+          // console.log('tableFieldsArr:',tableFieldsArr)
+          individualVueData.items.value = tableItemsArr
+          individualVueData.fields.value = tableFieldsArr
+        }
+      },
+      pagination2: () => {
+        if (Number(rows.value) >= 10) {
+          let a = Number(rows.value)
+          let num = 7
+          let filterData = []
+          let chartData = []
+          console.log('a:', a)
+          // console.log('1:', individualVueData.fields.value)
+          // console.log('2:', individualVueData.originalData.value)
+          for (let i = num + 1 ; i <= a ; i ++){
+            // let filterData = individualVueData.originalData.value[i]
+            console.log('i:', i)
+            console.log('filterData:', individualVueData.originalData.value[i])
+            chartData.push(individualVueData.originalData.value[i])
+            filterData.unshift(individualVueData.originalData.value[i])
+          }
+
+
+          // let filterData = data.filter((f, index) => {
+          //   return num > index
+          // })
+          initChartData.data = chartData; // 圖表val
+          let tableItemsArr = []
+          let tableFieldsArr = []
+          let itemsObj1 = {}
+          let itemsObj2 = {}
+          let itemsObj3 = {}
+          let itemsObj4 = {}
+          let fieldsObj1 = {}
+          // let fieldsObj2 ={}
+
+          filterData.forEach(f => {
+            itemsObj1.Processing_date = '外資買賣超張數'
+            itemsObj2.Processing_date = '投信買賣超張數'
+            itemsObj3.Processing_date = '自營買賣超張數'
+            itemsObj4.Processing_date = '總買賣超張數'
+            // console.log(typeof f.Processing_date)
+            if (typeof f.Processing_date === 'number') {
+              let dateformat = numberFormatter(f.Processing_date);
+              itemsObj1[dateformat] = f.Foreign_investors
+              itemsObj2[dateformat] = f.Investment_trust
+              itemsObj3[dateformat] = f.Dealer
+              itemsObj4[dateformat] = f.Total_buysell
+              let fieldsObj2 = {
+                key: null,
+                label: null,
+                thClass: 'text-center',
+                tdClass: 'text-center',
+                sortable: true
+              }
+              fieldsObj2.key = dateformat
+              fieldsObj2.label = dateformat
+              tableFieldsArr.push(fieldsObj2)
+            } else {
+              let dateformat = f.Processing_date.toString();
+              itemsObj1[dateformat] = f.Foreign_investors
+              itemsObj2[dateformat] = f.Investment_trust
+              itemsObj3[dateformat] = f.Dealer
+              itemsObj4[dateformat] = f.Total_buysell
+
+              let fieldsObj2 = {
+                key: null,
+                label: null,
+                thClass: 'text-center',
+                tdClass: 'text-center',
+                sortable: true
+              }
+              fieldsObj2.key = dateformat
+              fieldsObj2.label = dateformat
+              tableFieldsArr.push(fieldsObj2)
+            }
+            //=============================================================
+            fieldsObj1.key = 'Processing_date'
+            fieldsObj1.label = '日期'
+            fieldsObj1.thClass = 'text-center'
+            fieldsObj1.tdClass = 'text-center'
+            fieldsObj1.sortable = true
+          })
+          tableItemsArr.push(itemsObj1)
+          tableItemsArr.push(itemsObj2)
+          tableItemsArr.push(itemsObj3)
+          tableItemsArr.push(itemsObj4)
+          tableFieldsArr.unshift(fieldsObj1)
+          // console.log('tableItemsArr:',tableItemsArr)
+          // console.log('tableFieldsArr:',tableFieldsArr)
+          individualVueData.items.value = tableItemsArr
+          individualVueData.fields.value = tableFieldsArr
+
+        }
+        // formatTable(rows.value,2)
+      },
+      pagination3: () => {
+
+      }
+    })
     return {
+      pagination,
       individualVueData,
       showState,
       selectOptions,
@@ -329,10 +531,13 @@ table#table-transition-example .flip-list-move {
 .setTB {
   white-space: nowrap;
 }
-.setpage {
-  border-radius: 50rem!important;
+
+.setPageBt {
+  border-radius: 50rem !important;
   margin-left: 0.25rem;
   line-height: 1;
+
 }
+
 
 </style>
