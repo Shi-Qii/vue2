@@ -73,32 +73,42 @@
           class="setTB"
       >
       </b-table>
-      <b-pagination
-          v-if="!showState.showSpinner"
-          size="sm"
-          number-of-pages="10"
-          base-url="#"
-          align="center"
-          class="mt-4 text-center"
-          v-model="individualVueData.currentPage"
-          :total-rows="rows"
-          :per-page="individualVueData.perPage"
-          aria-controls="my-table"
-      >
-        <template #first-text><span class="text-success">First</span></template>
-        <template #prev-text><span class="text-danger">Prev</span></template>
-        <template #next-text><span class="text-warning">Next</span></template>
-        <template #last-text><span class="text-info">Last</span></template>
-        <template #ellipsis-text>
-          <b-spinner small type="grow"></b-spinner>
-          <b-spinner small type="grow"></b-spinner>
-          <b-spinner small type="grow"></b-spinner>
-        </template>
-        <template #page="{ page, active }">
-          <b v-if="active">{{ page }}</b>
-          <i v-else>{{ page }}</i>
-        </template>
-      </b-pagination>
+      <div class="overflow-auto">
+        <ul>
+          <li>
+            <b-button class="setpage">1</b-button>
+          </li>
+          <li>
+            <b-button class="setpage">2</b-button>
+          </li>
+        </ul>
+      </div>
+<!--      <b-pagination-->
+<!--          v-if="!showState.showSpinner"-->
+<!--          size="sm"-->
+<!--          number-of-pages="10"-->
+<!--          base-url="#"-->
+<!--          align="center"-->
+<!--          class="mt-4 text-center"-->
+<!--          v-model="individualVueData.currentPage"-->
+<!--          :total-rows="rows"-->
+<!--          :per-page="individualVueData.perPage"-->
+<!--          aria-controls="my-table"-->
+<!--      >-->
+<!--        <template #first-text><span class="text-success">First</span></template>-->
+<!--        <template #prev-text><span class="text-danger">Prev</span></template>-->
+<!--        <template #next-text><span class="text-warning">Next</span></template>-->
+<!--        <template #last-text><span class="text-info">Last</span></template>-->
+<!--        <template #ellipsis-text>-->
+<!--          <b-spinner small type="grow"></b-spinner>-->
+<!--          <b-spinner small type="grow"></b-spinner>-->
+<!--          <b-spinner small type="grow"></b-spinner>-->
+<!--        </template>-->
+<!--        <template #page="{ page, active }">-->
+<!--          <b v-if="active">{{ page }}</b>-->
+<!--          <i v-else>{{ page }}</i>-->
+<!--        </template>-->
+<!--      </b-pagination>-->
 
       <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
         <b-spinner
@@ -186,6 +196,7 @@ export default {
 
       GetStockData.getUserBoard(selectKey).then(res => {
         let original = res.data
+        console.log('original.length:',original.length)
         individualVueData.originalData.value = res.data //把全部資料裝到裡面
         individualVueData.stockInfo.name = original[0]['Stock_name'];
         individualVueData.stockInfo.note = original[0]['Stock_num'];
@@ -207,6 +218,7 @@ export default {
 
     const formatTable = (defNumber) => {
       let data = individualVueData.originalData.value
+      console.log('data.length:',data.length)
       let num = defNumber
       let filterData = data.filter((f, index) => {
         return num > index
@@ -317,4 +329,10 @@ table#table-transition-example .flip-list-move {
 .setTB {
   white-space: nowrap;
 }
+.setpage {
+  border-radius: 50rem!important;
+  margin-left: 0.25rem;
+  line-height: 1;
+}
+
 </style>
