@@ -222,11 +222,14 @@ export default {
       console.log('data.length:', data.length)
       let num1 = defNumber
       let cuttb = cutTableNum
-      let num = null
+      // let num = null
+      let num = 7
+      let chartNum = 7
       console.log('num1', num1)
-      if (num1 > 7 && cuttb > 0) {
+      // if (num1 > 7 && cuttb > 0) {
+      if (num1 > 7 ) {
         console.log('cuttb', cuttb)
-        num = num1
+        chartNum = num1
       } else {
         num = 7
       }
@@ -235,7 +238,10 @@ export default {
       let filterData = data.filter((f, index) => {
         return num > index
       })
-      initChartData.data = filterData; // 圖表val
+      let chartfilterData = data.filter((f, index) => {
+        return chartNum > index
+      })
+      initChartData.data = chartfilterData; // 圖表val
       let tableItemsArr = []
       let tableFieldsArr = []
 
@@ -344,7 +350,7 @@ export default {
           // let filterData = data.filter((f, index) => {
           //   return num > index
           // })
-          initChartData.data = chartData; // 圖表val
+          // initChartData.data = chartData; // 圖表val
           let tableItemsArr = []
           let tableFieldsArr = []
           let itemsObj1 = {}
@@ -433,7 +439,7 @@ export default {
           // let filterData = data.filter((f, index) => {
           //   return num > index
           // })
-          initChartData.data = chartData; // 圖表val
+          // initChartData.data = chartData; // 圖表val
           let tableItemsArr = []
           let tableFieldsArr = []
           let itemsObj1 = {}
