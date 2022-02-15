@@ -338,7 +338,7 @@ export default {
           console.log('a:', a)
           // console.log('1:', individualVueData.fields.value)
           // console.log('2:', individualVueData.originalData.value)
-          for (let i = 0 + 1; i <= num; i++) {
+          for (let i = 0 ; i <= num; i++) {
             // let filterData = individualVueData.originalData.value[i]
             console.log('i:', i)
             console.log('filterData:', individualVueData.originalData.value[i])
@@ -427,7 +427,7 @@ export default {
           console.log('a:', a)
           // console.log('1:', individualVueData.fields.value)
           // console.log('2:', individualVueData.originalData.value)
-          for (let i = num + 1 ; i <= a ; i ++){
+          for (let i = num  ; i <= a ; i ++){
             // let filterData = individualVueData.originalData.value[i]
             console.log('i:', i)
             console.log('filterData:', individualVueData.originalData.value[i])
