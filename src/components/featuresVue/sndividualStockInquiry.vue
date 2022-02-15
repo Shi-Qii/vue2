@@ -23,6 +23,7 @@
         ></b-form-select>
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
+          <b-button @click="clean" variant="danger">清除</b-button>
 <!--          <b-button v-b-toggle.collapse-3>Toggle Collapse</b-button>-->
         </b-input-group-append>
       </b-input-group>
@@ -55,7 +56,7 @@
           </div>
         </b-card>
       </b-collapse>
-      <spline :initChartData="initChartData"></spline>
+      <spline  v-if="showState.showTable" :initChartData="initChartData"></spline>
       <b-table
           outlined
           sort
@@ -63,7 +64,7 @@
           bordered
           hover
           sticky-header="900px"
-          v-if="true"
+          v-if="showState.showTable"
           :items="individualVueData.items.value"
           :fields="individualVueData.fields.value"
           responsive="sm"
@@ -288,7 +289,10 @@ export default {
         })
       }).catch()
     }
-
+    function clean() {
+      showState.showTable = false
+      showState.showCollapse = false
+    }
     initFn();
     return {
       individualVueData,
@@ -297,7 +301,9 @@ export default {
       search,
       datalists,
       initChartData,
-      changeSelectDay, rows
+      changeSelectDay,
+      rows,
+      clean,
     }
   }
 
