@@ -63,7 +63,7 @@
           striped
           bordered
           hover
-          sticky-header="900px"
+          sticky-header
           v-if="showState.showTable"
           :items="individualVueData.items.value"
           :fields="individualVueData.fields.value"
@@ -71,15 +71,19 @@
           :per-page="individualVueData.perPage"
           :current-page="individualVueData.currentPage"
           class="setTB"
+          :tbody-tr-class="rowClass1"
       >
+        <template #cell()="data">
+          <span v-html="data.value"></span>
+        </template>
       </b-table>
-      <div>
-        <b-button-group>
-          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination1">1</b-button>
-          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination2">2</b-button>
-          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination3">3</b-button>
-        </b-button-group>
-      </div>
+      <!--      <div>-->
+      <!--        <b-button-group>-->
+      <!--          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination1">1</b-button>-->
+      <!--          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination2">2</b-button>-->
+      <!--          <b-button class="setPageBt mt-1 mr-1" @click="pagination.pagination3">3</b-button>-->
+      <!--        </b-button-group>-->
+      <!--      </div>-->
       <!--      <b-pagination-->
       <!--          v-if="!showState.showSpinner"-->
       <!--          size="sm"-->
@@ -227,16 +231,16 @@ export default {
       let chartNum = 7
       console.log('num1', num1)
       // if (num1 > 7 && cuttb > 0) {
-      if (num1 > 7 ) {
+      if (num1 > 7) {
         console.log('cuttb', cuttb)
         chartNum = num1
       } else {
         num = 7
       }
 
-
+      console.log('num', num)
       let filterData = data.filter((f, index) => {
-        return num > index
+        return chartNum > index
       })
       let chartfilterData = data.filter((f, index) => {
         return chartNum > index
@@ -260,10 +264,38 @@ export default {
         // console.log(typeof f.Processing_date)
         if (typeof f.Processing_date === 'number') {
           let dateformat = numberFormatter(f.Processing_date);
-          itemsObj1[dateformat] = f.Foreign_investors
-          itemsObj2[dateformat] = f.Investment_trust
-          itemsObj3[dateformat] = f.Dealer
-          itemsObj4[dateformat] = f.Total_buysell
+           let formatred1 = ''
+           let formatred2 = ''
+           let formatred3 = ''
+           let formatred4 = ''
+          if (f.Foreign_investors < 0
+          ) {
+            formatred1 = '<span style="color:red">'+f.Foreign_investors+'</span>'
+          }else {
+            formatred1 =f.Foreign_investors;
+          }
+          //=============================================================
+          if (f.Investment_trust < 0){
+            formatred2 = '<span style="color:red">'+f.Investment_trust+'</span>'
+          }else {
+            formatred2 =f.Investment_trust;
+          }
+          //=============================================================
+          if (f.Dealer < 0){
+            formatred3 = '<span style="color:red">'+f.Dealer+'</span>'
+          }else {
+            formatred3 =f.Dealer;
+          }
+          //=============================================================
+          if (f.Total_buysell < 0){
+            formatred4 = '<span style="color:red">'+f.Total_buysell+'</span>'
+          }else {
+            formatred4 =f.Total_buysell;
+          }
+          itemsObj1[dateformat] = formatred1.toLocaleString();
+          itemsObj2[dateformat] = formatred2.toLocaleString();
+          itemsObj3[dateformat] = formatred3.toLocaleString();
+          itemsObj4[dateformat] = formatred4.toLocaleString();
           let fieldsObj2 = {
             key: null,
             label: null,
@@ -276,11 +308,38 @@ export default {
           tableFieldsArr.push(fieldsObj2)
         } else {
           let dateformat = f.Processing_date.toString();
-          itemsObj1[dateformat] = f.Foreign_investors
-          itemsObj2[dateformat] = f.Investment_trust
-          itemsObj3[dateformat] = f.Dealer
-          itemsObj4[dateformat] = f.Total_buysell
-
+          let formatred1 = ''
+          let formatred2 = ''
+          let formatred3 = ''
+          let formatred4 = ''
+          if (f.Foreign_investors < 0
+          ) {
+            formatred1 = '<span style="color:red">'+f.Foreign_investors+'</span>'
+          }else {
+            formatred1 =f.Foreign_investors;
+          }
+          //=============================================================
+          if (f.Investment_trust < 0){
+            formatred2 = '<span style="color:red">'+f.Investment_trust+'</span>'
+          }else {
+            formatred2 =f.Investment_trust;
+          }
+          //=============================================================
+          if (f.Dealer < 0){
+            formatred3 = '<span style="color:red">'+f.Dealer+'</span>'
+          }else {
+            formatred3 =f.Dealer;
+          }
+          //=============================================================
+          if (f.Total_buysell < 0){
+            formatred4 = '<span style="color:red">'+f.Total_buysell+'</span>'
+          }else {
+            formatred4 =f.Total_buysell;
+          }
+          itemsObj1[dateformat] = formatred1.toLocaleString();
+          itemsObj2[dateformat] = formatred2.toLocaleString();
+          itemsObj3[dateformat] = formatred3.toLocaleString();
+          itemsObj4[dateformat] = formatred4.toLocaleString();
           let fieldsObj2 = {
             key: null,
             label: null,
@@ -308,6 +367,8 @@ export default {
       // console.log('tableFieldsArr:',tableFieldsArr)
       individualVueData.items.value = tableItemsArr
       individualVueData.fields.value = tableFieldsArr
+      //  text-danger
+      console.log('individualVueData', individualVueData)
     }
 
 
@@ -338,7 +399,7 @@ export default {
           console.log('a:', a)
           // console.log('1:', individualVueData.fields.value)
           // console.log('2:', individualVueData.originalData.value)
-          for (let i = 0 ; i <= num; i++) {
+          for (let i = 0; i <= num; i++) {
             // let filterData = individualVueData.originalData.value[i]
             console.log('i:', i)
             console.log('filterData:', individualVueData.originalData.value[i])
@@ -427,7 +488,7 @@ export default {
           console.log('a:', a)
           // console.log('1:', individualVueData.fields.value)
           // console.log('2:', individualVueData.originalData.value)
-          for (let i = num  ; i <= a ; i ++){
+          for (let i = num; i <= a; i++) {
             // let filterData = individualVueData.originalData.value[i]
             console.log('i:', i)
             console.log('filterData:', individualVueData.originalData.value[i])
@@ -456,11 +517,13 @@ export default {
             itemsObj4.Processing_date = '總買賣超張數'
             // console.log(typeof f.Processing_date)
             if (typeof f.Processing_date === 'number') {
+              //<span style="color:red">content</span>
               let dateformat = numberFormatter(f.Processing_date);
               itemsObj1[dateformat] = f.Foreign_investors
               itemsObj2[dateformat] = f.Investment_trust
               itemsObj3[dateformat] = f.Dealer
               itemsObj4[dateformat] = f.Total_buysell
+              // console.log('*',f.Foreign_investors)
               let fieldsObj2 = {
                 key: null,
                 label: null,
@@ -513,7 +576,22 @@ export default {
 
       }
     })
+
+    function rowClass1(item) {
+      // console.log(item, '<-_______->', type)
+
+      Object.keys(item).forEach(f => {
+        // console.log('*',item[f])
+        let hasNegative = item[f]
+        if (Number(hasNegative) < 0) {
+          // console.log('**', item[f])
+          // return 'text-danger'
+        }
+      })
+    }
+
     return {
+      rowClass1,
       pagination,
       individualVueData,
       showState,
@@ -532,6 +610,10 @@ export default {
 <style scoped>
 table#table-transition-example .flip-list-move {
   transition: transform 1s;
+}
+
+.td {
+  color: #3a8ee6;
 }
 
 .setTB {
