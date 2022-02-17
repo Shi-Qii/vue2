@@ -357,6 +357,8 @@ export default {
         fieldsObj1.thClass = 'text-center'
         fieldsObj1.tdClass = 'text-center'
         fieldsObj1.sortable = true
+        fieldsObj1.stickyColumn = true
+        // stickyColumn: true,
       })
       tableItemsArr.push(itemsObj1)
       tableItemsArr.push(itemsObj2)
