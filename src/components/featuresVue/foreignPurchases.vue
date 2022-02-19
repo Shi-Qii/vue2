@@ -1,39 +1,45 @@
 <template>
   <div>
-    {{ '外資買超' }}
+    {{ individualVueData.foreignNm }}
     <hr/>
-
-
     <div>
       <b-table
           outlined
           sort
           striped
           bordered
-          :items="items"
+          hover
+          :tbody-tr-class="rowClass"
+          sticky-header="500px"
+          v-if="showState.showTable"
+          :items="individualVueData.items.value"
+          :fields="individualVueData.fields.value"
           responsive="sm"
-          :per-page="perPage"
-          :current-page="currentPage"
-          sticky-header="900px"
+          :per-page="individualVueData.perPage"
+          :current-page="individualVueData.currentPage"
+          class="setTB"
       >
+        <template #cell()="data">
+          <span v-html="data.value"></span>
+        </template>
       </b-table>
-      <div v-if="showSpinner" class="text-center mb-3 d-flex justify-content-between">
+      <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
         <b-spinner
-            v-for="variant in variants.value"
+            v-for="variant in individualVueData.spinnerVariants.value"
             :variant="variant"
             :key="variant"
         ></b-spinner>
       </div>
       <b-pagination
-          v-if="!showSpinner"
+          v-if="showState.showPagination"
           size="sm"
           number-of-pages="10"
           base-url="#"
           align="center"
           class="mt-4 text-center"
-          v-model="currentPage"
+          v-model="individualVueData.currentPage"
           :total-rows="rows"
-          :per-page="perPage"
+          :per-page="individualVueData.perPage"
           aria-controls="my-table"
       >
         <template #first-text><span class="text-success">First</span></template>
@@ -50,88 +56,123 @@
           <i v-else>{{ page }}</i>
         </template>
       </b-pagination>
-
-
     </div>
   </div>
 </template>
 
 <script>
-import VueCompositionAPI, {onMounted, ref, reactive, computed} from "@vue/composition-api";
+import VueCompositionAPI, {computed, onMounted, reactive} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
+import {router} from "@/router";
 
+router
 Vue.use(VueCompositionAPI)
 export default {
-
-  setup() {
+  props: {
+    idName: String
+  },
+  setup(props) {
+    console.log('props:', props)
+    const params1 = reactive({
+      parentUrl: computed(() => {
+        return router
+      }),
+    });
+    console.log('params1:', params1)
     const rows = computed(() => {
-      return items.value.length
+      return individualVueData.items.value.length
     })
-    const items = ref([]);
-    const fields = ref([]);
-    const showSidebar = ref(true)
-    const showSpinner = ref(true)
-    const variants = reactive({
-      value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
+    const individualVueData = reactive({
+      activeNm: {value: 'institutional_investors'},
+      foreignNm: '外資買超',
+      originalData: {value: 'institutional_investors'},
+      spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
+      selectDayOptions: {value: ['7', '10', '20', '30', '60']},
+      selectDay: {value: 7},
+      stockCode: {value: null},
+      stockInfo: {name: null, note: null},
+      items: {value: []},
+      fields: {
+        value: [{
+          key: 'Processing_date',
+          label: '日期',
+          formatter: numberFormatter,
+          thClass: 'text-center',
+          tdClass: 'text-center',
+          sortable: true
+        },
+          {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Open_price', label: '開盤價', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Close_price', label: '收盤價', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down', label: '漲跌', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {
+            key: 'Foreign_investors',
+            label: '外資買賣超張數',
+            thClass: 'text-center',
+            tdClass: 'text-center',
+            sortable: true
+          },
+          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
+          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true}]
+      },
+      currentPage: 1,
+      perPage: 10,
     })
-    const perPage = ref(10)
-    const currentPage = ref(1)
-    // perPage: 3,
-    //     currentPage: 1,
+    const showState = reactive({
+      showTable: true,
+      showSpinner: true,
+      showBCardNm: false,
+      showCollapse: false,
+      showPagination: false,
+    })
     onMounted(() => {
-
-
       let selectKey = {
+        idName: null,
         key1: 'Listed_Foreign_Buy',
         key2: '上市',
-        key3: 'buy'
+        key3: 'buy',
+        key4: 'Foreign_investors',
+        key5: '0',
+
       }
+      selectKey.idName = individualVueData.activeNm.value
       //上市
       //buy
       GetStockData.getUserBoard(selectKey).then(res => {
-        items.value = res.data;
-        // for (let i = 0; i < stockData.Dealer.length; i++) {
-        //   let obj = {
-        //     Processing_date: null,
-        //     Stock_num: null,
-        //     Stock_name: null,
-        //     Foreign_investors: null,
-        //     Investment_trust: null,
-        //     Dealer: null,
-        //     Total_buysell: null,
-        //   }
-        //   obj.Processing_date = stockData.Processing_date[i]
-        //   obj.Stock_num = stockData.Stock_num[i]
-        //   obj.Stock_name = stockData.Stock_name[i]
-        //   obj.Foreign_investors = stockData.Foreign_investors[i]
-        //   obj.Investment_trust = stockData.Investment_trust[i]
-        //   obj.Dealer = stockData.Dealer[i]
-        //   obj.Total_buysell = stockData.Total_buysell[i]
-        //   items.value.push(obj)
-        fields.push(
-            {
-              key: 'Processing_date',
-              label: '日期',
-              formatter: numberFormatter,
-              thClass: 'text-center',
-              tdClass: 'text-center',
-              sortable: true
-            },
-            {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-            {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-            {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-            {key: 'Foreign_investors', label: '外資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-            {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-            {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true})
+        console.log('res', res.data)
+        if (res.data.length > 0) {
+          showState.showSpinner = false
+          showState.showPagination = true
+        }
+        //名次
+        // 股票產業別
+        // 公司代號
+        // 股票名稱
+        // 開盤價
+        // 收盤價
+        // 漲跌
+        // 漲跌幅
+        // 外資買賣超張數
+        // 投資買賣超張數
+        // 自營買賣超張數
+        // 總買賣超張數
+        individualVueData.items.value = res.data;
+        // individualVueData.fields.push(
+        //     ,
+        // )
 
-        // console.log('items:', items)
-        // }
       }).then(() => {
-        showSpinner.value = false
+
+
       }).catch(() => {
-        showSpinner.value = true
+        // showState.showSpinner = true
       })
+
     })
     const allData = reactive({
       selected: null,
@@ -151,10 +192,29 @@ export default {
       }
       return num
     }
+
+    function rowClass(item) {
+      // console.log(item, '<-_______->', type)
+
+      Object.keys(item).forEach(f => {
+        // console.log('*',item[f])
+        let hasNegative = item[f]
+        if (Number(hasNegative) < 0) {
+          // console.log('**', item[f])
+          // return 'text-danger'
+        }
+      })
+    }
+
     return {
-      items, fields, showSidebar, showSpinner, variants, allData, perPage, currentPage, rows
+      showState, allData, rows, individualVueData, rowClass
     }
   }
 
 }
 </script>
+<style scoped>
+.setTB {
+  white-space: nowrap;
+}
+</style>

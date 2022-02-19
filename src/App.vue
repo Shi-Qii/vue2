@@ -32,24 +32,41 @@
               <b-dropdown Block id="dropdown-dropright" dropright text="個股查詢" variant="primary" class="m-2 ">
                 <b-dropdown-item>
                   <router-link to="/sndividualStockInquiry">
-                    <font-awesome-icon icon="user-plus"/>
                     個股查詢
                   </router-link>
                 </b-dropdown-item>
               </b-dropdown>
             </div>
             <div class="px-3 py-2">
-              <b-dropdown Block id="dropdown-dropright" dropright text="法人進出" variant="primary" class="m-2 ">
+              <b-dropdown Block id="dropdown-dropright" :no-close-on-backdrop="true"
+                          backdrop
+                          shadow dropright text="法人進出" variant="primary" class="m-2 ">
                 <b-dropdown-item>
-                  <router-link to="/foreignPurchases">
-                    <font-awesome-icon icon="user-plus"/>
+                  <router-link
+                      to='/foreignPurchases'>
                     外資買超排行
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>外資賣超排行</b-dropdown-item>
                 <b-dropdown-item>自營買超排行</b-dropdown-item>
                 <b-dropdown-item>自營賣超排行</b-dropdown-item>
+                <b-dropdown-item>投信買超排行</b-dropdown-item>
+                <b-dropdown-item>投信賣超排行</b-dropdown-item>
+                <b-dropdown-group id="dropdown-group-2" header="買超組合">
+                  <b-dropdown-item-button>外資+自營</b-dropdown-item-button>
+                  <b-dropdown-item-button>外資+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>自營+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
+                </b-dropdown-group>
+                <b-dropdown-group id="dropdown-group-2" header="賣超組合">
+                  <b-dropdown-item-button>外資+自營</b-dropdown-item-button>
+                  <b-dropdown-item-button>外資+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>自營+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
+                </b-dropdown-group>
+                <b-dropdown-divider></b-dropdown-divider>
               </b-dropdown>
+
             </div>
             <div class="px-3 py-2">
               <b-dropdown Block id="dropdown-dropright" dropright text="圖表" variant="primary" class="m-2 ">

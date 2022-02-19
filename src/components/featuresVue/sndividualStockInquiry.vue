@@ -71,7 +71,7 @@
           :per-page="individualVueData.perPage"
           :current-page="individualVueData.currentPage"
           class="setTB"
-          :tbody-tr-class="rowClass1"
+          :tbody-tr-class="rowClass"
       >
         <template #cell()="data">
           <span v-html="data.value"></span>
@@ -579,7 +579,7 @@ export default {
       }
     })
 
-    function rowClass1(item) {
+    function rowClass(item) {
       // console.log(item, '<-_______->', type)
 
       Object.keys(item).forEach(f => {
@@ -593,7 +593,7 @@ export default {
     }
 
     return {
-      rowClass1,
+      rowClass,
       pagination,
       individualVueData,
       showState,
