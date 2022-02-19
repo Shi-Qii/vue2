@@ -137,7 +137,7 @@ export default {
         key2: '上市',
         key3: 'buy',
         key4: 'Foreign_investors',
-        key5: '0',
+        key5: '1',
 
       }
       selectKey.idName = individualVueData.activeNm.value
