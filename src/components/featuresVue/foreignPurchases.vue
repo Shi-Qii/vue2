@@ -192,7 +192,7 @@ export default {
         individualVueData.items.value.forEach((f, index, arr) => {
           if (f['Up_down'] > 0) {
             arr[index]['Up_down'] = '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
-          }else {
+          } else if (f['Up_down'] < 0) {
             arr[index]['Up_down'] = '<Strong><span style="color:darkgreen">' + arr[index]['Up_down'] + '</span></Strong>';
           }
           if (f['Up_down_pct'] > 9.5) {
