@@ -190,25 +190,45 @@ export default {
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
         individualVueData.items.value.forEach((f, index, arr) => {
-          if (f['Up_down'] > 0) {
-            arr[index]['Up_down'] = '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
-          } else if (f['Up_down'] < 0) {
-            arr[index]['Up_down'] = '<Strong><span style="color:darkgreen">' + arr[index]['Up_down'] + '</span></Strong>';
+          let updown = f['Up_down']; //漲跌
+          let Updownpct = f['Up_down_pct']; //漲跌幅
+          // 對應漲跌  + 紅色
+          //          - 綠色
+          if (updown > 0) {
+            arr[index]['Up_down'] =
+                '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
+          } else if (updown < 0) {
+            arr[index]['Up_down'] =
+                '<Strong><span style="color:darkgreen">' + arr[index]['Up_down'] + '</span></Strong>';
           }
-          if (f['Up_down_pct'] > 9.5) {
-            arr[index]['Up_down_pct'] = '<Strong><span style="background-color: red;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
+          // 對應漲跌幅 大於9.5  + 紅底色 + 白色
+          //          小於9.5  + 綠底色 + 白色
+          if (Updownpct > 9.5) {
+            arr[index]['Up_down_pct'] =
+                '<Strong><span style="background-color: red;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
+          } else if (Updownpct < -9.5) {
+            arr[index]['Up_down_pct'] =
+                '<Strong><span style="background-color: darkgreen;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           }
+          // 對應外資買賣超張數 小於 0  紅字提示
           if (f['Foreign_investors'] < 0) {
-            arr[index]['Foreign_investors'] = '<Strong><span style="color:red">' + arr[index]['Foreign_investors'] + '</span></Strong>';
+            arr[index]['Foreign_investors'] =
+                '<Strong><span style="color:red">' + arr[index]['Foreign_investors'] + '</span></Strong>';
           }
+          // 對應投資買賣超張數 小於 0  紅字提示
           if (f['Investment_trust'] < 0) {
-            arr[index]['Investment_trust'] = '<Strong><span style="color:red">' + arr[index]['Investment_trust'] + '</span></Strong>';
+            arr[index]['Investment_trust'] =
+                '<Strong><span style="color:red">' + arr[index]['Investment_trust'] + '</span></Strong>';
           }
+          // 對應自營買賣超張數 小於 0  紅字提示
           if (f['Dealer'] < 0) {
-            arr[index]['Dealer'] = '<Strong><span style="color:red">' + arr[index]['Dealer'] + '</span></Strong>';
+            arr[index]['Dealer'] =
+                '<Strong><span style="color:red">' + arr[index]['Dealer'] + '</span></Strong>';
           }
+          // 對應總買賣超張數 小於 0  紅字提示
           if (f['Total_buysell'] < 0) {
-            arr[index]['Total_buysell'] = '<Strong><span style="color:red">' + arr[index]['Total_buysell'] + '</span></Strong>';
+            arr[index]['Total_buysell'] =
+                '<Strong><span style="color:red">' + arr[index]['Total_buysell'] + '</span></Strong>';
           }
 
 
