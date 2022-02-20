@@ -131,7 +131,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container col-10">
       <router-view/>
     </div>
   </div>
