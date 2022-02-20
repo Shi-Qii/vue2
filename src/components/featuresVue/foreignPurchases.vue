@@ -190,7 +190,6 @@ export default {
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
         individualVueData.items.value.forEach((f, index, arr) => {
-          arr[1]['Up_down'] = '<span style="color:red">' + 9 + '</span>';
           if (f['Up_down'] > 0) {
             arr[index]['Up_down'] = '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
           }
