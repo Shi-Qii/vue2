@@ -47,7 +47,12 @@
                     外資買超排行
                   </router-link>
                 </b-dropdown-item>
-                <b-dropdown-item>外資賣超排行</b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link
+                      to='/ListedForeignCapitalSoldOver'>
+                    外資賣超排行
+                  </router-link>
+                </b-dropdown-item>
                 <b-dropdown-item>自營買超排行</b-dropdown-item>
                 <b-dropdown-item>自營賣超排行</b-dropdown-item>
                 <b-dropdown-item>投信買超排行</b-dropdown-item>

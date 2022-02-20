@@ -89,6 +89,11 @@ export const router = new Router({
             component: () => import("./components/featuresVue/foreignPurchases.vue")
         },
         {
+            path: "/ListedForeignCapitalSoldOver",
+            name: "ListedForeignCapitalSoldOver",
+            component: () => import("./components/featuresVue/ListedForeignCapitalSoldOver.vue")
+        },
+        {
             path: "/sndividualStockInquiry",
             name: "sndividualStockInquiry",
             component: () => import("./components/featuresVue/sndividualStockInquiry.vue")

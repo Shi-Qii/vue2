@@ -56,7 +56,7 @@
           </div>
         </b-card>
       </b-collapse>
-      <spline v-if="showState.showTable" :initChartData="initChartData"></spline>
+      <spline ne v-if="showState.showTable" :initChartData="initChartData"></spline>
       <b-table
           outlined
           sort
@@ -123,7 +123,7 @@
   </div>
 </template>
 <script>
-import VueCompositionAPI, {ref, reactive, computed} from "@vue/composition-api";
+import VueCompositionAPI, {ref, reactive, computed, onMounted} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import Spline from "../chartFolder/spline.vue"
@@ -174,45 +174,12 @@ export default {
       if (typeof num === 'number') {
         console.log('判斷型態:', typeof num)
         let dd = new Date(num);
-        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
+        return dd.toISOString().substring(0, 10);
       }
       return num
     }
 
 
-    const search = function () {
-      individualVueData.selectDay.value = 7;
-      let selectKey = {
-        //Ind_Institutional_Investors_Day
-        idName: null,
-        key1: 'Ind_Institutional_Investors_Day',
-        key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
-        key3: '60',
-        key4: 'Foreign_investors',
-        key5: '20',
-        //objectHashMap.put("parameter4", "Foreign_investors");
-        // objectHashMap.put("parameter5", "20");
-      }
-      showState.showSpinne = true
-      showState.showTable = true
-      showState.showCollapse = true
-      selectKey.idName = individualVueData.activeNm.value
-
-      GetStockData.getUserBoard(selectKey).then(res => {
-        let original = res.data
-        console.log('original.length:', original.length)
-        individualVueData.originalData.value = res.data //把全部資料裝到裡面
-        individualVueData.stockInfo.name = original[0]['Stock_name'];
-        individualVueData.stockInfo.note = original[0]['Stock_num'];
-        let defSelectDay = 7 // 預設初選天數為七天
-        formatTable(defSelectDay, 0);
-      }).then(() => {
-        showState.showSpinner = false
-        showState.showBCardNm = true
-      }).catch(() => {
-        showState.showSpinner = true
-      })
-    }
     const changeSelectDay = function () {
       initChartData.data = null;
       individualVueData.items.value = [];
@@ -264,33 +231,33 @@ export default {
         // console.log(typeof f.Processing_date)
         if (typeof f.Processing_date === 'number') {
           let dateformat = numberFormatter(f.Processing_date);
-           let formatred1 = ''
-           let formatred2 = ''
-           let formatred3 = ''
-           let formatred4 = ''
+          let formatred1 = ''
+          let formatred2 = ''
+          let formatred3 = ''
+          let formatred4 = ''
           if (f.Foreign_investors < 0
           ) {
-            formatred1 = '<span style="color:red">'+f.Foreign_investors+'</span>'
-          }else {
-            formatred1 =f.Foreign_investors;
+            formatred1 = '<span style="color:red">' + f.Foreign_investors + '</span>'
+          } else {
+            formatred1 = f.Foreign_investors;
           }
           //=============================================================
-          if (f.Investment_trust < 0){
-            formatred2 = '<span style="color:red">'+f.Investment_trust+'</span>'
-          }else {
-            formatred2 =f.Investment_trust;
+          if (f.Investment_trust < 0) {
+            formatred2 = '<span style="color:red">' + f.Investment_trust + '</span>'
+          } else {
+            formatred2 = f.Investment_trust;
           }
           //=============================================================
-          if (f.Dealer < 0){
-            formatred3 = '<span style="color:red">'+f.Dealer+'</span>'
-          }else {
-            formatred3 =f.Dealer;
+          if (f.Dealer < 0) {
+            formatred3 = '<span style="color:red">' + f.Dealer + '</span>'
+          } else {
+            formatred3 = f.Dealer;
           }
           //=============================================================
-          if (f.Total_buysell < 0){
-            formatred4 = '<span style="color:red">'+f.Total_buysell+'</span>'
-          }else {
-            formatred4 =f.Total_buysell;
+          if (f.Total_buysell < 0) {
+            formatred4 = '<span style="color:red">' + f.Total_buysell + '</span>'
+          } else {
+            formatred4 = f.Total_buysell;
           }
           itemsObj1[dateformat] = formatred1.toLocaleString();
           itemsObj2[dateformat] = formatred2.toLocaleString();
@@ -314,27 +281,27 @@ export default {
           let formatred4 = ''
           if (f.Foreign_investors < 0
           ) {
-            formatred1 = '<span style="color:red">'+f.Foreign_investors+'</span>'
-          }else {
-            formatred1 =f.Foreign_investors;
+            formatred1 = '<span style="color:red">' + f.Foreign_investors + '</span>'
+          } else {
+            formatred1 = f.Foreign_investors;
           }
           //=============================================================
-          if (f.Investment_trust < 0){
-            formatred2 = '<span style="color:red">'+f.Investment_trust+'</span>'
-          }else {
-            formatred2 =f.Investment_trust;
+          if (f.Investment_trust < 0) {
+            formatred2 = '<span style="color:red">' + f.Investment_trust + '</span>'
+          } else {
+            formatred2 = f.Investment_trust;
           }
           //=============================================================
-          if (f.Dealer < 0){
-            formatred3 = '<span style="color:red">'+f.Dealer+'</span>'
-          }else {
-            formatred3 =f.Dealer;
+          if (f.Dealer < 0) {
+            formatred3 = '<span style="color:red">' + f.Dealer + '</span>'
+          } else {
+            formatred3 = f.Dealer;
           }
           //=============================================================
-          if (f.Total_buysell < 0){
-            formatred4 = '<span style="color:red">'+f.Total_buysell+'</span>'
-          }else {
-            formatred4 =f.Total_buysell;
+          if (f.Total_buysell < 0) {
+            formatred4 = '<span style="color:red">' + f.Total_buysell + '</span>'
+          } else {
+            formatred4 = f.Total_buysell;
           }
           itemsObj1[dateformat] = formatred1.toLocaleString();
           itemsObj2[dateformat] = formatred2.toLocaleString();
@@ -591,6 +558,107 @@ export default {
         }
       })
     }
+
+    const hrefId = ref(null)
+
+    function GetRequest() {
+      var url = location.search;
+      var strs = url.split("=");//获取url中"?"符后的字串
+      hrefId.value = strs[1]
+    }
+
+    onMounted(() => {
+
+      GetRequest();
+      if (hrefId.value === undefined) {
+        console.log('hrefId:', hrefId.value)
+      } else if (hrefId.value !== undefined) {
+        search();
+      }
+
+
+      // console.log('GetRequest:',GetRequest())
+
+    })
+
+
+    // search();
+    const search = function () {
+      // ?id=2891
+      if (hrefId.value === undefined) {
+        console.log('hrefId.value === undefined:')
+        individualVueData.selectDay.value = 7;
+        let selectKey = {
+          //Ind_Institutional_Investors_Day
+          idName: null,
+          key1: 'Ind_Institutional_Investors_Day',
+          key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
+          key3: '60',
+          key4: 'Foreign_investors',
+          key5: '20',
+          //objectHashMap.put("parameter4", "Foreign_investors");
+          // objectHashMap.put("parameter5", "20");
+        }
+        showState.showSpinne = true
+        showState.showTable = true
+        showState.showCollapse = true
+
+        selectKey.idName = individualVueData.activeNm.value
+        // } else {
+        //   selectKey.idName = hrefId.value;
+        // }
+
+        GetStockData.getUserBoard(selectKey).then(res => {
+          let original = res.data
+          console.log('original.length:', original.length)
+          individualVueData.originalData.value = res.data //把全部資料裝到裡面
+          individualVueData.stockInfo.name = original[0]['Stock_name'];
+          individualVueData.stockInfo.note = original[0]['Stock_num'];
+          let defSelectDay = 7 // 預設初選天數為七天
+          formatTable(defSelectDay, 0);
+        }).then(() => {
+          showState.showSpinner = false
+          showState.showBCardNm = true
+        }).catch(() => {
+          showState.showSpinner = true
+        })
+      } else if (hrefId.value !== undefined) {
+        console.log('hrefId.value !== undefined:')
+        individualVueData.selectDay.value = 7;
+        let selectKey = {
+          //Ind_Institutional_Investors_Day
+          idName: null,
+          key1: 'Ind_Institutional_Investors_Day',
+          key2: hrefId.value.toString(),
+          key3: '60',
+          key4: 'Foreign_investors',
+          key5: '20',
+          //objectHashMap.put("parameter4", "Foreign_investors");
+          // objectHashMap.put("parameter5", "20");
+        }
+        showState.showSpinne = true
+        showState.showTable = true
+        showState.showCollapse = true
+        selectKey.idName = individualVueData.activeNm.value
+
+
+        GetStockData.getUserBoard(selectKey).then(res => {
+          let original = res.data
+          console.log('original.length:', original.length)
+          individualVueData.originalData.value = res.data //把全部資料裝到裡面
+          individualVueData.stockInfo.name = original[0]['Stock_name'];
+          individualVueData.stockInfo.note = original[0]['Stock_num'];
+          let defSelectDay = 7 // 預設初選天數為七天
+          formatTable(defSelectDay, 0);
+        }).then(() => {
+          showState.showSpinner = false
+          showState.showBCardNm = true
+        }).catch(() => {
+          showState.showSpinner = true
+        })
+      }
+    }
+
 
     return {
       rowClass,
