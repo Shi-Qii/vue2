@@ -68,7 +68,7 @@ export default {
       if (typeof num === 'number') {
         console.log('判斷型態:', typeof num)
         let dd = new Date(num);
-        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
+        return dd.toISOString().substring(0,10);
       }
       return num
     }
