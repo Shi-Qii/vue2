@@ -573,6 +573,8 @@ export default {
       if (hrefId.value === undefined) {
         console.log('hrefId:', hrefId.value)
       } else if (hrefId.value !== undefined) {
+
+
         search();
       }
 
@@ -584,7 +586,9 @@ export default {
 
     // search();
     const search = function () {
-      // ?id=2891
+      if (individualVueData.stockCode.value !== null){
+        location.search='id='+individualVueData.stockCode.value.toLocaleString().substring(0, 4)
+      }
       if (hrefId.value === undefined) {
         console.log('hrefId.value === undefined:')
         individualVueData.selectDay.value = 7;
@@ -653,6 +657,8 @@ export default {
         }).then(() => {
           showState.showSpinner = false
           showState.showBCardNm = true
+
+
         }).catch(() => {
           showState.showSpinner = true
         })
