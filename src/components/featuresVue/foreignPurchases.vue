@@ -193,6 +193,8 @@ export default {
           arr[1]['Up_down'] = '<span style="color:red">' + 9 + '</span>';
           if (f['Up_down'] > 0) {
             arr[index]['Up_down'] = '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
+          }
+          if (f['Up_down_pct'] > 9.5) {
             arr[index]['Up_down_pct'] = '<Strong><span style="background-color: red;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           }
           if (f['Foreign_investors'] < 0) {
