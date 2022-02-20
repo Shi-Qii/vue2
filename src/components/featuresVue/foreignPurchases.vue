@@ -1,62 +1,75 @@
 <template>
-  <div>
+  <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
-    <div>
-      <b-table
-          outlined
-          sort
-          striped
-          bordered
-          hover
-          :tbody-tr-class="rowClass"
-          sticky-header="500px"
-          v-if="showState.showTable"
-          :items="individualVueData.items.value"
-          :fields="individualVueData.fields.value"
-          responsive="sm"
-          :per-page="individualVueData.perPage"
-          :current-page="individualVueData.currentPage"
-          class="setTB"
-      >
-        <template #cell()="data">
-          <span v-html="data.value"></span>
-        </template>
-      </b-table>
-      <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
-        <b-spinner
-            v-for="variant in individualVueData.spinnerVariants.value"
-            :variant="variant"
-            :key="variant"
-        ></b-spinner>
+    <section class="col-12">
+      <div class="col-12">
+        <b-table
+
+            id="table-transition-example"
+            :tbody-transition-props="transProps"
+            outlined
+            sort
+            striped
+            bordered
+            hover
+            responsive="xl"
+            :tbody-tr-class="rowClass"
+            sticky-header="800px"
+            v-if="showState.showTable"
+            :items="individualVueData.items.value"
+            :fields="individualVueData.fields.value"
+            :per-page="individualVueData.perPage"
+            :current-page="individualVueData.currentPage"
+            class=" setTB col-12"
+        >
+          <template #cell(Stock_name)="data">
+            <!-- `data.value` is the value after formatted by the Formatter -->
+            <!--            <a :href="`#${data.value.replace(/[^a-z]+/i,'-').toLowerCase()}`">{{ data.value }}</a>-->
+            <a href="sndividualStockInquiry">{{ data.value }}</a>
+          </template>
+          <template #cell()="data">
+            <span v-html="data.value"></span>
+          </template>
+          <template #foot()="data">
+            <i>{{ data.label }}</i>
+          </template>
+        </b-table>
+        <div v-if="showState.showSpinner" class="text-center mb-3 d-flex justify-content-between">
+          <b-spinner
+              v-for="variant in individualVueData.spinnerVariants.value"
+              :variant="variant"
+              :key="variant"
+          ></b-spinner>
+        </div>
+        <b-pagination
+            v-if="showState.showPagination"
+            size="sm"
+            number-of-pages="10"
+            base-url="#"
+            align="center"
+            class="mt-4 text-center"
+            v-model="individualVueData.currentPage"
+            :total-rows="rows"
+            :per-page="individualVueData.perPage"
+            aria-controls="my-table"
+        >
+          <template #first-text><span class="text-success">First</span></template>
+          <template #prev-text><span class="text-danger">Prev</span></template>
+          <template #next-text><span class="text-warning">Next</span></template>
+          <template #last-text><span class="text-info">Last</span></template>
+          <template #ellipsis-text>
+            <b-spinner small type="grow"></b-spinner>
+            <b-spinner small type="grow"></b-spinner>
+            <b-spinner small type="grow"></b-spinner>
+          </template>
+          <template #page="{ page, active }">
+            <b v-if="active">{{ page }}</b>
+            <i v-else>{{ page }}</i>
+          </template>
+        </b-pagination>
       </div>
-      <b-pagination
-          v-if="showState.showPagination"
-          size="sm"
-          number-of-pages="10"
-          base-url="#"
-          align="center"
-          class="mt-4 text-center"
-          v-model="individualVueData.currentPage"
-          :total-rows="rows"
-          :per-page="individualVueData.perPage"
-          aria-controls="my-table"
-      >
-        <template #first-text><span class="text-success">First</span></template>
-        <template #prev-text><span class="text-danger">Prev</span></template>
-        <template #next-text><span class="text-warning">Next</span></template>
-        <template #last-text><span class="text-info">Last</span></template>
-        <template #ellipsis-text>
-          <b-spinner small type="grow"></b-spinner>
-          <b-spinner small type="grow"></b-spinner>
-          <b-spinner small type="grow"></b-spinner>
-        </template>
-        <template #page="{ page, active }">
-          <b v-if="active">{{ page }}</b>
-          <i v-else>{{ page }}</i>
-        </template>
-      </b-pagination>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -80,6 +93,12 @@ export default {
       }),
     });
     console.log('params1:', params1)
+    const transProps = {
+      // Transition name
+      name: 'flip-list'
+    }
+
+
     const rows = computed(() => {
       return individualVueData.items.value.length
     })
@@ -94,31 +113,7 @@ export default {
       stockInfo: {name: null, note: null},
       items: {value: []},
       fields: {
-        value: [{
-          key: 'Processing_date',
-          label: '日期',
-          formatter: numberFormatter,
-          thClass: 'text-center',
-          tdClass: 'text-center',
-          sortable: true
-        },
-          {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_num', label: '公司代號', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Open_price', label: '開盤價', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Close_price', label: '收盤價', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Up_down', label: '漲跌', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {
-            key: 'Foreign_investors',
-            label: '外資買賣超張數',
-            thClass: 'text-center',
-            tdClass: 'text-center',
-            sortable: true
-          },
-          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true},
-          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center', sortable: true}]
+        value: []
       },
       currentPage: 1,
       perPage: 10,
@@ -149,22 +144,39 @@ export default {
           showState.showSpinner = false
           showState.showPagination = true
         }
-        //名次
-        // 股票產業別
-        // 公司代號
-        // 股票名稱
-        // 開盤價
-        // 收盤價
-        // 漲跌
-        // 漲跌幅
-        // 外資買賣超張數
-        // 投資買賣超張數
-        // 自營買賣超張數
-        // 總買賣超張數
-        individualVueData.items.value = res.data;
-        // individualVueData.fields.push(
-        //     ,
-        // )
+
+        // individualVueData.items.value = res.data;
+
+        // {
+        //   {Up_down: 'This is <i>escaped</i> content'},
+        //   Up_down_pct: 'This is <i>raw <strong>HTML</strong></i> <span style="color:red">content</span>',
+        // }
+        allFunction.editHTMLcolorClassification(res.data);
+        individualVueData.fields.value = [{
+          key: 'Processing_date',
+          label: '日期',
+          formatter: numberFormatter,
+          thClass: 'text-center ',
+          tdClass: 'text-center ',
+          sortable: true
+        },
+          {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {
+            key: 'Foreign_investors',
+            label: '外資買賣超張數',
+            thClass: 'text-center ',
+            tdClass: 'text-center ',
+            sortable: true
+          },
+          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
 
       }).then(() => {
 
@@ -174,28 +186,44 @@ export default {
       })
 
     })
-    const allData = reactive({
-      selected: null,
-      options: [
-        {value: null, text: 'Please select an option'},
-        {value: 'a', text: 'This is First option'},
-        {value: 'b', text: 'Selected Option'},
-        {value: {C: '3PO'}, text: 'This is an option with object value'},
-        {value: 'd', text: 'This one is disabled', disabled: true}
-      ]
+    const allFunction = reactive({
+      editHTMLcolorClassification: (res) => {
+        individualVueData.items.value = res
+        individualVueData.items.value.forEach((f, index, arr) => {
+          arr[1]['Up_down'] = '<span style="color:red">' + 9 + '</span>';
+          if (f['Up_down'] > 0) {
+            arr[index]['Up_down'] = '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
+            arr[index]['Up_down_pct'] = '<Strong><span style="background-color: red;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
+          }
+          if (f['Foreign_investors'] < 0) {
+            arr[index]['Foreign_investors'] = '<Strong><span style="color:red">' + arr[index]['Foreign_investors'] + '</span></Strong>';
+          }
+          if (f['Investment_trust'] < 0) {
+            arr[index]['Investment_trust'] = '<Strong><span style="color:red">' + arr[index]['Investment_trust'] + '</span></Strong>';
+          }
+          if (f['Dealer'] < 0) {
+            arr[index]['Dealer'] = '<Strong><span style="color:red">' + arr[index]['Dealer'] + '</span></Strong>';
+          }
+          if (f['Total_buysell'] < 0) {
+            arr[index]['Total_buysell'] = '<Strong><span style="color:red">' + arr[index]['Total_buysell'] + '</span></Strong>';
+          }
+
+
+        })
+        // console.log('individualVueData.items.value:',individualVueData.items.value)
+      }
+
     })
     const numberFormatter = function (num) {
       if (typeof num === 'number') {
-        console.log('判斷型態:', typeof num)
+        // console.log('判斷型態:', typeof num)
         let dd = new Date(num);
-        return dd.getFullYear() + '-' + Number(dd.getMonth() + 1) + '-' + dd.getDate()
+        return dd.toISOString().substring(0, 10);
       }
       return num
     }
 
     function rowClass(item) {
-      // console.log(item, '<-_______->', type)
-
       Object.keys(item).forEach(f => {
         // console.log('*',item[f])
         let hasNegative = item[f]
@@ -207,14 +235,19 @@ export default {
     }
 
     return {
-      showState, allData, rows, individualVueData, rowClass
+      showState, rows, individualVueData, rowClass, transProps
     }
   }
 
 }
 </script>
-<style scoped>
+<style>
 .setTB {
   white-space: nowrap;
+
+}
+
+table#table-transition-example .flip-list-move {
+  transition: transform 1s;
 }
 </style>
