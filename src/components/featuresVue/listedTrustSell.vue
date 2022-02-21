@@ -2,6 +2,9 @@
   <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
+    <field-select @update="changeEmit1"></field-select>
+    <hr/>
+
     <section class="col-12">
       <div class="col-12">
         <b-table
@@ -78,11 +81,13 @@ import VueCompositionAPI, {computed, onMounted, reactive} from "@vue/composition
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
+import FieldSelect from "@/components/model_using/fieldSelect";
 
-router
+
 Vue.use(VueCompositionAPI)
 export default {
-  name:'listedTrustSell',
+  name: 'listedTrustSell',
+  components: {FieldSelect},
   props: {
     idName: String
   },
@@ -258,8 +263,66 @@ export default {
       })
     }
 
+    const changeEmit1 = function (val) {
+
+      let selectKey = {
+        idName: null,
+        key1: 'Listed_Trust_Sell',
+        key2: '上市',
+        key3: 'sell',
+        key4: 'Foreign_investors',
+        key5: null,
+
+      }
+      selectKey.idName = individualVueData.activeNm.value
+      selectKey.key5 = val.toString()
+      //上市
+      //buy
+      GetStockData.getUserBoard(selectKey).then(res => {
+        console.log('res', res.data)
+        if (res.data.length > 0) {
+          showState.showSpinner = false
+          showState.showPagination = true
+        }
+        allFunction.editHTMLcolorClassification(res.data);
+        individualVueData.fields.value = [{
+          key: 'Processing_date',
+          label: '日期',
+          formatter: numberFormatter,
+          thClass: 'text-center ',
+          tdClass: 'text-center ',
+          sortable: true
+        },
+          {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {
+            key: 'Foreign_investors',
+            label: '外資買賣超張數',
+            thClass: 'text-center ',
+            tdClass: 'text-center ',
+            sortable: true
+          },
+          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
+
+      }).then(() => {
+
+
+      }).catch(() => {
+        // showState.showSpinner = true
+      })
+
+    }
+
+
     return {
-      showState, rows, individualVueData, rowClass, transProps
+      showState, rows, individualVueData, rowClass, transProps, changeEmit1
     }
   }
 

@@ -55,25 +55,25 @@
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link
-                      to='/listedTrustBuy'>
+                      to='/listedDealerBuy'>
                     自營買超排行
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link
-                      to='/listedTrustSell'>
+                      to='/listedDealerSell'>
                     自營賣超排行
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link
-                      to='/listedDealerBuy'>
+                      to='/listedTrustBuy'>
                     投信買超排行
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link
-                      to='/listedDealerSell'>
+                      to='/listedTrustSell'>
                     投信賣超排行
                   </router-link>
                 </b-dropdown-item>
