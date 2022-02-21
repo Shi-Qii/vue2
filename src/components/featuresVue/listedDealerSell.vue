@@ -23,8 +23,10 @@
             :current-page="individualVueData.currentPage"
             class=" setTB col-12"
         >
-          <template #cell(Stock_num)="data">
-            <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
+          <template #cell(Stock_name)="data">
+            <!-- `data.value` is the value after formatted by the Formatter -->
+            <!--            <a :href="`#${data.value.replace(/[^a-z]+/i,'-').toLowerCase()}`">{{ data.value }}</a>-->
+            <a href="sndividualStockInquiry">{{ data.value }}</a>
           </template>
           <template #cell()="data">
             <span v-html="data.value"></span>
@@ -77,8 +79,10 @@ import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
 
+router
 Vue.use(VueCompositionAPI)
 export default {
+  name:'listedDealerSell',
   props: {
     idName: String
   },
@@ -101,7 +105,7 @@ export default {
     })
     const individualVueData = reactive({
       activeNm: {value: 'institutional_investors'},
-      foreignNm: '外資買超',
+      foreignNm: '上市自營賣超',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       selectDayOptions: {value: ['7', '10', '20', '30', '60']},
@@ -125,9 +129,9 @@ export default {
     onMounted(() => {
       let selectKey = {
         idName: null,
-        key1: 'Listed_Foreign_Buy',
+        key1: 'Listed_Dealer_Sell',
         key2: '上市',
-        key3: 'buy',
+        key3: 'sell',
         key4: 'Foreign_investors',
         key5: '1',
 
@@ -208,24 +212,24 @@ export default {
                 '<Strong><span style="background-color: darkgreen;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           }
           // 對應外資買賣超張數 小於 0  紅字提示
-          if (f['Foreign_investors'] < 0) {
+          if (f['Foreign_investors'] > 0) {
             arr[index]['Foreign_investors'] =
-                '<Strong><span style="color:red">' + arr[index]['Foreign_investors'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Foreign_investors'] + '</span></Strong>';
           }
           // 對應投資買賣超張數 小於 0  紅字提示
-          if (f['Investment_trust'] < 0) {
+          if (f['Investment_trust'] > 0) {
             arr[index]['Investment_trust'] =
-                '<Strong><span style="color:red">' + arr[index]['Investment_trust'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Investment_trust'] + '</span></Strong>';
           }
           // 對應自營買賣超張數 小於 0  紅字提示
-          if (f['Dealer'] < 0) {
+          if (f['Dealer'] > 0) {
             arr[index]['Dealer'] =
-                '<Strong><span style="color:red">' + arr[index]['Dealer'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Dealer'] + '</span></Strong>';
           }
           // 對應總買賣超張數 小於 0  紅字提示
-          if (f['Total_buysell'] < 0) {
+          if (f['Total_buysell'] > 0) {
             arr[index]['Total_buysell'] =
-                '<Strong><span style="color:red">' + arr[index]['Total_buysell'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Total_buysell'] + '</span></Strong>';
           }
 
 

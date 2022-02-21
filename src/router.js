@@ -94,6 +94,50 @@ export const router = new Router({
             component: () => import("./components/featuresVue/ListedForeignCapitalSoldOver.vue")
         },
         {
+            path: "/listedTrustBuy",
+            name: "listedTrustBuy",
+            component: () => import("./components/featuresVue/listedTrustBuy.vue")
+        },
+        {
+            path: "/listedTrustSell",
+            name: "listedTrustSell",
+            component: () => import("./components/featuresVue/listedTrustSell.vue")
+        },
+        {
+            path: "/listedDealerSell",
+            name: "listedDealerSell",
+            component: () => import("./components/featuresVue/listedDealerSell.vue")
+        },
+        {
+            path: "/listedDealerBuy",
+            name: "listedDealerBuy",
+            component: () => import("./components/featuresVue/listedDealerBuy.vue")
+        }, {
+            path: "/listedForeignDealerBuy",
+            name: "listedForeignDealerBuy",
+            component: () => import("./components/featuresVue/listedForeignDealerBuy.vue")
+        },{
+            path: "/listedForeignDealerSell",
+            name: "listedForeignDealerSell",
+            component: () => import("./components/featuresVue/listedForeignDealerSell.vue")
+        },{
+            path: "/listedForeignTrustBuy",
+            name: "listedForeignTrustBuy",
+            component: () => import("./components/featuresVue/listedForeignTrustBuy.vue")
+        },{
+            path: "/listedForeignTrustSell",
+            name: "listedForeignTrustSell",
+            component: () => import("./components/featuresVue/listedForeignTrustSell.vue")
+        },{
+            path: "/listedTrustDealerBuy",
+            name: "listedTrustDealerBuy",
+            component: () => import("./components/featuresVue/listedTrustDealerBuy.vue")
+        },{
+            path: "/listedTrustDealerSell",
+            name: "listedTrustDealerSell",
+            component: () => import("./components/featuresVue/listedTrustDealerSell.vue")
+        },
+        {
             path: "/sndividualStockInquiry",
             name: "sndividualStockInquiry",
             component: () => import("./components/featuresVue/sndividualStockInquiry.vue")

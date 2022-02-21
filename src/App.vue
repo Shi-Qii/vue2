@@ -53,20 +53,65 @@
                     外資賣超排行
                   </router-link>
                 </b-dropdown-item>
-                <b-dropdown-item>自營買超排行</b-dropdown-item>
-                <b-dropdown-item>自營賣超排行</b-dropdown-item>
-                <b-dropdown-item>投信買超排行</b-dropdown-item>
-                <b-dropdown-item>投信賣超排行</b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link
+                      to='/listedTrustBuy'>
+                    自營買超排行
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link
+                      to='/listedTrustSell'>
+                    自營賣超排行
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link
+                      to='/listedDealerBuy'>
+                    投信買超排行
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link
+                      to='/listedDealerSell'>
+                    投信賣超排行
+                  </router-link>
+                </b-dropdown-item>
                 <b-dropdown-group id="dropdown-group-2" header="買超組合">
-                  <b-dropdown-item-button>外資+自營</b-dropdown-item-button>
-                  <b-dropdown-item-button>外資+投信</b-dropdown-item-button>
-                  <b-dropdown-item-button>自營+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/listedForeignDealerBuy'>
+                      外資+自營
+                    </router-link></b-dropdown-item-button>
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/listedForeignTrustBuy'>
+                      外資+投信
+                    </router-link></b-dropdown-item-button>
+                  <b-dropdown-item-button>
+
+                    <router-link
+                        to='/listedTrustDealerBuy'>
+                      自營+投信
+                    </router-link></b-dropdown-item-button>
                   <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
                 </b-dropdown-group>
                 <b-dropdown-group id="dropdown-group-2" header="賣超組合">
-                  <b-dropdown-item-button>外資+自營</b-dropdown-item-button>
-                  <b-dropdown-item-button>外資+投信</b-dropdown-item-button>
-                  <b-dropdown-item-button>自營+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/listedForeignDealerSell'>
+                      外資+自營
+                    </router-link></b-dropdown-item-button>
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/listedForeignTrustSell'>
+                      外資+投信
+                    </router-link></b-dropdown-item-button>
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/listedTrustDealerSell'>
+                      自營+投信
+                    </router-link></b-dropdown-item-button>
                   <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
                 </b-dropdown-group>
                 <b-dropdown-divider></b-dropdown-divider>

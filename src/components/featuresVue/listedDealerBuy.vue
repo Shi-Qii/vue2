@@ -76,9 +76,9 @@ import VueCompositionAPI, {computed, onMounted, reactive} from "@vue/composition
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
-
 Vue.use(VueCompositionAPI)
 export default {
+  name: "listedDealerBuy",
   props: {
     idName: String
   },
@@ -101,7 +101,7 @@ export default {
     })
     const individualVueData = reactive({
       activeNm: {value: 'institutional_investors'},
-      foreignNm: '外資買超',
+      foreignNm: '上市自營買超',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       selectDayOptions: {value: ['7', '10', '20', '30', '60']},
@@ -125,7 +125,7 @@ export default {
     onMounted(() => {
       let selectKey = {
         idName: null,
-        key1: 'Listed_Foreign_Buy',
+        key1: 'Listed_Dealer_Buy',
         key2: '上市',
         key3: 'buy',
         key4: 'Foreign_investors',
