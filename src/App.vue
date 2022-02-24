@@ -126,7 +126,12 @@
                     圖表_個股查詢
                   </router-link>
                 </b-dropdown-item>
-
+                <b-dropdown-item>
+                  <router-link to="/hightcharts_monthlyChart">
+                    <font-awesome-icon icon="user-plus"/>
+                    圖表_月營收
+                  </router-link>
+                </b-dropdown-item>
 
               </b-dropdown>
             </div>

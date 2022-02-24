@@ -146,6 +146,10 @@ export const router = new Router({
             path: "/hightcharts_sndividualStockInquiry",
             name: "hightcharts_sndividualStockInquiry",
             component: () => import("./components/chartFolder/hightcharts_sndividualStockInquiry.vue")
+        },{
+            path: "/hightcharts_monthlyChart",
+            name: "monthlyChart",
+            component: () => import("./components/chartFolder/monthlyChart.vue")
         }
 
     ]
