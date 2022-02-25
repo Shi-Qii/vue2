@@ -65,7 +65,7 @@ export default {
       }],
       yAxis: [{ // Primary yAxis
         labels: {
-          format: '{value}元',
+          format: '{value}',
           style: {
             color: '#171515'
           }
@@ -84,7 +84,7 @@ export default {
           }
         },
         labels: {
-          format: '{value}',
+          format: '{value}元',
           style: {
             color: '#050505'
           }
@@ -108,23 +108,22 @@ export default {
       series: [{
         name: '每月營收',
         type: 'column',
-        yAxis: 1,
         data: [],
         tooltip: {
           valueSuffix: ' '
         },
         color: '#f8c839'
-      }, {
-        name: '月均價',
-        type: 'spline',
-        data: [],
-        tooltip: {
-          valueSuffix: ' '
-        },
-
-        color: '#e33232'
-
-      }]
+      },
+        {
+          name: '月均價',
+          type: 'spline',
+          yAxis: 1,
+          data: [],
+          tooltip: {
+            valueSuffix: ' '
+          },
+          color: '#e33232'
+        }]
     });
     return {chartOptions, initChart}
   }
