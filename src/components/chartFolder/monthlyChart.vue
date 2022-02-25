@@ -24,6 +24,7 @@ export default {
     initChartData: Object
   },
   setup(prop) {
+
     const initChart = ref(prop.initChartData)
     const chartOptionsData = reactive({
       date: null
