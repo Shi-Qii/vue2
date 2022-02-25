@@ -56,7 +56,7 @@
           </div>
         </b-card>
       </b-collapse>
-      <spline ne v-if="showState.showTable" :initChartData="initChartData"></spline>
+      <spline  v-if="showState.showTable" :initChartData="initChartData"></spline>
       <b-table
           outlined
           sort

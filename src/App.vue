@@ -35,6 +35,11 @@
                     個股查詢
                   </router-link>
                 </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/monthlyrevenue">
+                    個股查詢_月查詢
+                  </router-link>
+                </b-dropdown-item>
               </b-dropdown>
             </div>
             <div class="px-3 py-2">
@@ -82,18 +87,21 @@
                     <router-link
                         to='/listedForeignDealerBuy'>
                       外資+自營
-                    </router-link></b-dropdown-item-button>
+                    </router-link>
+                  </b-dropdown-item-button>
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedForeignTrustBuy'>
                       外資+投信
-                    </router-link></b-dropdown-item-button>
+                    </router-link>
+                  </b-dropdown-item-button>
                   <b-dropdown-item-button>
 
                     <router-link
                         to='/listedTrustDealerBuy'>
                       自營+投信
-                    </router-link></b-dropdown-item-button>
+                    </router-link>
+                  </b-dropdown-item-button>
                   <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
                 </b-dropdown-group>
                 <b-dropdown-group id="dropdown-group-2" header="賣超組合">
@@ -101,17 +109,20 @@
                     <router-link
                         to='/listedForeignDealerSell'>
                       外資+自營
-                    </router-link></b-dropdown-item-button>
+                    </router-link>
+                  </b-dropdown-item-button>
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedForeignTrustSell'>
                       外資+投信
-                    </router-link></b-dropdown-item-button>
+                    </router-link>
+                  </b-dropdown-item-button>
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedTrustDealerSell'>
                       自營+投信
-                    </router-link></b-dropdown-item-button>
+                    </router-link>
+                  </b-dropdown-item-button>
                   <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
                 </b-dropdown-group>
                 <b-dropdown-divider></b-dropdown-divider>
