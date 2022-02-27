@@ -39,12 +39,12 @@ export default {
       chartOptionsData.seriesData2 = []
       //series[0]  是月營收
       //series[1]  是月均價(股價)
-
+      let formatDate = ''
       newval.data.forEach(f => {
-
-        chartOptionsData.date.unshift(f.Month)
-        chartOptionsData.seriesData1.unshift(f.Mon_earn)
-        chartOptionsData.seriesData2.unshift(f.Price)
+        formatDate = f.Year + '年' + f.Month + '月';
+        chartOptionsData.date.unshift(formatDate);
+        chartOptionsData.seriesData1.unshift(f.Mon_earn);
+        chartOptionsData.seriesData2.unshift(f.Price);
       })
       chartOptions.series[0].data = chartOptionsData.seriesData1;
       chartOptions.series[1].data = chartOptionsData.seriesData2;
