@@ -30,22 +30,25 @@ export default {
       date: null
       , seriesData1: null
       , seriesData2: null
-      , seriesData3: null
-      , seriesData4: null
+
     })
     watch(initChart.value, (newval) => {
       console.log('newval:', newval)
+      chartOptionsData.date = []
       chartOptionsData.seriesData1 = []
       chartOptionsData.seriesData2 = []
       //series[0]  是月營收
       //series[1]  是月均價(股價)
 
       newval.data.forEach(f => {
+
+        chartOptionsData.date.unshift(f.Month)
         chartOptionsData.seriesData1.unshift(f.Mon_earn)
         chartOptionsData.seriesData2.unshift(f.Price)
       })
       chartOptions.series[0].data = chartOptionsData.seriesData1;
       chartOptions.series[1].data = chartOptionsData.seriesData2;
+      chartOptions.xAxis[0].categories = chartOptionsData.date;
       console.log('chartOptionsData:', chartOptions)
 
     })
@@ -60,8 +63,7 @@ export default {
         text: ''
       },
       xAxis: [{
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        categories: [],
         crosshair: true
       }],
       yAxis: [{ // Primary yAxis

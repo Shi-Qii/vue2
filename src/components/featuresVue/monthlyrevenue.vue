@@ -126,9 +126,9 @@ export default {
 
     const changeSelectDay = function () {
       // initChartData.data = null;
+      //individualVueData.selectDay.value選到的天數
       individualVueData.items.value = [];
-
-
+      search();
       console.log('rows:', rows.value)
     }
 
@@ -167,44 +167,84 @@ export default {
 
 
     const search = function () {
+      initChartData.data=[]
+      if (individualVueData.selectDay.value === 12) {
+        console.log('171:',individualVueData.selectDay.value === 12)
+        let selectKey = {
+          //Ind_Institutional_Investors_Day
+          idName: null,
+          key1: 'Ind_Monthly_Revenue_Mon',
+          key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
+          key3: '12',
+          key4: '1',
+          key5: '1',
+          //objectHashMap.put("parameter4", "Foreign_investors");
+          // objectHashMap.put("parameter5", "20");
+        }
+        showState.showSpinne = true
+        showState.showTable = true
+        showState.showCollapse = true
 
-      individualVueData.selectDay.value = 12;
+        selectKey.idName = individualVueData.activeNm.value
+        // } else {
+        //   selectKey.idName = hrefId.value;
+        // }
 
-      let selectKey = {
-        //Ind_Institutional_Investors_Day
-        idName: null,
-        key1: 'Ind_Monthly_Revenue_Mon',
-        key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
-        key3: '12',
-        key4: '1',
-        key5: '1',
-        //objectHashMap.put("parameter4", "Foreign_investors");
-        // objectHashMap.put("parameter5", "20");
+        GetStockData.getUserBoard(selectKey).then(res => {
+          let original = res.data
+          console.log('original.length:', original)
+          individualVueData.originalData.value = res.data //把全部資料裝到裡面
+          individualVueData.originalData.value = res.data //把全部資料裝到裡面
+          individualVueData.stockInfo.name = original[0]['Stock_name'];
+          individualVueData.stockInfo.note = original[0]['Stock_num'];
+          initChartData.data = res.data;
+
+        }).then(() => {
+          showState.showSpinner = false
+          showState.showBCardNm = true
+        }).catch(() => {
+          showState.showSpinner = true
+        })
+      } else {
+        console.log(individualVueData.selectDay.value)
+        let selectKey = {
+          //Ind_Institutional_Investors_Day
+          idName: null,
+          key1: 'Ind_Monthly_Revenue_Mon',
+          key2: individualVueData.stockCode.value.toLocaleString().substring(0, 4),
+          key3: individualVueData.selectDay.value.toString(),
+          key4: '1',
+          key5: '1',
+          //objectHashMap.put("parameter4", "Foreign_investors");
+          // objectHashMap.put("parameter5", "20");
+        }
+        showState.showSpinne = true
+        showState.showTable = true
+        showState.showCollapse = true
+
+        selectKey.idName = individualVueData.activeNm.value
+        // } else {
+        //   selectKey.idName = hrefId.value;
+        // }
+
+        GetStockData.getUserBoard(selectKey).then(res => {
+          let original = res.data
+          console.log('original.length:', original)
+          individualVueData.originalData.value = res.data //把全部資料裝到裡面
+          individualVueData.originalData.value = res.data //把全部資料裝到裡面
+          individualVueData.stockInfo.name = original[0]['Stock_name'];
+          individualVueData.stockInfo.note = original[0]['Stock_num'];
+          initChartData.data = res.data;
+
+        }).then(() => {
+          showState.showSpinner = false
+          showState.showBCardNm = true
+        }).catch(() => {
+          showState.showSpinner = true
+        })
       }
-      showState.showSpinne = true
-      showState.showTable = true
-      showState.showCollapse = true
 
-      selectKey.idName = individualVueData.activeNm.value
-      // } else {
-      //   selectKey.idName = hrefId.value;
-      // }
 
-      GetStockData.getUserBoard(selectKey).then(res => {
-        let original = res.data
-        console.log('original.length:', original)
-        individualVueData.originalData.value = res.data //把全部資料裝到裡面
-        individualVueData.originalData.value = res.data //把全部資料裝到裡面
-        individualVueData.stockInfo.name = original[0]['Stock_name'];
-        individualVueData.stockInfo.note = original[0]['Stock_num'];
-        initChartData.data = res.data;
-
-      }).then(() => {
-        showState.showSpinner = false
-        showState.showBCardNm = true
-      }).catch(() => {
-        showState.showSpinner = true
-      })
     }
 
 
