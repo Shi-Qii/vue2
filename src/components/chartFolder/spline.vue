@@ -13,7 +13,7 @@
 <script>
 
 import {Chart} from 'highcharts-vue';
-import VueCompositionAPI, {reactive, watch, ref} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, watch, ref,onMounted} from "@vue/composition-api";
 import Vue from 'vue'
 
 Vue.use(VueCompositionAPI)
@@ -25,6 +25,7 @@ export default {
     initChartData: Object
   },
   setup(prop) {
+
     let state = ref(false);
     const initChart = ref(prop.initChartData)
     console.log('data__:', initChart.value['data'])
@@ -35,16 +36,14 @@ export default {
       , seriesData3: null
       , seriesData4: null
     })
-    watch(initChart.value, (newValue) => {
-      /* ... */
-      console.log('newValue:', newValue)
-      // console.log('data__:', initChartData1.value['data'])
+    onMounted(() => {
+
       chartOptionsData.date = []
       chartOptionsData.seriesData1 = []
       chartOptionsData.seriesData2 = []
       chartOptionsData.seriesData3 = []
       chartOptionsData.seriesData4 = []
-      newValue.data.forEach(f => {
+      initChart.value['data'].forEach(f => {
         chartOptionsData.date.unshift(numberFormatter(f.Processing_date))
         chartOptionsData.seriesData1.unshift(f.Dealer)
         chartOptionsData.seriesData2.unshift(f.Foreign_investors)
@@ -56,11 +55,39 @@ export default {
       chartOptions.series[1].data = chartOptionsData.seriesData2;
       chartOptions.series[2].data = chartOptionsData.seriesData3;
       chartOptions.series[3].data = chartOptionsData.seriesData4;
-      if (newValue.data !== null){
-        console.log('newValue!== null:', newValue)
+      if (initChart.value['data'].data !== null){
+        console.log('newValue!== null:', initChart.value['data'])
         console.log('chartOptionsData', chartOptionsData)
         state.value = true;
       }
+    })
+    watch(initChart.value['data'], (newValue,oldVal) => {
+      /* ... */
+      console.log('newValue:', newValue)
+      console.log('oldVal:', oldVal)
+      // console.log('data__:', initChartData1.value['data'])
+      // chartOptionsData.date = []
+      // chartOptionsData.seriesData1 = []
+      // chartOptionsData.seriesData2 = []
+      // chartOptionsData.seriesData3 = []
+      // chartOptionsData.seriesData4 = []
+      // newValue.data.forEach(f => {
+      //   chartOptionsData.date.unshift(numberFormatter(f.Processing_date))
+      //   chartOptionsData.seriesData1.unshift(f.Dealer)
+      //   chartOptionsData.seriesData2.unshift(f.Foreign_investors)
+      //   chartOptionsData.seriesData3.unshift(f.Investment_trust)
+      //   chartOptionsData.seriesData4.unshift(f.Total_buysell)
+      // })
+      // chartOptions.xAxis[0].categories = chartOptionsData.date;
+      // chartOptions.series[0].data = chartOptionsData.seriesData1;
+      // chartOptions.series[1].data = chartOptionsData.seriesData2;
+      // chartOptions.series[2].data = chartOptionsData.seriesData3;
+      // chartOptions.series[3].data = chartOptionsData.seriesData4;
+      // if (newValue.data !== null){
+      //   console.log('newValue!== null:', newValue)
+      //   console.log('chartOptionsData', chartOptionsData)
+      //   state.value = true;
+      // }
 
     })
 

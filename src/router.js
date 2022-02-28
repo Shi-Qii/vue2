@@ -154,6 +154,11 @@ export const router = new Router({
             path: "/monthlyrevenue",
             name: "monthlyrevenue",
             component: () => import("./components/featuresVue/monthlyrevenue.vue")
+        },
+        {
+            path: "/mainStockSearch",
+            name: "mainStockSearch",
+            component: () => import("./components/mainFunction/mainStockSearch.vue")
         }
 
     ]

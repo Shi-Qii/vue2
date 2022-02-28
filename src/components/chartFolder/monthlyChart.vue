@@ -3,7 +3,6 @@
     <div>
       {{ '圖表' }}
       <highcharts :options="chartOptions"></highcharts>
-
     </div>
 
   </div>
@@ -12,7 +11,7 @@
 <script>
 
 import {Chart} from 'highcharts-vue';
-import VueCompositionAPI, {reactive, ref, watch} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, ref, onMounted, watch} from "@vue/composition-api";
 import Vue from 'vue'
 
 Vue.use(VueCompositionAPI)
@@ -26,20 +25,38 @@ export default {
   setup(prop) {
 
     const initChart = ref(prop.initChartData)
+    console.log('initChart1:', initChart.value)
     const chartOptionsData = reactive({
       date: null
       , seriesData1: null
       , seriesData2: null
 
     })
-    watch(initChart.value, (newval) => {
-      console.log('newval:', newval)
+    onMounted(() => {
+      console.log('initChart2:', initChart.value)
       chartOptionsData.date = []
       chartOptionsData.seriesData1 = []
       chartOptionsData.seriesData2 = []
       //series[0]  是月營收
       //series[1]  是月均價(股價)
+      let newval = initChart.value
       let formatDate = ''
+
+      newval.data.forEach(f => {
+        formatDate = f.Year + '年' + f.Month + '月';
+        // formatDate = f.Year + '/' + f.Month ;
+        chartOptionsData.date.unshift(formatDate);
+        chartOptionsData.seriesData1.unshift(f.Mon_earn);
+        chartOptionsData.seriesData2.unshift(f.Price);
+      })
+      chartOptions.series[0].data = chartOptionsData.seriesData1;
+      chartOptions.series[1].data = chartOptionsData.seriesData2;
+      chartOptions.xAxis[0].categories = chartOptionsData.date
+    })
+    watch(initChart.value, (newval, oldval) => {
+      let formatDate = ''
+      console.log('initChart.value>oldval:', oldval);
+      console.log('initChart.value:>newval:', newval);
       newval.data.forEach(f => {
         formatDate = f.Year + '年' + f.Month + '月';
         // formatDate = f.Year + '/' + f.Month ;
@@ -50,12 +67,15 @@ export default {
       chartOptions.series[0].data = chartOptionsData.seriesData1;
       chartOptions.series[1].data = chartOptionsData.seriesData2;
       chartOptions.xAxis[0].categories = chartOptionsData.date;
-      console.log('chartOptionsData:', chartOptions)
 
     })
     const chartOptions = reactive({
       chart: {
         zoomType: 'xy'
+      },
+      loading: {
+        hideDuration: 1000,
+        showDuration: 3000
       },
       title: {
         text: ' Monthly '
@@ -114,9 +134,13 @@ export default {
         type: 'column',
         data: [],
         tooltip: {
-          valueSuffix: ' '
+          valueSuffix: ' ',
+          animation: true
         },
-        color: '#f8c839'
+        color: '#f8c839',
+        marker: {
+          enabled: true
+        },
       },
         {
           name: '月均價',
@@ -124,7 +148,8 @@ export default {
           yAxis: 1,
           data: [],
           tooltip: {
-            valueSuffix: ' '
+            valueSuffix: ' ',
+            animation: true
           },
           color: '#e33232'
         }]

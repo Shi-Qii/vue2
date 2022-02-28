@@ -30,14 +30,19 @@
           <b-sidebar backdrop id="sidebar-1" title="選單" shadow>
             <div class="px-3 py-2">
               <b-dropdown Block id="dropdown-dropright" dropright text="個股查詢" variant="primary" class="m-2 ">
+                <!--                <b-dropdown-item>-->
+                <!--                  <router-link to="/sndividualStockInquiry">-->
+                <!--                    個股查詢-->
+                <!--                  </router-link>-->
+                <!--                </b-dropdown-item>-->
+                <!--                <b-dropdown-item>-->
+                <!--                  <router-link to="/monthlyrevenue">-->
+                <!--                    個股查詢_月查詢-->
+                <!--                  </router-link>-->
+                <!--                </b-dropdown-item>-->
                 <b-dropdown-item>
-                  <router-link to="/sndividualStockInquiry">
+                  <router-link to="/mainStockSearch">
                     個股查詢
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link to="/monthlyrevenue">
-                    個股查詢_月查詢
                   </router-link>
                 </b-dropdown-item>
               </b-dropdown>
