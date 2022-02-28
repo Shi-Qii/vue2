@@ -130,8 +130,8 @@ export default {
         idName: null,
         key1: 'Listed_Monthly_Revenue_Short_Long',
         key2: '上市',
-        key3: '1',
-        key4: '2',
+        key3: '12',
+        key4: '3',
         key5: '1',
         //Listed_Monthly_Revenue	Monthly_revenue
       }
