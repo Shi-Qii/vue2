@@ -209,7 +209,7 @@ export default {
                 '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
             arr[index]['Grow_total_earn'] =
                 '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          } else if (Growth_mon < 0 || Growth_year < 0) {
+          } else if (Growth_mon < 0 || Growth_year < 0 || Grow_total_earn < 0) {
             arr[index]['Growth_mon'] =
                 '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
             arr[index]['Growth_year'] =
@@ -217,7 +217,6 @@ export default {
             arr[index]['Grow_total_earn'] =
                 '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
           }
-
 
         })
         // console.log('individualVueData.items.value:',individualVueData.items.value)
