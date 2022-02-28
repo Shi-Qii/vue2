@@ -202,18 +202,24 @@ export default {
           let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
           // 對應漲跌  + 紅色
           //          - 綠色
-          if (Growth_mon > 0 || Growth_year > 0 || Grow_total_earn > 0) {
+          if (Growth_mon > 0) {
             arr[index]['Growth_mon'] =
                 '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          } else if (Growth_mon < 0 || Growth_year < 0 || Grow_total_earn < 0) {
+          } else if (Growth_mon < 0) {
             arr[index]['Growth_mon'] =
                 '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
+          }
+          if (Growth_year > 0) {
+            arr[index]['Growth_year'] =
+                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
+          } else if (Growth_year < 0) {
             arr[index]['Growth_year'] =
                 '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
+          }
+          if (Grow_total_earn > 0) {
+            arr[index]['Grow_total_earn'] =
+                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+          } else if (Grow_total_earn < 0) {
             arr[index]['Grow_total_earn'] =
                 '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
           }
