@@ -48,6 +48,31 @@
               </b-dropdown>
             </div>
             <div class="px-3 py-2">
+              <b-dropdown Block id="dropdown-dropright" dropright text="月營收" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/allStockQuery">
+                    上市全部營收查詢
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/stockRevenueQuery">
+                    個股營收查詢
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/annualGrowthRate">
+                    上市月營收長短期年增率
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/allStockQuery">
+                    個股查詢長短期年增率
+                  </router-link>
+                </b-dropdown-item>
+
+              </b-dropdown>
+            </div>
+            <div class="px-3 py-2">
               <b-dropdown Block id="dropdown-dropright" :no-close-on-backdrop="true"
                           backdrop
                           shadow dropright text="法人進出" variant="primary" class="m-2 ">

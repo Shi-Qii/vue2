@@ -159,7 +159,20 @@ export const router = new Router({
             path: "/mainStockSearch",
             name: "mainStockSearch",
             component: () => import("./components/mainFunction/mainStockSearch.vue")
-        }
+        },
+        {
+            path: "/allStockQuery",
+            name: "allStockQuery",
+            component: () => import("./components/featuresVue/allStockQuery.vue")
+        }, {
+            path: "/stockRevenueQuery",
+            name: "stockRevenueQuery",
+            component: () => import("./components/featuresVue/stockRevenueQuery.vue")
+        }, {
+            path: "/annualGrowthRate",
+            name: "annualGrowthRate",
+            component: () => import("./components/featuresVue/annualGrowthRate.vue")
+        },
 
     ]
 });
