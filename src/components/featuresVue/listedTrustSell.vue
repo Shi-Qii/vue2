@@ -109,7 +109,7 @@ export default {
       return individualVueData.items.value.length
     })
     const individualVueData = reactive({
-      activeNm: {value: 'institutional_investors'},
+      selected: {value: 'institutional_investors'},
       foreignNm: '投信賣超',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
@@ -141,7 +141,7 @@ export default {
         key5: '1',
 
       }
-      selectKey.idName = individualVueData.activeNm.value
+      selectKey.idName = individualVueData.selected.value
       //上市
       //buy
       GetStockData.getUserBoard(selectKey).then(res => {
@@ -274,7 +274,7 @@ export default {
         key5: null,
 
       }
-      selectKey.idName = individualVueData.activeNm.value
+      selectKey.idName = individualVueData.selected.value
       selectKey.key5 = val.toString()
       //上市
       //buy
