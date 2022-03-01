@@ -16,10 +16,12 @@ import {Chart} from 'highcharts-vue';
 
 import Highcharts from "highcharts";
 import Stock from "highcharts/modules/stock";
+import hollowcandlestick from "highcharts/modules/hollowcandlestick"
 import VueCompositionAPI, {reactive} from "@vue/composition-api";
 import Vue from 'vue'
 
 Stock(Highcharts);
+hollowcandlestick(Highcharts);
 Vue.use(VueCompositionAPI)
 export default {
   name: "stockCandlesstick",
@@ -4071,13 +4073,15 @@ export default {
     ];
     const chartOptions = reactive({
 
+
+
       navigator: {
         series: {
           color: Highcharts.getOptions().colors[0]
         }
       }, series: [{
-        type: 'candlestick',
-        name: 'Candlestick',
+        type: 'hollowcandlestick',
+        name: 'hollowcandlestick',
         data: data1
       }]
     });
