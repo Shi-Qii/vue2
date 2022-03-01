@@ -173,6 +173,12 @@
                     圖表_月營收
                   </router-link>
                 </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/stockCandlesstick">
+                    <font-awesome-icon icon="user-plus"/>
+                    圖表_candles
+                  </router-link>
+                </b-dropdown-item>
 
               </b-dropdown>
             </div>

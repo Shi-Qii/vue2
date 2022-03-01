@@ -147,6 +147,10 @@ export const router = new Router({
             name: "hightcharts_sndividualStockInquiry",
             component: () => import("./components/chartFolder/hightcharts_sndividualStockInquiry.vue")
         },{
+            path: "/stockCandlesstick",
+            name: "stockCandlesstick",
+            component: () => import("./components/chartFolder/stockCandlesstick.vue")
+        },{
             path: "/hightcharts_monthlyChart",
             name: "monthlyChart",
             component: () => import("./components/chartFolder/monthlyChart.vue")
