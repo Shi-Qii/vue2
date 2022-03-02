@@ -10,7 +10,7 @@
             :tbody-transition-props="transProps"
             outlined
             sort
-            striped
+
             bordered
             hover
             responsive="xl"
@@ -23,6 +23,9 @@
             :current-page="individualVueData.currentPage"
             class=" setTB col-12"
         >
+          <template #cell(Up_down)="data">
+            <span  :class="''+(data.value > 0 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )">{{ data.value }}</span>
+          </template>
           <template #cell(Stock_name)="data">
             <!-- `data.value` is the value after formatted by the Formatter -->
             <!--            <a :href="`#${data.value.replace(/[^a-z]+/i,'-').toLowerCase()}`">{{ data.value }}</a>-->
@@ -196,17 +199,19 @@ export default {
           // 對應漲跌  + 紅色
           //          - 綠色
           if (updown > 0) {
-            arr[index]['Up_down'] =
-                '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
+
+            // arr[index]['Up_down'] =
+            //     '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
           } else if (updown < 0) {
-            arr[index]['Up_down'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Up_down'] + '</span></Strong>';
+            // arr[index]['Up_down'] =
+            //     '<Strong><span style="color:darkgreen">' + arr[index]['Up_down'] + '</span></Strong>';
           }
           // 對應漲跌幅 大於9.5  + 紅底色 + 白色
           //          小於9.5  + 綠底色 + 白色
-          if (Updownpct > 9.5) {
+          if (Updownpct > 1) {
+            f['_cellVariants'] = {Up_down_pct:'danger'}
             arr[index]['Up_down_pct'] =
-                '<Strong><span style="background-color: red;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
+                '<Strong><span style="color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           } else if (Updownpct < -9.5) {
             arr[index]['Up_down_pct'] =
                 '<Strong><span style="background-color: darkgreen;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
@@ -273,5 +278,20 @@ export default {
 
 table#table-transition-example .flip-list-move {
   transition: transform 1s;
+}
+
+
+
+.table-danger, .table-danger > th, .table-danger > td {
+  background-color: #ed0c24;
+}
+.text-danger {
+  color: #e50a0a !important;
+  font-weight: bold;
+}
+
+.text-success {
+  color: #04661b !important;
+  font-weight: bold;
 }
 </style>
