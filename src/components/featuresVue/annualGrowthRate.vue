@@ -1,4 +1,3 @@
-
 <template>
   <div class="col-12">
     {{ individualVueData.foreignNm }}
@@ -153,12 +152,11 @@ export default {
         // }
         allFunction.editHTMLcolorClassification(res.data);
         individualVueData.fields.value = [
+          {key: 'Year', label: '年', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Month', label: '月', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-
           {key: 'Mon_earn', label: '當月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Last_year_mon_earn', label: '去年同月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Growth_year', label: '去年同月增減(%)', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Short_earn', label: '短期營收加總', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {
             key: 'Short_earn_last',
