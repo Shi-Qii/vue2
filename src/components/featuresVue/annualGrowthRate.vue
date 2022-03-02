@@ -124,14 +124,14 @@ export default {
       showCollapse: false,
       showPagination: false,
     })
-    //key3長期天數	key4短期天數
+    //key3 年	key4 月  可輸入
     onMounted(() => {
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue_Short_Long',
         key2: '上市',
-        key3: '12',
-        key4: '3',
+        key3: '111',
+        key4: '1',
         key5: '1',
         //Listed_Monthly_Revenue	Monthly_revenue
       }
