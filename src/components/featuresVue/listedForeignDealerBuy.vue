@@ -164,16 +164,17 @@ export default {
           {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'addUp', label: '外資+自營', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {
             key: 'Foreign_investors',
-            label: '外資買賣超張數',
+            label: '外資',
             thClass: 'text-center ',
             tdClass: 'text-center ',
             sortable: true
           },
-          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
+          {key: 'Investment_trust', label: '投資', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Dealer', label: '自營', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Total_buysell', label: '總買賣', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
 
       }).then(() => {
 
@@ -187,6 +188,7 @@ export default {
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
         individualVueData.items.value.forEach((f, index, arr) => {
+          f['addUp']=f['Dealer']+f['Foreign_investors'];
           let updown = f['Up_down']; //漲跌
           let Updownpct = f['Up_down_pct']; //漲跌幅
           // 對應漲跌  + 紅色
@@ -210,22 +212,22 @@ export default {
           // 對應外資買賣超張數 小於 0  紅字提示
           if (f['Foreign_investors'] < 0) {
             arr[index]['Foreign_investors'] =
-                '<Strong><span style="color:red">' + arr[index]['Foreign_investors'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Foreign_investors'] + '</span></Strong>';
           }
           // 對應投資買賣超張數 小於 0  紅字提示
           if (f['Investment_trust'] < 0) {
             arr[index]['Investment_trust'] =
-                '<Strong><span style="color:red">' + arr[index]['Investment_trust'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Investment_trust'] + '</span></Strong>';
           }
           // 對應自營買賣超張數 小於 0  紅字提示
           if (f['Dealer'] < 0) {
             arr[index]['Dealer'] =
-                '<Strong><span style="color:red">' + arr[index]['Dealer'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Dealer'] + '</span></Strong>';
           }
           // 對應總買賣超張數 小於 0  紅字提示
           if (f['Total_buysell'] < 0) {
             arr[index]['Total_buysell'] =
-                '<Strong><span style="color:red">' + arr[index]['Total_buysell'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + arr[index]['Total_buysell'] + '</span></Strong>';
           }
 
 

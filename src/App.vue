@@ -76,43 +76,27 @@
               <b-dropdown Block id="dropdown-dropright" :no-close-on-backdrop="true"
                           backdrop
                           shadow dropright text="法人進出" variant="primary" class="m-2 ">
-                <b-dropdown-item>
-                  <router-link
-                      to='/foreignPurchases'>
-                    外資買超排行
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link
-                      to='/ListedForeignCapitalSoldOver'>
-                    外資賣超排行
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link
-                      to='/listedDealerBuy'>
-                    自營買超排行
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link
-                      to='/listedDealerSell'>
-                    自營賣超排行
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link
-                      to='/listedTrustBuy'>
-                    投信買超排行
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link
-                      to='/listedTrustSell'>
-                    投信賣超排行
-                  </router-link>
-                </b-dropdown-item>
+
                 <b-dropdown-group id="dropdown-group-2" header="買超組合">
+                  <b-dropdown-item>
+                    <router-link
+                        to='/foreignPurchases'>
+                      外資買超排行
+                    </router-link>
+                  </b-dropdown-item>
+                  <b-dropdown-item>
+                    <router-link
+                        to='/listedDealerBuy'>
+                      自營買超排行
+                    </router-link>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item>
+                    <router-link
+                        to='/listedTrustBuy'>
+                      投信買超排行
+                    </router-link>
+                  </b-dropdown-item>
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedForeignDealerBuy'>
@@ -135,6 +119,26 @@
                   <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
                 </b-dropdown-group>
                 <b-dropdown-group id="dropdown-group-2" header="賣超組合">
+                  <b-dropdown-item>
+                    <router-link
+                        to='/ListedForeignCapitalSoldOver'>
+                      外資賣超排行
+                    </router-link>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item>
+                    <router-link
+                        to='/listedDealerSell'>
+                      自營賣超排行
+                    </router-link>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item>
+                    <router-link
+                        to='/listedTrustSell'>
+                      投信賣超排行
+                    </router-link>
+                  </b-dropdown-item>
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedForeignDealerSell'>
@@ -155,7 +159,7 @@
                   </b-dropdown-item-button>
                   <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
                 </b-dropdown-group>
-                <b-dropdown-divider></b-dropdown-divider>
+                <!--                <b-dropdown-divider></b-dropdown-divider>-->
               </b-dropdown>
 
             </div>
