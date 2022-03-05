@@ -2,6 +2,21 @@
   <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
+    <div class="container-fluid">
+      <b-input-group prepend="個股查詢" class="mt-3">
+        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode1.value"
+                      list="my-list-id"></b-form-input>
+        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode2.value"
+                      list="my-list-id"></b-form-input>
+        <b-input-group-append>
+          <b-button @click="search" variant="outline-success">送出</b-button>
+          <!--          <b-button @click="clean" variant="danger">清除</b-button>-->
+
+        </b-input-group-append>
+      </b-input-group>
+    </div>
+
+
     <section class="col-12">
       <div class="col-12">
         <b-table
@@ -107,7 +122,8 @@ export default {
       foreignNm: '上市全部營收查詢',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
-
+      stockCode1: {value: ''},
+      stockCode2: {value: ''},
 
       items: {value: []},
       fields: {
@@ -118,18 +134,60 @@ export default {
     })
     const showState = reactive({
       showTable: true,
-      showSpinner: true,
+      showSpinner: false,
       showBCardNm: false,
       showCollapse: false,
       showPagination: false,
     })
+
     onMounted(() => {
+
+    })
+    const allFunction = reactive({
+      editHTMLcolorClassification: (res) => {
+        individualVueData.items.value = res
+        individualVueData.items.value.forEach((f, index, arr) => {
+          let Growth_mon = f['Growth_mon']; //上月比較增減(%)
+          let Growth_year = f['Growth_year']; //去年同月增減(%)
+          let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
+          // 對應漲跌  + 紅色
+          //          - 綠色
+          if (Growth_mon > 0) {
+            arr[index]['Growth_mon'] =
+                '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
+          } else if (Growth_mon < 0) {
+            arr[index]['Growth_mon'] =
+                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
+          }
+          if (Growth_year > 0) {
+            arr[index]['Growth_year'] =
+                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
+          } else if (Growth_year < 0) {
+            arr[index]['Growth_year'] =
+                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
+          }
+          if (Grow_total_earn > 0) {
+            arr[index]['Grow_total_earn'] =
+                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+          } else if (Grow_total_earn < 0) {
+            arr[index]['Grow_total_earn'] =
+                '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+          }
+
+        })
+        // console.log('individualVueData.items.value:',individualVueData.items.value)
+      }
+
+    })
+    //key3 年跟 key4 月 輸入框 年月
+    const search = function () {
+
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue',
         key2: '上市',
-        key3: '1',
-        key4: 'Foreign_investors',
+        key3: individualVueData.stockCode1.value,
+        key4: individualVueData.stockCode2.value,
         key5: '1',
         //Listed_Monthly_Revenue	Monthly_revenue
       }
@@ -137,6 +195,7 @@ export default {
       //上市
       //buy
       GetStockData.getUserBoard(selectKey).then(res => {
+        showState.showSpinner = true;
         console.log('res', res.data)
         if (res.data.length > 0) {
           showState.showSpinner = false
@@ -185,50 +244,9 @@ export default {
           {key: 'Comment', label: '註記', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
         ]
 
-      }).then(() => {
-
-
-      }).catch(() => {
-        // showState.showSpinner = true
       })
+    }
 
-    })
-    const allFunction = reactive({
-      editHTMLcolorClassification: (res) => {
-        individualVueData.items.value = res
-        individualVueData.items.value.forEach((f, index, arr) => {
-          let Growth_mon = f['Growth_mon']; //上月比較增減(%)
-          let Growth_year = f['Growth_year']; //去年同月增減(%)
-          let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
-          // 對應漲跌  + 紅色
-          //          - 綠色
-          if (Growth_mon > 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
-          } else if (Growth_mon < 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
-          }
-          if (Growth_year > 0) {
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
-          } else if (Growth_year < 0) {
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
-          }
-          if (Grow_total_earn > 0) {
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          } else if (Grow_total_earn < 0) {
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          }
-
-        })
-        // console.log('individualVueData.items.value:',individualVueData.items.value)
-      }
-
-    })
     const numberFormatter = function (num) {
       if (typeof num === 'number') {
         // console.log('判斷型態:', typeof num)
@@ -250,7 +268,7 @@ export default {
     }
 
     return {
-      showState, rows, individualVueData, rowClass, transProps
+      showState, rows, individualVueData, rowClass, transProps, search
     }
   }
 
