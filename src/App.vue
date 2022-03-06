@@ -54,11 +54,7 @@
                     上市全部營收查詢
                   </router-link>
                 </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link to="/stockRevenueQuery">
-                    個股營收查詢
-                  </router-link>
-                </b-dropdown-item>
+
                 <b-dropdown-item>
                   <router-link to="/annualGrowthRate">
                     上市月營收長短期年增率
