@@ -2,10 +2,23 @@
   <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
+    <div class="container-fluid">
+      <b-input-group class="mt-3">
+        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode1.value"
+                      list="my-list-id"></b-form-input>
+        <b-input-group-text>年</b-input-group-text>
+        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode2.value"
+                      list="my-list-id"></b-form-input>
+        <b-input-group-text>月</b-input-group-text>
+        <b-input-group-append>
+          <b-button @click="search" variant="outline-success">送出</b-button>
+          <!--          <b-button @click="clean" variant="danger">清除</b-button>-->
+        </b-input-group-append>
+      </b-input-group>
+    </div>
     <section class="col-12">
       <div class="col-12">
         <b-table
-
             id="table-transition-example"
             :tbody-transition-props="transProps"
             outlined
@@ -74,7 +87,7 @@
 </template>
 
 <script>
-import VueCompositionAPI, {computed, onMounted, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {computed, reactive} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
@@ -107,7 +120,8 @@ export default {
       foreignNm: '上市月營收長短期年增率',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
-
+      stockCode1: {value: ''},
+      stockCode2: {value: ''},
 
       items: {value: []},
       fields: {
@@ -118,19 +132,20 @@ export default {
     })
     const showState = reactive({
       showTable: true,
-      showSpinner: true,
+      showSpinner: false,
       showBCardNm: false,
       showCollapse: false,
       showPagination: false,
     })
-    //key3 年	key4 月  可輸入
-    onMounted(() => {
+    const search = function () {
+      showState.showSpinner = true;
+      //key3 年	key4 月  可輸入
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue_Short_Long',
         key2: '上市',
-        key3: '111',
-        key4: '1',
+        key3: individualVueData.stockCode1.value,
+        key4: individualVueData.stockCode2.value,
         key5: '1',
         //Listed_Monthly_Revenue	Monthly_revenue
       }
@@ -170,15 +185,10 @@ export default {
           {key: 'Long_earn_last', label: '去年同期長期營收加總', thClass: 'text-center', tdClass: 'text-center ', sortable: true},
           {key: 'Growth_long', label: '長期營收成長率', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
         ]
-
-      }).then(() => {
-
-
-      }).catch(() => {
-        // showState.showSpinner = true
       })
+    }
 
-    })
+
     const allFunction = reactive({
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
@@ -224,7 +234,7 @@ export default {
     }
 
     return {
-      showState, rows, individualVueData, rowClass, transProps
+      showState, rows, individualVueData, rowClass, transProps, search
     }
   }
 

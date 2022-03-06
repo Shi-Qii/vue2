@@ -3,11 +3,13 @@
     {{ individualVueData.foreignNm }}
     <hr/>
     <div class="container-fluid">
-      <b-input-group prepend="個股查詢" class="mt-3">
+      <b-input-group class="mt-3">
         <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode1.value"
                       list="my-list-id"></b-form-input>
+        <b-input-group-text>年</b-input-group-text>
         <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode2.value"
                       list="my-list-id"></b-form-input>
+        <b-input-group-text>月</b-input-group-text>
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
           <!--          <b-button @click="clean" variant="danger">清除</b-button>-->
