@@ -119,7 +119,7 @@ export default {
       },
       series: [{
         name: '短期年增率',
-        color: 'rgba(250,231,137,0.92)',
+        color: 'rgba(253,108,10,0.95)',
         marker: {
           symbol: 'circle'
         },
