@@ -46,6 +46,7 @@ import Vue from "vue";
 import GetAppVueInit from "@/services/getAppVueInit";
 import sndividualStockInquiry from "@/components/featuresVue/sndividualStockInquiry";
 import monthlyrevenue from "@/components/featuresVue/monthlyrevenue";
+import indMonthlyRevenueShortLong from "@/components/featuresVue/IndMonthlyRevenueShortLong";
 import GetStockData from "@/services/getStockData";
 
 Vue.use(VueCompositionAPI)
@@ -55,11 +56,13 @@ export default {
   ********對應各個節點*********
   * |單一查詢   | sndividualStockInquiry
   * |月營收    | monthlyrevenue
+  * |長短期月營收    | monthlyrevenue
 
    */
   components: {
     sndividualStockInquiry,
-    monthlyrevenue
+    monthlyrevenue,
+    indMonthlyRevenueShortLong
   },
   setup() {
     //*************************************************************
@@ -92,7 +95,18 @@ export default {
               key5: '1',
               entrance: 'monthlyrevenue'
             }, name: '月營收'
-          },]
+          },
+          {
+            item: {
+              idName: 'monthly_revenue',
+              functionKey: 'Ind_Monthly_Revenue_Short_Long',
+              key2: '上市',
+              key3: '來自輸入框的值',
+              key4: '60', //預設撈60個月，預設顯示12個月
+              key5: '1',
+              entrance: 'indMonthlyRevenueShortLong'
+            }, name: '長短期月營收'
+          }]
       }
     })
 //*************************************changevaluefoSeach***********************
@@ -131,24 +145,48 @@ export default {
     const isTypeData = ref(null);
     const search = function () {
       showState.showSpinner = true
-      let selectKey = {
-        idName: mainVueData.selected.value.idName,
-        key1: mainVueData.selected.value.functionKey,
-        key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
-        key3: mainVueData.selected.value.key3,
-        key4: mainVueData.selected.value.key4,
-        key5: mainVueData.selected.value.key5,
+      if (mainVueData.selected.value.functionKey === 'Ind_Monthly_Revenue_Short_Long') {
+        console.log('123')
+        let selectKey = {
+          idName: mainVueData.selected.value.idName,
+          key1: mainVueData.selected.value.functionKey,
+          key2: mainVueData.selected.value.key2,
+          key3: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+          key4: mainVueData.selected.value.key4,
+          key5: mainVueData.selected.value.key5,
+        }
+        console.log('mainVueData.selected.value:', mainVueData.selected.value)
+
+        GetStockData.getUserBoard(selectKey)
+            .then(res => {
+              isType.value = mainVueData.selected.value.entrance;
+              isTypeData.value = res.data;
+              console.log('res:', res)
+              showState.showSpinner = false
+
+            })
+      } else {
+        let selectKey = {
+          idName: mainVueData.selected.value.idName,
+          key1: mainVueData.selected.value.functionKey,
+          key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+          key3: mainVueData.selected.value.key3,
+          key4: mainVueData.selected.value.key4,
+          key5: mainVueData.selected.value.key5,
+        }
+        console.log('mainVueData.selected.value:', mainVueData.selected.value)
+
+        GetStockData.getUserBoard(selectKey)
+            .then(res => {
+              isType.value = mainVueData.selected.value.entrance;
+              isTypeData.value = res.data;
+              console.log('res:', res)
+              showState.showSpinner = false
+
+            })
       }
-      console.log('mainVueData.selected.value:', mainVueData.selected.value)
 
-      GetStockData.getUserBoard(selectKey)
-          .then(res => {
-            isType.value = mainVueData.selected.value.entrance;
-            isTypeData.value = res.data;
-            console.log('res:', res)
-            showState.showSpinner = false
 
-          })
     }
     const clean = function () {
       isType.value = null;

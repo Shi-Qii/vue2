@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ '法人' }}
+    {{ '長短期月營收' }}
     <div class="container-fluid">
       <b-collapse visible id="collapse-3" v-if="showState.showCollapse">
         <b-card>
@@ -25,7 +25,8 @@
           </div>
         </b-card>
       </b-collapse>
-      <spline v-if="showState.showTable" :initChartData="initChartData"></spline>
+
+      <LongShortSpline v-if="showState.showTable" :initChartData="initChartData"></LongShortSpline>
       <b-table
           outlined
           sort
@@ -59,13 +60,14 @@
 <script>
 import VueCompositionAPI, {computed, onMounted, reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
-import Spline from "../chartFolder/spline.vue"
+
+import LongShortSpline from "@/components/chartFolder/LongShortSpline";
 // import GetAppVueInit from "@/services/getAppVueInit";
 
 Vue.use(VueCompositionAPI)
 export default {
   components: {
-    Spline
+    LongShortSpline
   },
   props: {
     isTypeData: Array
@@ -77,8 +79,8 @@ export default {
       selected: {value: 'institutional_investors'},
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
-      selectDayOptions: {value: ['7', '10', '20', '30', '60']},
-      selectDay: {value: 7},
+      selectDayOptions: {value: ['12', '24', '36', '48', '60']},
+      selectDay: {value: 12},
       stockCode: {value: null},
       stockInfo: {name: null, note: null},
       items: {value: []},
@@ -102,14 +104,6 @@ export default {
     const initChartData = {data: null}
 
 //==============function=================
-    const numberFormatter = function (num) {
-      if (typeof num === 'number') {
-        console.log('判斷型態:', typeof num)
-        let dd = new Date(num);
-        return dd.toISOString().substring(0, 10);
-      }
-      return num
-    }
 
 
     const changeSelectDay = function () {
@@ -125,7 +119,7 @@ export default {
     const formatTable = (defNumber) => {
 
       let data = individualVueData.data
-
+      console.log('data>>:', data)
       let num = defNumber
 
 
@@ -135,114 +129,43 @@ export default {
       let filterData = data.filter((f, index) => {
         return num > index
       })
+
+      console.log('filterData>>:', filterData)
       initChartData.data = chartfilterData; // 圖表val
       let tableItemsArr = []
       let tableFieldsArr = []
 
       let itemsObj1 = {}
       let itemsObj2 = {}
-      let itemsObj3 = {}
-      let itemsObj4 = {}
+
       let fieldsObj1 = {}
       // let fieldsObj2 ={}
 
       filterData.forEach(f => {
-        itemsObj1.Processing_date = '外資買賣超張數'
-        itemsObj2.Processing_date = '投信買賣超張數'
-        itemsObj3.Processing_date = '自營買賣超張數'
-        itemsObj4.Processing_date = '總買賣超張數'
-        // console.log(typeof f.Processing_date)
-        if (typeof f.Processing_date === 'number') {
-          let dateformat = numberFormatter(f.Processing_date);
-          let formatred1 = ''
-          let formatred2 = ''
-          let formatred3 = ''
-          let formatred4 = ''
-          if (f.Foreign_investors < 0
-          ) {
-            formatred1 = '<span style="color:red">' + f.Foreign_investors + '</span>'
-          } else {
-            formatred1 = f.Foreign_investors;
-          }
-          //=============================================================
-          if (f.Investment_trust < 0) {
-            formatred2 = '<span style="color:red">' + f.Investment_trust + '</span>'
-          } else {
-            formatred2 = f.Investment_trust;
-          }
-          //=============================================================
-          if (f.Dealer < 0) {
-            formatred3 = '<span style="color:red">' + f.Dealer + '</span>'
-          } else {
-            formatred3 = f.Dealer;
-          }
-          //=============================================================
-          if (f.Total_buysell < 0) {
-            formatred4 = '<span style="color:red">' + f.Total_buysell + '</span>'
-          } else {
-            formatred4 = f.Total_buysell;
-          }
-          itemsObj1[dateformat] = formatred1.toLocaleString();
-          itemsObj2[dateformat] = formatred2.toLocaleString();
-          itemsObj3[dateformat] = formatred3.toLocaleString();
-          itemsObj4[dateformat] = formatred4.toLocaleString();
-          let fieldsObj2 = {
-            key: null,
-            label: null,
-            thClass: 'text-center',
-            tdClass: 'text-center',
-            sortable: true
-          }
-          fieldsObj2.key = dateformat
-          fieldsObj2.label = dateformat
-          tableFieldsArr.push(fieldsObj2)
-        } else {
-          let dateformat = f.Processing_date.toString();
-          let formatred1 = ''
-          let formatred2 = ''
-          let formatred3 = ''
-          let formatred4 = ''
-          if (f.Foreign_investors < 0
-          ) {
-            formatred1 = '<span style="color:red">' + f.Foreign_investors + '</span>'
-          } else {
-            formatred1 = f.Foreign_investors;
-          }
-          //=============================================================
-          if (f.Investment_trust < 0) {
-            formatred2 = '<span style="color:red">' + f.Investment_trust + '</span>'
-          } else {
-            formatred2 = f.Investment_trust;
-          }
-          //=============================================================
-          if (f.Dealer < 0) {
-            formatred3 = '<span style="color:red">' + f.Dealer + '</span>'
-          } else {
-            formatred3 = f.Dealer;
-          }
-          //=============================================================
-          if (f.Total_buysell < 0) {
-            formatred4 = '<span style="color:red">' + f.Total_buysell + '</span>'
-          } else {
-            formatred4 = f.Total_buysell;
-          }
-          itemsObj1[dateformat] = formatred1.toLocaleString();
-          itemsObj2[dateformat] = formatred2.toLocaleString();
-          itemsObj3[dateformat] = formatred3.toLocaleString();
-          itemsObj4[dateformat] = formatred4.toLocaleString();
-          let fieldsObj2 = {
-            key: null,
-            label: null,
-            thClass: 'text-center',
-            tdClass: 'text-center',
-            sortable: true
-          }
-          fieldsObj2.key = dateformat
-          fieldsObj2.label = dateformat
-          tableFieldsArr.push(fieldsObj2)
+        itemsObj1.fromatdate = '短期比率'
+        itemsObj2.fromatdate = '長期比率'
+
+        let fromatdate = (f.Year + '/' + f.Month).toString();
+        let formatred1 = ''
+        let formatred2 = ''
+        formatred1 = f.Growth_short;
+        formatred2 = f.Growth_long;
+        itemsObj1[fromatdate] = formatred1.toLocaleString();
+        itemsObj2[fromatdate] = formatred2.toLocaleString();
+
+        let fieldsObj2 = {
+          key: null,
+          label: null,
+          thClass: 'text-center',
+          tdClass: 'text-center',
+          sortable: true
         }
+        fieldsObj2.key = fromatdate
+        fieldsObj2.label = fromatdate
+        tableFieldsArr.push(fieldsObj2)
+
         //=============================================================
-        fieldsObj1.key = 'Processing_date'
+        fieldsObj1.key = 'fromatdate'
         fieldsObj1.label = '日期'
         fieldsObj1.thClass = 'text-center'
         fieldsObj1.tdClass = 'text-center'
@@ -252,10 +175,10 @@ export default {
       })
       tableItemsArr.push(itemsObj1)
       tableItemsArr.push(itemsObj2)
-      tableItemsArr.push(itemsObj3)
-      tableItemsArr.push(itemsObj4)
+
       tableFieldsArr.unshift(fieldsObj1)
-      // console.log('tableItemsArr:',tableItemsArr)
+      console.log('itemsObj1:', itemsObj1)
+      console.log('itemsObj2:', itemsObj2)
       // console.log('tableFieldsArr:',tableFieldsArr)
       individualVueData.items.value = tableItemsArr
       individualVueData.fields.value = tableFieldsArr
@@ -278,15 +201,15 @@ export default {
       individualVueData.data = pr.value['isTypeData'];
       individualVueData.stockInfo.name = original[0]['Stock_name'];
       individualVueData.stockInfo.note = original[0]['Stock_num'];
-      let chartNum = 7;
+      let chartNum = 12;
       let filterData = original.filter((f, index) => {
         return chartNum > index
       })
-
+      console.log('filterData:', filterData)
       initChartData.data = filterData;
       showState.showTable = true
       showState.showCollapse = true
-      formatTable(7);
+      formatTable(12);
       // GetRequest();
       // if (hrefId.value === undefined) {
       //   console.log('hrefId:', hrefId.value)
