@@ -144,46 +144,48 @@ export default {
     const isType = ref(null);
     const isTypeData = ref(null);
     const search = function () {
-      showState.showSpinner = true
-      if (mainVueData.selected.value.functionKey === 'Ind_Monthly_Revenue_Short_Long') {
-        console.log('123')
-        let selectKey = {
-          idName: mainVueData.selected.value.idName,
-          key1: mainVueData.selected.value.functionKey,
-          key2: mainVueData.selected.value.key2,
-          key3: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
-          key4: mainVueData.selected.value.key4,
-          key5: mainVueData.selected.value.key5,
+      isType.value = null;
+      if (isType.value === null) {
+        showState.showSpinner = true
+        if (mainVueData.selected.value.functionKey === 'Ind_Monthly_Revenue_Short_Long') {
+          let selectKey = {
+            idName: mainVueData.selected.value.idName,
+            key1: mainVueData.selected.value.functionKey,
+            key2: mainVueData.selected.value.key2,
+            key3: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+            key4: mainVueData.selected.value.key4,
+            key5: mainVueData.selected.value.key5,
+          }
+          console.log('mainVueData.selected.value:', mainVueData.selected.value)
+
+          GetStockData.getUserBoard(selectKey)
+              .then(res => {
+                isType.value = mainVueData.selected.value.entrance;
+                isTypeData.value = res.data;
+                console.log('res:', res)
+                showState.showSpinner = false
+
+              })
+        } else {
+          let selectKey = {
+            idName: mainVueData.selected.value.idName,
+            key1: mainVueData.selected.value.functionKey,
+            key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+            key3: mainVueData.selected.value.key3,
+            key4: mainVueData.selected.value.key4,
+            key5: mainVueData.selected.value.key5,
+          }
+          console.log('mainVueData.selected.value:', mainVueData.selected.value)
+
+          GetStockData.getUserBoard(selectKey)
+              .then(res => {
+                isType.value = mainVueData.selected.value.entrance;
+                isTypeData.value = res.data;
+                console.log('res:', res)
+                showState.showSpinner = false
+
+              })
         }
-        console.log('mainVueData.selected.value:', mainVueData.selected.value)
-
-        GetStockData.getUserBoard(selectKey)
-            .then(res => {
-              isType.value = mainVueData.selected.value.entrance;
-              isTypeData.value = res.data;
-              console.log('res:', res)
-              showState.showSpinner = false
-
-            })
-      } else {
-        let selectKey = {
-          idName: mainVueData.selected.value.idName,
-          key1: mainVueData.selected.value.functionKey,
-          key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
-          key3: mainVueData.selected.value.key3,
-          key4: mainVueData.selected.value.key4,
-          key5: mainVueData.selected.value.key5,
-        }
-        console.log('mainVueData.selected.value:', mainVueData.selected.value)
-
-        GetStockData.getUserBoard(selectKey)
-            .then(res => {
-              isType.value = mainVueData.selected.value.entrance;
-              isTypeData.value = res.data;
-              console.log('res:', res)
-              showState.showSpinner = false
-
-            })
       }
 
 
