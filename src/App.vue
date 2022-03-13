@@ -60,12 +60,6 @@
                     上市月營收長短期年增率
                   </router-link>
                 </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link to="/allStockQuery">
-                    個股查詢長短期年增率
-                  </router-link>
-                </b-dropdown-item>
-
               </b-dropdown>
             </div>
             <div class="px-3 py-2">
