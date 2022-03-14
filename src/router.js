@@ -176,6 +176,14 @@ export const router = new Router({
             path: "/annualGrowthRate",
             name: "annualGrowthRate",
             component: () => import("./components/featuresVue/annualGrowthRate.vue")
+        }, {
+            path: "/shortRevenueBreakthroughLong",
+            name: "shortRevenueBreakthroughLong",
+            component: () => import("./components/featuresVue/shortRevenueBreakthroughLong.vue")
+        },{
+            path: "/longRevenueBreakthroughShort",
+            name: "longRevenueBreakthroughShort",
+            component: () => import("./components/featuresVue/longRevenueBreakthroughShort.vue")
         },
 
     ]

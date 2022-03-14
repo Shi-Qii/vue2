@@ -60,6 +60,16 @@
                     上市月營收長短期年增率
                   </router-link>
                 </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/shortRevenueBreakthroughLong">
+                    當月短期總營收突破長期營收
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/annualGrowthRate">
+                    當月長期總營收突破短期營收
+                  </router-link>
+                </b-dropdown-item>
               </b-dropdown>
             </div>
             <div class="px-3 py-2">
