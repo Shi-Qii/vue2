@@ -1,6 +1,15 @@
 <template>
   <div class="col-12">
     {{ individualVueData.foreignNm }}
+    <b-form-group >
+      <b-form-radio-group
+          button-variant="outline-primary"
+          v-model="selected"
+          :options="options"
+          buttons
+          @change="changeFn()"
+      ></b-form-radio-group>
+    </b-form-group>
     <hr/>
     <section class="col-12">
       <div class="col-12">
@@ -72,7 +81,7 @@
 </template>
 
 <script>
-import VueCompositionAPI, {computed, onMounted, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {computed, onMounted, reactive,ref} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
@@ -90,6 +99,12 @@ export default {
       }),
     });
     console.log('params1:', params1)
+
+    const selected = ref('上市');
+    const options = reactive([
+      {text: '上市', value: '上市'},
+      {text: '上櫃', value: '上櫃'}
+    ])
     const transProps = {
       // Transition name
       name: 'flip-list'
@@ -186,21 +201,27 @@ export default {
     const allFunction = reactive({
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
+        // _cellVariants: { age: 'info', first_name: 'warning' }
         individualVueData.items.value.forEach((f, index, arr) => {
+
+
           let updown = f['Up_down']; //漲跌
           let Updownpct = f['Up_down_pct']; //漲跌幅
           // 對應漲跌  + 紅色
           //          - 綠色
           if (updown > 0) {
+
             arr[index]['Up_down'] =
-                '<Strong><span style="color:red">' + arr[index]['Up_down'] + '</span></Strong>';
+                '<Strong><span style="color:red">' + Number(arr[index]['Up_down']) + '</span></Strong>';
           } else if (updown < 0) {
             arr[index]['Up_down'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Up_down'] + '</span></Strong>';
+                '<Strong><span style="color:darkgreen">' + Number(arr[index]['Up_down']) + '</span></Strong>';
           }
           // 對應漲跌幅 大於9.5  + 紅底色 + 白色
           //          小於9.5  + 綠底色 + 白色
           if (Updownpct > 9.5) {
+
+
             arr[index]['Up_down_pct'] =
                 '<Strong><span style="background-color: red;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           } else if (Updownpct < -9.5) {
@@ -242,7 +263,57 @@ export default {
       }
       return num
     }
+    const changeFn =function () {
+      console.log('selected:',selected.value)
+      let selectKey = {
+        idName: null,
+        key1: 'Listed_Foreign_Buy',
+        key2: selected.value.toString(),
+        key3: 'buy',
+        key4: 'Foreign_investors',
+        key5: '1',
 
+      }
+      selectKey.idName = individualVueData.selected.value
+      GetStockData.getUserBoard(selectKey).then(res => {
+        if (res.data.length > 0) {
+          showState.showSpinner = false
+          showState.showPagination = true
+        }
+        allFunction.editHTMLcolorClassification(res.data);
+        individualVueData.fields.value = [{
+          key: 'Processing_date',
+          label: '日期',
+          formatter: numberFormatter,
+          thClass: 'text-center ',
+          tdClass: 'text-center ',
+          sortable: true
+        },
+          {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {
+            key: 'Foreign_investors',
+            label: '外資買賣超張數',
+            thClass: 'text-center ',
+            tdClass: 'text-center ',
+            sortable: true
+          },
+          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
+
+      }).then(() => {
+
+
+      }).catch(() => {
+        // showState.showSpinner = true
+      })
+    }
     function rowClass(item) {
       Object.keys(item).forEach(f => {
         // console.log('*',item[f])
@@ -255,7 +326,7 @@ export default {
     }
 
     return {
-      showState, rows, individualVueData, rowClass, transProps
+      showState, rows, individualVueData, rowClass, transProps, options, selected,changeFn
     }
   }
 
