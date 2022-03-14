@@ -3,7 +3,6 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <!--      <a class="navbar-brand">影評網</a>-->
       <a class="navbar-brand">股票</a>
-      <quick-menu :menu-count=4 :icon-class=icons :menu-url-list=list></quick-menu>
 
       <div class="navbar-nav mr-auto">
         <!-- <li class="nav-item">
@@ -248,19 +247,11 @@
 
 <script>
 
-import quickMenu from 'vue-quick-menu'
-import VueCompositionAPI, { ref} from "@vue/composition-api";
-import Vue from "vue";
-
-Vue.use(VueCompositionAPI)
 export default {
-  components: {
-    quickMenu
-  },
-  setup() {
-    const icons=ref(['user-plus'])
-    const list=ref(['www.google.com'])
-    return {icons,list};
+
+  data() {
+
+    return {};
   }
   ,
   computed: {
