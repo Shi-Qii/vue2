@@ -177,6 +177,7 @@ export default {
     }
 
 
+
     const allFunction = reactive({
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
