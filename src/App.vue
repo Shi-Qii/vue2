@@ -3,6 +3,8 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <!--      <a class="navbar-brand">影評網</a>-->
       <a class="navbar-brand">股票</a>
+      <quick-menu :menu-count=4 :icon-class=icons :menu-url-list=list></quick-menu>
+
       <div class="navbar-nav mr-auto">
         <!-- <li class="nav-item">
           <router-link to="/theater" class="nav-link">
@@ -66,7 +68,7 @@
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link to="/annualGrowthRate">
+                  <router-link to="/short_Revenue_Breakthrough_Long">
                     當月長期總營收突破短期營收
                   </router-link>
                 </b-dropdown-item>
@@ -245,9 +247,20 @@
 </template>
 
 <script>
+
+import quickMenu from 'vue-quick-menu'
+import VueCompositionAPI, { ref} from "@vue/composition-api";
+import Vue from "vue";
+
+Vue.use(VueCompositionAPI)
 export default {
-  data() {
-    return {};
+  components: {
+    quickMenu
+  },
+  setup() {
+    const icons=ref(['user-plus'])
+    const list=ref(['www.google.com'])
+    return {icons,list};
   }
   ,
   computed: {
