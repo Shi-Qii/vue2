@@ -67,7 +67,7 @@
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link to="/short_Revenue_Breakthrough_Long">
+                  <router-link to="/longRevenueBreakthroughShort">
                     當月長期總營收突破短期營收
                   </router-link>
                 </b-dropdown-item>
