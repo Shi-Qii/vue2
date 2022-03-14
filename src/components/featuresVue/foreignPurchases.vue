@@ -264,7 +264,7 @@ export default {
       return num
     }
     const changeFn =function () {
-      console.log('selected:',selected.value)
+
       let selectKey = {
         idName: null,
         key1: 'Listed_Foreign_Buy',
@@ -272,7 +272,6 @@ export default {
         key3: 'buy',
         key4: 'Foreign_investors',
         key5: '1',
-
       }
       selectKey.idName = individualVueData.selected.value
       GetStockData.getUserBoard(selectKey).then(res => {
