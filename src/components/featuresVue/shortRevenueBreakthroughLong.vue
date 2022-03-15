@@ -167,26 +167,15 @@ export default {
         // }
         allFunction.editHTMLcolorClassification(res.data);
         individualVueData.fields.value = [
-          {key: 'Year', label: '年', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Month', label: '月', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Mon_earn', label: '當月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Short_earn', label: '短期營收加總', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {
-            key: 'Short_earn_last',
-            label: '去年同期短期營收加總',
-            thClass: 'text-center ',
-            tdClass: 'text-center ',
-            sortable: true
-          },
+          {key: 'Close_price', label: '最新股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Growth_short', label: '短期營收成長率', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Long_earn', label: '長期營收加總', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Long_earn_last', label: '去年同期長期營收加總', thClass: 'text-center', tdClass: 'text-center ', sortable: true},
           {key: 'Growth_long', label: '長期營收成長率', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
         ]
       })
     }
+
 
 
     const allFunction = reactive({
