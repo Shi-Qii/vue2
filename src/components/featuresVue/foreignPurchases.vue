@@ -15,12 +15,10 @@
     <section class="col-12">
       <div class="col-12">
         <b-table
-
             id="table-transition-example"
             :tbody-transition-props="transProps"
             outlined
             sort
-
             bordered
             hover
             responsive="xl"
@@ -163,7 +161,7 @@ export default {
       perPage: 10,
     })
     const showState = reactive({
-      showTable: true,
+      showTable: false,
       showSpinner: true,
       showBCardNm: false,
       showCollapse: false,
@@ -183,11 +181,16 @@ export default {
       selectKey.idName = individualVueData.selected.value
       //上市
       //buy
-
+        if (Number(day)>1){
+          showState.showTable =false
+          showState.showSpinner = true
+          showState.showPagination = false
+        }
 
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log('res', res.data)
         if (res.data.length > 0) {
+          showState.showTable =true
           showState.showSpinner = false
           showState.showPagination = true
         }
