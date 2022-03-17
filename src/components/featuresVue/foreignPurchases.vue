@@ -153,11 +153,11 @@ export default {
     onMounted(() => {
       let selectKey = {
         idName: null,
-        key1: 'Listed_Foreign_Buy',
+        key1: 'Listed_Foreign_Buy_Day',
         key2: '上市',
         key3: 'buy',
         key4: 'Foreign_investors',
-        key5: '1',
+        key5: '5',
 
       }
       selectKey.idName = individualVueData.selected.value
@@ -314,16 +314,17 @@ export default {
     }
 
     const changeEmit1 = function (val) {
+      console.log('選擇天數:',val)
       individualVueData.items.value =[];
       individualVueData.items.cabinet =[];
       individualVueData.items.listed =[];
       let selectKey = {
         idName: null,
-        key1: 'Listed_Foreign_Buy',
+        key1: 'Listed_Foreign_Buy_Day',
         key2: '上市',
         key3: 'buy',
         key4: 'Foreign_investors',
-        key5: val,
+        key5: val.toString(),
 
       }
       selectKey.idName = individualVueData.selected.value
@@ -376,7 +377,7 @@ export default {
           key2: '上櫃',
           key3: 'buy',
           key4: 'Foreign_investors',
-          key5: val,
+          key5: val.toString(),
 
         }
         selectKey2.idName = individualVueData.selected.value
