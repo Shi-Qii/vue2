@@ -24,7 +24,10 @@
             class=" setTB col-12"
         >
           <template #cell(Up_down)="data">
-            <span  :class="''+(data.value > 0 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )">{{ data.value }}</span>
+            <span  :class="''+(2>data.value > 0 ? 'text-danger bold  ': '' )+(data.value >2.5 ? 'text-success bold  ': '' )+(data.value < 0 ? 'text-success bold  ': '' )">{{ data.value }}</span>
+          </template>
+          <template #cell(Up_down_pct)="data">
+            <span  :class="''+(2>data.value > 0 ? 'text-light bold ': '' )+(data.value >2.5 ? 'text-success bold  ': '' )+(data.value < 0 ? 'text-success bold  ': '' )">{{ data.value }}</span>
           </template>
           <template #cell(Stock_name)="data">
             <!-- `data.value` is the value after formatted by the Formatter -->
@@ -210,11 +213,11 @@ export default {
           //          小於9.5  + 綠底色 + 白色
           if (Updownpct > 1) {
             f['_cellVariants'] = {Up_down_pct:'danger'}
-            arr[index]['Up_down_pct'] =
-                '<Strong><span style="color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
+            // arr[index]['Up_down_pct'] =
+            //     '<Strong><span style="color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           } else if (Updownpct < -9.5) {
-            arr[index]['Up_down_pct'] =
-                '<Strong><span style="background-color: darkgreen;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
+            // arr[index]['Up_down_pct'] =
+            //     '<Strong><span style="background-color: darkgreen;color:white">' + arr[index]['Up_down_pct'] + '</span></Strong>';
           }
           // 對應外資買賣超張數 小於 0  紅字提示
           if (f['Foreign_investors'] > 0) {
@@ -279,8 +282,6 @@ export default {
 table#table-transition-example .flip-list-move {
   transition: transform 1s;
 }
-
-
 
 .table-danger, .table-danger > th, .table-danger > td {
   background-color: #ed0c24;
