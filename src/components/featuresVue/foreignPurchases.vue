@@ -205,6 +205,8 @@ export default {
           {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
+      }).then(()=>{
+        allFunction.editHTMLcolorClassification();
       })
 
     }
@@ -213,11 +215,12 @@ export default {
       initDataFunction('上市', '1');
 
       initDataFunction('上櫃', '1');
-      allFunction.editHTMLcolorClassification();
+
     })
     const allFunction = reactive({
       editHTMLcolorClassification: () => {
         individualVueData.items.value.forEach((f) => {
+          console.log('變更table設定')
           let Updownpct = f['Up_down_pct']; //漲跌幅
           /*
               * 對應漲跌  + 紅色
