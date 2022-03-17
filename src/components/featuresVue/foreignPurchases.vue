@@ -41,9 +41,28 @@
           </template>
           <template #cell(Up_down_pct)="data">
             <span
-                :class="''+(data.value > 0&&data.value<9.4 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>9.5   ? 'text-light bold ': '' ) ">{{
-                data.value
-              }}</span>
+                :class="''+(data.value > 0&&data.value<9.4 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>9.5   ? 'text-light bold ': '' ) ">
+              {{data.value}}</span>
+          </template>
+          <template #cell(Foreign_investors)="data">
+            <span
+                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+              {{data.value}}</span>
+          </template>
+          <template #cell(Investment_trust)="data">
+            <span
+                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+              {{data.value}}</span>
+          </template>
+          <template #cell(Dealer)="data">
+            <span
+                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+              {{data.value}}</span>
+          </template>
+          <template #cell(Total_buysell)="data">
+            <span
+                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+              {{data.value}}</span>
           </template>
           <template #cell(Stock_num)="data">
             <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
@@ -249,6 +268,7 @@ export default {
       } else if (selected.value.toString() === '上櫃') {
         individualVueData.items.value = []
         individualVueData.items.value = [...individualVueData.items.cabinet]
+        allFunction.editHTMLcolorClassification();
       }
 
       // key2: selected.value.toString()
