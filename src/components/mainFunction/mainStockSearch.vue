@@ -18,7 +18,6 @@
 
         </b-input-group-append>
       </b-input-group>
-
       <br>
       <component :is="isType" :isTypeData="isTypeData">
       </component>
@@ -41,7 +40,7 @@
 
 <script>
 import VueCompositionAPI from "@vue/composition-api";
-import {reactive, ref, watch} from "@vue/composition-api";
+import {reactive, ref, watch,onMounted} from "@vue/composition-api";
 import Vue from "vue";
 import GetAppVueInit from "@/services/getAppVueInit";
 import sndividualStockInquiry from "@/components/featuresVue/sndividualStockInquiry";
@@ -65,6 +64,8 @@ export default {
     indMonthlyRevenueShortLong
   },
   setup() {
+
+
     //*************************************************************
     //1.整個mainVueData在此包裝避免過多return
     //2.每個物件都要加value統一辨別
@@ -219,7 +220,29 @@ export default {
       console.log('newval:', newval);
       console.log('oldval:', oldval);
     })
-
+    onMounted(()=>{
+      const url = location.href;
+      let id = "";
+      let params1 = "";
+      //在此直接將各自的參數資料切割放進ary中
+      let ary = url.split('?')[1].split('&');
+      //下迴圈去搜尋每個資料參數
+      for(let i=0;i<=ary.length-1;i++) {
+        //如果資料名稱為id的話那就把他取出來
+        if(ary[i].split('=')[0] == 'id') {
+          id = ary[i].split('=')[1];
+        }else if (ary[i].split('=')[0] == 'params'){
+          params1 = ary[i].split('=')[1];
+        }
+      }
+      if ('institutional_investors'===params1){
+        mainVueData.selected.value =  { "idName": "institutional_investors", "functionKey": "Ind_Institutional_Investors_Day", "key2": "來自輸入框的值", "key3": "60", "key4": "Foreign_investors", "key5": "20", "entrance": "sndividualStockInquiry" }
+      }
+      mainVueData.stockCode.value = id;
+      search();
+      console.log('params1',params1)
+      console.log('id',id)
+    })
     return {
       mainVueData, datalists, search, clean, isType, isTypeData, showState
     }

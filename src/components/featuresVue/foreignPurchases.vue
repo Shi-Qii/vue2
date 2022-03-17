@@ -63,7 +63,9 @@
               {{data.value}}</span>
           </template>
           <template #cell(Stock_num)="data">
-            <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
+            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'institutional_investors'}}">
+              <a >{{ data.value }}</a>
+            </router-link>
           </template>
 
           <template #foot()="data">
