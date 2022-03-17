@@ -164,13 +164,22 @@ export default {
       selectKey.idName = individualVueData.selected.value
       //上市
       //buy
+
+
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log('res', res.data)
         if (res.data.length > 0) {
           showState.showSpinner = false
           showState.showPagination = true
         }
-        allFunction.editHTMLcolorClassification(res.data);
+        if ('上市'=== name){
+          individualVueData.items.value =[];
+          individualVueData.items.value = res.data
+          individualVueData.items.listed = individualVueData.items.value
+        }else if ('上櫃'===name){
+          individualVueData.items.cabinet = res.data
+        }
+
         individualVueData.fields.value = [{
           key: 'Processing_date',
           label: '日期',
@@ -197,10 +206,12 @@ export default {
           {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
       })
+
     }
 
     onMounted(() => {
       initDataFunction('上市', '1');
+
       initDataFunction('上櫃', '1');
       allFunction.editHTMLcolorClassification();
     })
@@ -230,9 +241,11 @@ export default {
     const changeFn = function () {
 
       if (selected.value.toString() === '上市') {
-        individualVueData.items.value = individualVueData.items.listed
+        individualVueData.items.value = []
+        individualVueData.items.value = [...individualVueData.items.listed]
       } else if (selected.value.toString() === '上櫃') {
-        individualVueData.items.value = individualVueData.items.cabinet
+        individualVueData.items.value = []
+        individualVueData.items.value = [...individualVueData.items.cabinet]
       }
 
       // key2: selected.value.toString()
