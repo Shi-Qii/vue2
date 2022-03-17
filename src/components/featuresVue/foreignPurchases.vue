@@ -385,6 +385,9 @@ export default {
           individualVueData.items.cabinet = res1.data
         })
 
+
+
+
       }).catch(() => {
         // showState.showSpinner = true
       })
