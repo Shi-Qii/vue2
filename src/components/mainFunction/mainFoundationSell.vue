@@ -65,7 +65,7 @@
           </template>
           <template #cell(Total_buysell)="data">
             <span
-                :class="''+(data.value > 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 ? 'text-danger bold  ': '' )">
               {{ data.value }}</span>
           </template>
 
