@@ -145,14 +145,14 @@
 
                   <b-dropdown-item-button>
                     <router-link
-                        to='/listedForeignDealerSell'>
-                      外資+自營
+                        to='/listedForeignTrustSell'>
+                      外資+投信
                     </router-link>
                   </b-dropdown-item-button>
                   <b-dropdown-item-button>
                     <router-link
-                        to='/listedForeignTrustSell'>
-                      外資+投信
+                        to='/listedForeignDealerSell'>
+                      外資+自營
                     </router-link>
                   </b-dropdown-item-button>
                   <b-dropdown-item-button>
