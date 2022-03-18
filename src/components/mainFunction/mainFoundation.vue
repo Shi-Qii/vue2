@@ -345,10 +345,10 @@ export default {
           if (Updownpct > 9.5) {
             f['_cellVariants'] = {Up_down_pct: 'danger'}
           }
-          if ('外資+投信買超' === props['params']['foreignNm']) {
+          if ('外資+自營買超' === props['params']['foreignNm']) {
             f['add_Up'] = f['Dealer'] + f['Foreign_investors'];
           }
-          if ('外資+自營買超' === props['params']['foreignNm']) {
+          if ('外資+投信買超' === props['params']['foreignNm']) {
             f['add_Up'] = f['Investment_trust'] + f['Foreign_investors'];
           }
           if ('自營+投信買超' === props['params']['foreignNm']) {
