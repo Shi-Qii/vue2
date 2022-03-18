@@ -97,14 +97,6 @@
                       自營買超排行
                     </router-link>
                   </b-dropdown-item>
-
-
-                  <b-dropdown-item-button>
-                    <router-link
-                        to='/listedForeignDealerBuy'>
-                      外資+自營
-                    </router-link>
-                  </b-dropdown-item-button>
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedForeignTrustBuy'>
@@ -112,7 +104,12 @@
                     </router-link>
                   </b-dropdown-item-button>
                   <b-dropdown-item-button>
-
+                    <router-link
+                        to='/listedForeignDealerBuy'>
+                      外資+自營
+                    </router-link>
+                  </b-dropdown-item-button>
+                  <b-dropdown-item-button>
                     <router-link
                         to='/listedTrustDealerBuy'>
                       自營+投信
