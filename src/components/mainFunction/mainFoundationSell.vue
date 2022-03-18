@@ -260,7 +260,7 @@ export default {
                 sortable: true
               },
               {key: 'Dealer', label: '自營', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-              {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
+              {key: 'Total_buysell', label: '總買賣', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
         }else if (props['params']['foreignNm'] === '總買賣'){
           individualVueData.fields.value = [];
           individualVueData.fields.value.push({

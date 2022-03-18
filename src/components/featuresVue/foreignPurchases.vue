@@ -216,14 +216,14 @@ export default {
           {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {
             key: 'Foreign_investors',
-            label: '外資買賣超張數',
+            label: '外資',
             thClass: 'text-center ',
             tdClass: 'text-center ',
             sortable: true
           },
-          {key: 'Investment_trust', label: '投信買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
+          {key: 'Investment_trust', label: '投信', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Dealer', label: '自營', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Total_buysell', label: '總買賣', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
       }).then(() => {
         allFunction.editHTMLcolorClassification();
       })
@@ -238,6 +238,7 @@ export default {
     const allFunction = reactive({
       editHTMLcolorClassification: () => {
         individualVueData.items.value.forEach((f) => {
+          f['Up_down_pct'] = Math.round((f['Up_down_pct'] + Number.EPSILON) * 100) / 100;
           // console.log('變更table設定')
           let Updownpct = f['Up_down_pct']; //漲跌幅
           /*
