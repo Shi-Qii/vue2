@@ -40,31 +40,31 @@
           <template #cell(Up_down_pct)="data">
             <span
                 :class="''+(data.value > 0&&data.value<9.4 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>9.5   ? 'text-light bold ': '' ) ">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Foreign_investors)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Investment_trust)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Dealer)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Total_buysell)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Stock_num)="data">
             <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'institutional_investors'}}">
-              <a >{{ data.value }}</a>
+              <a>{{ data.value }}</a>
             </router-link>
           </template>
 
@@ -124,13 +124,13 @@ export default {
   },
   components: {FieldSelect},
   setup(props) {
-    console.log('props:', props)
+
     const params1 = reactive({
       parentUrl: computed(() => {
         return router
       }),
     });
-    console.log('params1:', params1)
+
 
     const selected = ref('上市');
     const options = reactive([
@@ -178,32 +178,36 @@ export default {
         key3: 'buy',
         key4: 'Foreign_investors',
         key5: day,
-
       }
       selectKey.idName = individualVueData.selected.value
       //上市
       //buy
-        if (Number(day)>1){
-          showState.showTable =false
-          showState.showSpinner = true
-          showState.showPagination = false
-        }
+      if (Number(day) > 1) {
+        showState.showTable = false
+        showState.showSpinner = true
+        showState.showPagination = false
+      }
 
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log('res', res.data)
         if (res.data.length > 0) {
-          showState.showTable =true
+          showState.showTable = true
           showState.showSpinner = false
           showState.showPagination = true
         }
-        if ('上市'=== name){
-          individualVueData.items.value =[];
-          individualVueData.items.value = res.data
-          individualVueData.items.listed = individualVueData.items.value
-        }else if ('上櫃'===name){
-          individualVueData.items.cabinet = res.data
+        if ('上市' === name) {
+          individualVueData.items.listed = individualVueData.items.value;
+        } else if ('上櫃' === name) {
+          individualVueData.items.cabinet = res.data;
         }
-
+        if (selected.value === '上市') {
+          individualVueData.items.value = [];
+          individualVueData.items.value = [...individualVueData.items.listed]
+        }else if (selected.value === '上櫃'){
+          individualVueData.items.value = [];
+          individualVueData.items.value = [...individualVueData.items.cabinet]
+        }
+        // individualVueData.items.value = res.data;
         individualVueData.fields.value = [{
           key: 'Processing_date',
           label: '日期',
@@ -229,7 +233,7 @@ export default {
           {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
-      }).then(()=>{
+      }).then(() => {
         allFunction.editHTMLcolorClassification();
       })
 
@@ -237,14 +241,13 @@ export default {
 
     onMounted(() => {
       initDataFunction('上市', '1');
-
       initDataFunction('上櫃', '1');
 
     })
     const allFunction = reactive({
       editHTMLcolorClassification: () => {
         individualVueData.items.value.forEach((f) => {
-          console.log('變更table設定')
+          // console.log('變更table設定')
           let Updownpct = f['Up_down_pct']; //漲跌幅
           /*
               * 對應漲跌  + 紅色
