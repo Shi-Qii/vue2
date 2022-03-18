@@ -184,6 +184,10 @@ export const router = new Router({
             path: "/longRevenueBreakthroughShort",
             name: "longRevenueBreakthroughShort",
             component: () => import("./components/featuresVue/longRevenueBreakthroughShort.vue")
+        },{
+            path: "/totalSales",
+            name: "totalSales",
+            component: () => import("./components/featuresVue/totalSales.vue")
         },
 
     ]

@@ -11,14 +11,15 @@ import MainFoundation from "@/components/mainFunction/mainFoundation.vue";
 
 Vue.use(VueCompositionAPI)
 export default {
-  name: "listedForeignTrustBuy",
+  name: "totalSales",
   components: {
     MainFoundation
   },
+  //total sales
   setup() {
     const params =reactive({
-      foreignNm: '外資+投信買超',
-      key1: 'Listed_Foreign_Trust_Buy_Day',
+      foreignNm: '總買賣',
+      key1: 'Listed_Total_Buy_Day',
     })
     return {params}
   }
