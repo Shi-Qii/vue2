@@ -11,7 +11,7 @@ import MainFoundation from "@/components/mainFunction/mainFoundationBuy.vue";
 
 Vue.use(VueCompositionAPI)
 export default {
-  name: "totalSales",
+  name: "totalSalesSell",
   components: {
     MainFoundation
   },
@@ -19,7 +19,7 @@ export default {
   setup() {
     const params =reactive({
       foreignNm: '總買賣',
-      key1: 'Listed_Total_Buy_Day',
+      key1: 'Listed_Total_Sell_Day',
       key4: 'Total_Buysell',
     })
     return {params}

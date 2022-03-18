@@ -44,23 +44,23 @@
           </template>
           <template #cell(Foreign_investors)="data">
             <span
-                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 ? 'text-danger bold  ': '' )">
               {{ data.value }}</span>
           </template>
           <template #cell(Investment_trust)="data">
             <span
-                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 ? 'text-danger bold  ': '' )">
               {{ data.value }}</span>
           </template>
           <template #cell(Dealer)="data">
             <span
-                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 ? 'text-danger bold  ': '' )">
               {{ data.value }}</span>
           </template>
 
           <template #cell(add_Up)="data">
             <span
-                :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 ? 'text-success bold  ': '' )">
               {{ data.value }}</span>
           </template>
 
@@ -224,7 +224,7 @@ export default {
 
       setField: () => {
         individualVueData.fields.value = [];
-        if (props['params']['foreignNm'] === '投信買超' || props['params']['foreignNm'] === '自營買超' || props['params']['foreignNm'] === '外資買超') {
+        if (props['params']['foreignNm'] === '投信賣超' || props['params']['foreignNm'] === '自營賣超' || props['params']['foreignNm'] === '外資賣超') {
           individualVueData.fields.value.push({
                 key: 'Processing_date',
                 label: '日期',
@@ -345,13 +345,13 @@ export default {
           if (Updownpct > 9.5) {
             f['_cellVariants'] = {Up_down_pct: 'danger'}
           }
-          if ('外資+自營買超' === props['params']['foreignNm']) {
+          if ('外資+自營賣超' === props['params']['foreignNm']) {
             f['add_Up'] = f['Dealer'] + f['Foreign_investors'];
           }
-          if ('外資+投信買超' === props['params']['foreignNm']) {
+          if ('外資+投信賣超' === props['params']['foreignNm']) {
             f['add_Up'] = f['Investment_trust'] + f['Foreign_investors'];
           }
-          if ('自營+投信買超' === props['params']['foreignNm']) {
+          if ('自營+投信賣超' === props['params']['foreignNm']) {
             f['add_Up'] = f['Dealer'] + f['Investment_trust'];
           }
         })

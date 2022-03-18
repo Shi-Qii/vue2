@@ -117,7 +117,7 @@
                   </b-dropdown-item-button>
                   <b-dropdown-item-button>
                     <router-link
-                        to='/totalSales'>
+                        to='/totalSalesBuy'>
                       總買賣
                     </router-link>
                   </b-dropdown-item-button>
@@ -161,7 +161,12 @@
                       自營+投信
                     </router-link>
                   </b-dropdown-item-button>
-
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/totalSalesSell'>
+                      總買賣
+                    </router-link>
+                  </b-dropdown-item-button>
 
                 </b-dropdown-group>
                 <!--                <b-dropdown-divider></b-dropdown-divider>-->

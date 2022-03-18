@@ -185,9 +185,13 @@ export const router = new Router({
             name: "longRevenueBreakthroughShort",
             component: () => import("./components/featuresVue/longRevenueBreakthroughShort.vue")
         },{
-            path: "/totalSales",
-            name: "totalSales",
-            component: () => import("./components/featuresVue/totalSales.vue")
+            path: "/totalSalesBuy",
+            name: "totalSalesBuy",
+            component: () => import("./components/featuresVue/totalSalesBuy.vue")
+        },{
+            path: "/totalSalesSell",
+            name: "totalSalesSell",
+            component: () => import("./components/featuresVue/totalSalesSell.vue")
         },
 
     ]

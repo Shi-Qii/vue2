@@ -7,19 +7,20 @@
 <script>
 import VueCompositionAPI, { reactive} from "@vue/composition-api";
 import Vue from 'vue'
-import MainFoundation from "@/components/mainFunction/mainFoundationSell.vue";
+import MainFoundation from "@/components/mainFunction/mainFoundationBuy.vue";
 
 Vue.use(VueCompositionAPI)
 export default {
-  name: "listedForeignTrustSell",
+  name: "totalSalesBuy",
   components: {
     MainFoundation
   },
+  //total sales
   setup() {
     const params =reactive({
-      foreignNm: '外資+投信賣超',
-      key1: 'Listed_Trust_Dealer_Sell_Day',
-      key4: 'Foreign_Investors+Investment_Trust',
+      foreignNm: '總買賣',
+      key1: 'Listed_Total_Buy_Day',
+      key4: 'Total_Buysell',
     })
     return {params}
   }
