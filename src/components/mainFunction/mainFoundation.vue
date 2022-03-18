@@ -255,7 +255,25 @@ export default {
               },
               {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
               {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
-        } else {
+        }else if (props['params']['foreignNm'] === '總買賣'){
+          individualVueData.fields.value = [];
+          individualVueData.fields.value.push({
+                key: 'Processing_date',
+                label: '日期',
+                formatter: numberFormatter,
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Total_buysell', label: '總買賣', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
+        }else {
           individualVueData.fields.value = [];
           individualVueData.fields.value.push({
                 key: 'Processing_date',
