@@ -181,7 +181,7 @@ export default {
 
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log('res', res.data)
-        if (res.data.length > 0) {
+        if (res.data.length >= 0) {
           showState.showTable = true
           showState.showSpinner = false
           showState.showPagination = true

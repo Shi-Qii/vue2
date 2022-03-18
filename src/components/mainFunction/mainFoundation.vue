@@ -40,31 +40,34 @@
           <template #cell(Up_down_pct)="data">
             <span
                 :class="''+(data.value > 0&&data.value<9.4 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>9.5   ? 'text-light bold ': '' ) ">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Foreign_investors)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Investment_trust)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
           <template #cell(Dealer)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
-          <template #cell(Total_buysell)="data">
+
+          <template #cell(add_Up)="data">
             <span
                 :class="''+(data.value < 0 ? 'text-success bold  ': '' )">
-              {{data.value}}</span>
+              {{ data.value }}</span>
           </template>
+
+
           <template #cell(Stock_num)="data">
             <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'institutional_investors'}}">
-              <a >{{ data.value }}</a>
+              <a>{{ data.value }}</a>
             </router-link>
           </template>
 
@@ -175,54 +178,36 @@ export default {
       selectKey.idName = individualVueData.selected.value
       //上市
       //buy
-      if (Number(day)>1){
-        showState.showTable =false
+      if (Number(day) > 1) {
+        showState.showTable = false
         showState.showSpinner = true
         showState.showPagination = false
       }
 
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log('res', res.data)
-        if (res.data.length > 0) {
-          showState.showTable =true
+        if (res.data.length >= 0) {
+          showState.showTable = true
           showState.showSpinner = false
           showState.showPagination = true
         }
-        if ('上市'=== name){
-          individualVueData.items.value =[];
-          individualVueData.items.value = res.data
-          individualVueData.items.listed = individualVueData.items.value
-        }else if ('上櫃'===name){
-          individualVueData.items.cabinet = res.data
+        if ('上市' === name) {
+          individualVueData.items.listed = res.data;
+        } else if ('上櫃' === name) {
+          individualVueData.items.cabinet = res.data;
         }
-
-        individualVueData.fields.value = [{
-          key: 'Processing_date',
-          label: '日期',
-          formatter: numberFormatter,
-          thClass: 'text-center ',
-          tdClass: 'text-center ',
-          sortable: true
-        },
-          {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {
-            key: 'Foreign_investors',
-            label: '外資買賣超張數',
-            thClass: 'text-center ',
-            tdClass: 'text-center ',
-            sortable: true
-          },
-          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-          {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
-      }).then(()=>{
+        if (selected.value === '上市') {
+          individualVueData.items.value = [];
+          individualVueData.items.value = [...individualVueData.items.listed]
+        } else if (selected.value === '上櫃') {
+          individualVueData.items.value = [];
+          individualVueData.items.value = [...individualVueData.items.cabinet]
+        }
+        //設置對應使用的欄位
         allFunction.editHTMLcolorClassification();
+        allFunction.setField();
+      }).then(() => {
+
       })
 
     }
@@ -233,7 +218,85 @@ export default {
       initDataFunction('上櫃', '1');
 
     })
+
     const allFunction = reactive({
+
+      setField: () => {
+        individualVueData.fields.value = [];
+        if (props['params']['foreignNm'] === '投信買超' || props['params']['foreignNm'] === '自營買超' || props['params']['foreignNm'] === '外資買超') {
+          individualVueData.fields.value.push({
+                key: 'Processing_date',
+                label: '日期',
+                formatter: numberFormatter,
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {
+                key: 'Foreign_investors',
+                label: '外資買賣超張數',
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {
+                key: 'Investment_trust',
+                label: '投資買賣超張數',
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+              {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
+        } else {
+          individualVueData.fields.value = [];
+          individualVueData.fields.value.push({
+                key: 'Processing_date',
+                label: '日期',
+                formatter: numberFormatter,
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {key: 'Industry_sector', label: '股票產業別', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Open_price', label: '開盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {
+                key: 'add_Up',
+                label: props['params']['foreignNm'],
+                thClass: 'text-center ',
+                tdClass: 'text-center',
+                sortable: true
+              },
+              {
+                key: 'Foreign_investors',
+                label: '外資',
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {
+                key: 'Investment_trust',
+                label: '投信',
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {key: 'Dealer', label: '自營', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+              {key: 'Total_buysell', label: '總買賣', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
+        }
+      },
       editHTMLcolorClassification: () => {
         individualVueData.items.value.forEach((f) => {
           console.log('變更table設定')
@@ -245,9 +308,11 @@ export default {
           if (Updownpct > 9.5) {
             f['_cellVariants'] = {Up_down_pct: 'danger'}
           }
+          if ('外資+自營買超' === props['params']['foreignNm']) {
+            f['add_Up'] = f['Dealer'] + f['Foreign_investors'];
+          }
         })
-      }
-
+      },
     })
     const numberFormatter = function (num) {
       if (typeof num === 'number') {
@@ -283,10 +348,11 @@ export default {
       })
     }
 
-    const changeEmit1 = function (val) {
+    const changeEmit1 = (val) => {
       initDataFunction('上市', val.toString());
       initDataFunction('上櫃', val.toString());
     }
+
     return {
       showState, rows, individualVueData, rowClass, transProps, options, selected, changeFn, changeEmit1
     }
