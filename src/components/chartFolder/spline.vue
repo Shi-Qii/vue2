@@ -165,7 +165,7 @@ export default {
         data: []
       },
         {
-          name: '投資買賣超張數',
+          name: '投信買賣超張數',
           color: '#95d25b',
           marker: {
             symbol: 'circle'

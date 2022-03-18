@@ -221,7 +221,7 @@ export default {
             tdClass: 'text-center ',
             sortable: true
           },
-          {key: 'Investment_trust', label: '投資買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Investment_trust', label: '投信買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
           {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true}]
       }).then(() => {

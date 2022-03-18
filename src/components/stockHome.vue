@@ -52,7 +52,7 @@ export default {
     //           {key: 'Stock_name', label: '股票名稱'},
     //           {key: 'Dealer', label: '自營買賣超張數'},
     //           {key: 'Foreign_investors', label: '外資買賣超張數'},
-    //           {key: 'Investment_trust', label: '投資買賣超張數'},
+    //           {key: 'Investment_trust', label: '投信買賣超張數'},
     //           {key: 'Processing_date', label: '日期'},
     //           {key: 'Total_buysell', label: '總買賣超張數'})
     //
