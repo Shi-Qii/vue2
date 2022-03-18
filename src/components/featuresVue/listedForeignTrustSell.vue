@@ -18,7 +18,7 @@ export default {
   setup() {
     const params =reactive({
       foreignNm: '外資+投信賣超',
-      key1: 'Listed_Trust_Dealer_Buy_Day',
+      key1: 'Listed_Foreign_Trust_Sell_Day',
       key4: 'Foreign_Investors +Investment_trust',
     })
     return {params}
