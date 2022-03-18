@@ -7,7 +7,7 @@
 <script>
 import VueCompositionAPI, { reactive} from "@vue/composition-api";
 import Vue from 'vue'
-import MainFoundation from "@/components/mainFunction/mainFoundation.vue";
+import MainFoundation from "@/components/mainFunction/mainFoundationBuy.vue";
 
 Vue.use(VueCompositionAPI)
 export default {
