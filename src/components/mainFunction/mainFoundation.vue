@@ -128,6 +128,7 @@ export default {
   setup(props) {
     // console.log('props1:', props['params']['foreignNm'])
     // console.log('props1:', props['params']['key1'])
+    // console.log('props1:', props['params']['key4'])
 
     const selected = ref('上市');
     const options = reactive([
@@ -165,15 +166,15 @@ export default {
       showPagination: false,
     })
 
-    const initDataFunction = function (name, day) {
+    const initDataFunction = function (name, day,key4) {
       let selectKey = {
         idName: null,
         key1: props['params']['key1'],
         key2: name,
         key3: 'buy',
-        key4: 'Foreign_investors',
+        key4: key4,
         key5: day,
-
+        // 'Foreign_investors',
       }
       selectKey.idName = individualVueData.selected.value
       //上市
@@ -213,9 +214,9 @@ export default {
     }
 
     onMounted(() => {
-      initDataFunction('上市', '1');
+      initDataFunction('上市', '1',props['params']['key4']);
 
-      initDataFunction('上櫃', '1');
+      initDataFunction('上櫃', '1',props['params']['key4']);
 
     })
 
@@ -272,6 +273,21 @@ export default {
               {key: 'Close_price', label: '收盤價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
               {key: 'Up_down', label: '漲跌', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
               {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {
+                key: 'Foreign_investors',
+                label: '外資',
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {
+                key: 'Investment_trust',
+                label: '投信',
+                thClass: 'text-center ',
+                tdClass: 'text-center ',
+                sortable: true
+              },
+              {key: 'Dealer', label: '自營', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
               {key: 'Total_buysell', label: '總買賣', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
         }else {
           individualVueData.fields.value = [];
@@ -367,8 +383,8 @@ export default {
     }
 
     const changeEmit1 = (val) => {
-      initDataFunction('上市', val.toString());
-      initDataFunction('上櫃', val.toString());
+      initDataFunction('上市', val.toString(),props['params']['key4']);
+      initDataFunction('上櫃', val.toString(),props['params']['key4']);
     }
 
     return {

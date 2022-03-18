@@ -19,6 +19,7 @@ export default {
     const params =reactive({
       foreignNm: '外資+自營買超',
       key1: 'Listed_Foreign_Dealer_Buy_Day',
+      key4: 'Foreign_Investors+Dealer',
     })
     return {params}
   }
