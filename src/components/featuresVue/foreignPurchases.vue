@@ -187,7 +187,7 @@ export default {
           showState.showPagination = true
         }
         if ('上市' === name) {
-          individualVueData.items.listed = individualVueData.items.value;
+          individualVueData.items.listed = res.data;
         } else if ('上櫃' === name) {
           individualVueData.items.cabinet = res.data;
         }
