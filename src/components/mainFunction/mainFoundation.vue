@@ -334,7 +334,9 @@ export default {
       editHTMLcolorClassification: () => {
         individualVueData.items.value.forEach((f) => {
           console.log('變更table設定')
-          Math.round(f['Up_down_pct']);
+
+          f['Up_down_pct'] = Math.round((f['Up_down_pct'] + Number.EPSILON) * 100) / 100;
+
           let Updownpct = f['Up_down_pct']; //漲跌幅
           /*
               * 對應漲跌  + 紅色
@@ -347,10 +349,10 @@ export default {
             f['add_Up'] = f['Dealer'] + f['Foreign_investors'];
           }
           if ('外資+自營買超' === props['params']['foreignNm']) {
-            f['add_Up'] = f['Investment_Trust'] + f['Foreign_investors'];
+            f['add_Up'] = f['Investment_trust'] + f['Foreign_investors'];
           }
           if ('自營+投信買超' === props['params']['foreignNm']) {
-            f['add_Up'] = f['Dealer'] + f['Investment_Trust'];
+            f['add_Up'] = f['Dealer'] + f['Investment_trust'];
           }
         })
       },
