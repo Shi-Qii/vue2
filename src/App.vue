@@ -118,7 +118,12 @@
                       自營+投信
                     </router-link>
                   </b-dropdown-item-button>
-                  <b-dropdown-item-button>外資+自營+投信</b-dropdown-item-button>
+                  <b-dropdown-item-button>
+                    <router-link
+                        to='/totalSales'>
+                      總買賣
+                    </router-link>
+                  </b-dropdown-item-button>
                 </b-dropdown-group>
                 <b-dropdown-group id="dropdown-group-2" header="賣超組合">
                   <b-dropdown-item>
@@ -159,12 +164,7 @@
                       自營+投信
                     </router-link>
                   </b-dropdown-item-button>
-                  <b-dropdown-item-button>
-                    <router-link
-                        to='/totalSales'>
-                      總買賣
-                    </router-link>
-                  </b-dropdown-item-button>
+
 
                 </b-dropdown-group>
                 <!--                <b-dropdown-divider></b-dropdown-divider>-->
