@@ -114,22 +114,13 @@
 import VueCompositionAPI, {computed, onMounted, reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
-import {router} from "@/router";
 import FieldSelect from "@/components/model_using/fieldSelect";
 
 Vue.use(VueCompositionAPI)
 export default {
-  props: {
-    idName: String
-  },
-  components: {FieldSelect},
-  setup(props) {
 
-    const params1 = reactive({
-      parentUrl: computed(() => {
-        return router
-      }),
-    });
+  components: {FieldSelect},
+  setup() {
 
 
     const selected = ref('上市');
