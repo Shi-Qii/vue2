@@ -63,6 +63,11 @@
                 :class="''+(data.value > 0 ? 'text-success bold  ': '' )">
               {{ data.value }}</span>
           </template>
+          <template #cell(Total_buysell)="data">
+            <span
+                :class="''+(data.value > 0 ? 'text-success bold  ': '' )">
+              {{ data.value }}</span>
+          </template>
 
 
           <template #cell(Stock_num)="data">
@@ -242,19 +247,19 @@ export default {
               {key: 'Up_down_pct', label: '漲跌幅', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
               {
                 key: 'Foreign_investors',
-                label: '外資買賣超張數',
+                label: '外資',
                 thClass: 'text-center ',
                 tdClass: 'text-center ',
                 sortable: true
               },
               {
                 key: 'Investment_trust',
-                label: '投信買賣超張數',
+                label: '投信',
                 thClass: 'text-center ',
                 tdClass: 'text-center ',
                 sortable: true
               },
-              {key: 'Dealer', label: '自營買賣超張數', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+              {key: 'Dealer', label: '自營', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
               {key: 'Total_buysell', label: '總買賣超張數', thClass: 'text-center', tdClass: 'text-center ', sortable: true})
         }else if (props['params']['foreignNm'] === '總買賣'){
           individualVueData.fields.value = [];
