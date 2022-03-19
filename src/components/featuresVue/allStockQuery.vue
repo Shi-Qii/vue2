@@ -2,6 +2,13 @@
   <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
+    <b-form-radio-group
+        button-variant="outline-primary"
+        v-model="selected"
+        :options="options"
+        buttons
+        @change="changeFn()"
+    ></b-form-radio-group>
     <div class="container-fluid">
       <b-input-group class="mt-3">
         <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode1.value"
@@ -40,7 +47,21 @@
             :current-page="individualVueData.currentPage"
             class=" setTB col-12"
         >
-
+          <template #cell(Growth_mon)="data">
+            <span
+                :class="''+(data.value > 0  ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+              {{ data.value }}</span>
+          </template>
+          <template #cell(Growth_year)="data">
+            <span
+                :class="''+(data.value > 0  ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+              {{ data.value }}</span>
+          </template>
+          <template #cell(Grow_total_earn)="data">
+            <span
+                :class="''+(data.value > 0  ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+              {{ data.value }}</span>
+          </template>
           <template #cell(Stock_num)="data">
             <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
           </template>
@@ -91,7 +112,7 @@
 </template>
 
 <script>
-import VueCompositionAPI, {computed, onMounted, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {computed, onMounted, reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
@@ -114,7 +135,11 @@ export default {
       // Transition name
       name: 'flip-list'
     }
-
+    const selected = ref('上市');
+    const options = reactive([
+      {text: '上市', value: '上市'},
+      {text: '上櫃', value: '上櫃'}
+    ])
 
     const rows = computed(() => {
       return individualVueData.items.value.length
@@ -148,46 +173,32 @@ export default {
     const allFunction = reactive({
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
-        individualVueData.items.value.forEach((f, index, arr) => {
+        individualVueData.items.value.forEach(f => {
           let Growth_mon = f['Growth_mon']; //上月比較增減(%)
           let Growth_year = f['Growth_year']; //去年同月增減(%)
-          let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
-          // 對應漲跌  + 紅色
-          //          - 綠色
-          if (Growth_mon > 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
-          } else if (Growth_mon < 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
+          let Grow_total_earn = f['Grow_total_earn']; //前期比較增減(%)
+
+          if (Growth_mon > 100 || Growth_year > 100 || Grow_total_earn > 100) {
+            f['_cellVariants'] = {Growth_mon: 'danger'}
           }
-          if (Growth_year > 0) {
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
-          } else if (Growth_year < 0) {
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
+          if (Growth_year > 100) {
+            f['_cellVariants'] = {Growth_year: 'danger'}
           }
-          if (Grow_total_earn > 0) {
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          } else if (Grow_total_earn < 0) {
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+          if (Grow_total_earn > 100) {
+            f['_cellVariants'] = {Grow_total_earn: 'danger'}
           }
 
         })
-        // console.log('individualVueData.items.value:',individualVueData.items.value)
       }
 
     })
-    //key3 年跟 key4 月 輸入框 年月
+
     const search = function () {
 
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue',
-        key2: '上市',
+        key2: selected.value.toString(),
         key3: individualVueData.stockCode1.value,
         key4: individualVueData.stockCode2.value,
         key5: '1',
@@ -204,28 +215,8 @@ export default {
           showState.showPagination = true
         }
 
-        // individualVueData.items.value = res.data;
-
-        // {
-        //   {Up_down: 'This is <i>escaped</i> content'},
-        //   Up_down_pct: 'This is <i>raw <strong>HTML</strong></i> <span style="color:red">content</span>',
-        // }
         allFunction.editHTMLcolorClassification(res.data);
-        individualVueData.fields.value = [{
-          key: 'Year',
-          label: '年份',
-          formatter: numberFormatter,
-          thClass: 'text-center ',
-          tdClass: 'text-center ',
-          sortable: true
-        }, {
-          key: 'Month',
-          label: '月份',
-          formatter: numberFormatter,
-          thClass: 'text-center ',
-          tdClass: 'text-center ',
-          sortable: true
-        },
+        individualVueData.fields.value = [
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Close_price', label: '最新股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
@@ -249,14 +240,14 @@ export default {
       })
     }
 
-    const numberFormatter = function (num) {
-      if (typeof num === 'number') {
-        // console.log('判斷型態:', typeof num)
-        let dd = new Date(num);
-        return dd.toISOString().substring(0, 10);
-      }
-      return num
-    }
+    // const numberFormatter = function (num) {
+    //   if (typeof num === 'number') {
+    //     // console.log('判斷型態:', typeof num)
+    //     let dd = new Date(num);
+    //     return dd.toISOString().substring(0, 10);
+    //   }
+    //   return num
+    // }
 
     function rowClass(item) {
       Object.keys(item).forEach(f => {
@@ -270,7 +261,7 @@ export default {
     }
 
     return {
-      showState, rows, individualVueData, rowClass, transProps, search
+      showState, rows, individualVueData, rowClass, transProps, search, selected, options
     }
   }
 
