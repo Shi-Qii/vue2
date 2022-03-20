@@ -130,7 +130,7 @@ export default {
       items: {value: []},
       fields: {value: []},
       currentPage: 1,
-      perPage: 5,
+      perPage: 10,
     })
 
 
