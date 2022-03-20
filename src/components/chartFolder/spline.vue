@@ -180,17 +180,18 @@ export default {
       series: [
         {
           name: '股價',
-          type: 'column',
+          type: 'spline',
+          dashStyle: 'shortdot',
           yAxis: 1,
           data: [],
           tooltip: {
             valueSuffix: ' ',
             animation: true
           },
-          color: 'rgba(245,202,92,0.58)'
+          color: 'rgb(246,10,10)'
         }, {
           name: '自營買賣超張數',
-          color: 'rgb(231,0,30)',
+          color: 'rgb(172,123,90)',
           marker: {
             symbol: 'circle'
           },

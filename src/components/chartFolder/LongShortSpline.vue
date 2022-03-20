@@ -145,14 +145,15 @@ export default {
       },
       series: [{
         name: '股價',
-        type: 'column',
+        type: 'spline',
+        dashStyle: 'shortdot',
         yAxis: 1,
         data: [],
         tooltip: {
           valueSuffix: ' ',
           animation: true
         },
-        color: 'rgba(245,202,92,0.58)'
+        color: 'rgb(246,2,2)'
       }, {
         name: '短期年增率',
         color: 'rgba(253,108,10,0.95)',

@@ -226,11 +226,12 @@ export default {
     const search = function () {
       searchforRequest('上市');
       searchforRequest('上櫃');
-      if ('上市' === selected.value) {
+      console.log('selected.value:',selected.value)
+      if ('上市' === selected.value.toString()) {
         individualVueData.items.listed = [];
         individualVueData.items.value = [...individualVueData.items.listed]
       }
-      if ('上櫃' === selected.value) {
+      if ('上櫃' === selected.value.toString()) {
         individualVueData.items.cabinet = [];
         individualVueData.items.value = [...individualVueData.items.listed]
       }
@@ -252,7 +253,7 @@ export default {
         if ('上市' === name) {
           individualVueData.items.listed = [];
           individualVueData.items.listed = res.data;
-          // individualVueData.items.value = [...individualVueData.items.listed]
+          individualVueData.items.value = [...individualVueData.items.listed]
 
         }
         if ('上櫃' === name) {
