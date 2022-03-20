@@ -178,19 +178,24 @@ export default {
           let Growth_year = f['Growth_year']; //去年同月增減(%)
           let Grow_total_earn = f['Grow_total_earn']; //前期比較增減(%)
           let obj = {}
-          if (Growth_mon > 100 || Growth_mon < (-100)) {
+          if (Growth_mon > 100) {
             obj['Growth_mon'] = 'danger'
-            // f['_cellVariants'] = {Growth_mon: 'danger'}
           }
-          if (Growth_year > 100 || Growth_year < (-100)) {
+          if (Growth_mon < (-100)) {
+            obj['Growth_mon'] = 'success'
+          }
+          if (Growth_year > 100) {
             obj['Growth_year'] = 'danger'
-            // f['_cellVariants'] = {Growth_year: 'danger'}
           }
-          if (Grow_total_earn > 100 || Grow_total_earn < (-100)) {
+          if (Growth_year < (-100)) {
+            obj['Growth_year'] = 'success'
+          }
+          if (Grow_total_earn > 100) {
             obj['Grow_total_earn'] = 'danger'
-            // f['_cellVariants'] = {Grow_total_earn: 'danger'}
           }
-          console.log(obj);
+          if (Grow_total_earn < (-100)) {
+            obj['Grow_total_earn'] = 'danger'
+          }
           f['_cellVariants'] = obj
         })
       }
