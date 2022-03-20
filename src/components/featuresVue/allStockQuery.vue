@@ -233,7 +233,7 @@ export default {
       }
       if ('上櫃' === selected.value.toString()) {
         individualVueData.items.cabinet = [];
-        individualVueData.items.value = [...individualVueData.items.listed]
+        individualVueData.items.value = [...individualVueData.items.cabinet]
       }
     }
 
