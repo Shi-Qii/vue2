@@ -15,7 +15,7 @@
               <b-form-input type="text" class="col-5" disabled
                             v-model="individualVueData.stockInfo.name"></b-form-input>
             </b-input-group>
-            <b-input-group prepend="選擇查詢天數" class=" col-6">
+            <b-input-group prepend="查詢月份數" class=" col-6">
               <b-form-select
                   class="col-5"
                   v-model="selectDay.value"
@@ -37,14 +37,13 @@
         <div class="col-12">
           <b-table
               id="table-transition-example"
-              :tbody-transition-props="transProps"
               outlined
               sort
               striped
               bordered
               hover
               responsive="xl"
-              :tbody-tr-class="rowClass"
+
               sticky-header="800px"
 
               :items="individualVueData.items.value"
@@ -53,7 +52,16 @@
               :current-page="individualVueData.currentPage"
               class=" setTB col-12"
           >
-
+            <template #cell(Growth_mon)="data1" >
+            <span
+                :class="''+(data1.value > 0  ? 'text-danger bold ': '')+(data1.value < 0 ? 'text-success bold  ': '' )">
+              {{ data1.value }}</span>
+            </template>
+            <template #cell(Growth_year)="data">
+            <span
+                :class="''+(data.value > 0 ? 'text-danger bold ': '')+(data.value < 0 ? 'text-success bold  ': '' )">
+              {{ data.value }}</span>
+            </template>
             <template #cell(Stock_num)="data">
               <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
             </template>
@@ -246,10 +254,7 @@ export default {
       })
     }
 
-    const transProps = {
-      // Transition name
-      name: 'flip-list'
-    }
+
 
 
     const chartOptionsData = reactive({
@@ -403,7 +408,6 @@ export default {
       selectionsDay,
       changeSelectDay,
       rowClass,
-      transProps,
       dataFilter,
       selectDay,
       chartOptions
@@ -412,25 +416,30 @@ export default {
 
 }
 </script>
-<style scoped>
+
+<style>
+.setTB {
+  white-space: nowrap;
+
+}
+
+
 table#table-transition-example .flip-list-move {
   transition: transform 1s;
 }
 
-.td {
-  color: #3a8ee6;
+.table-danger, .table-danger > th, .table-danger > td {
+  background-color: #ed0c24;
 }
 
-.setTB {
-  white-space: nowrap;
-}
-
-.setPageBt {
-  border-radius: 50rem !important;
-  margin-left: 0.25rem;
-  line-height: 1;
-
+.text-danger {
+  color: #e50a0a !important;
+  font-weight: bold;
 }
 
 
+.text-success {
+  color: #04661b !important;
+  font-weight: bold;
+}
 </style>
