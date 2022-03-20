@@ -35,6 +35,7 @@ export default {
       , seriesData2: null
       , seriesData3: null
       , seriesData4: null
+      , seriesData5: null
     })
     onMounted(() => {
 
@@ -43,18 +44,21 @@ export default {
       chartOptionsData.seriesData2 = []
       chartOptionsData.seriesData3 = []
       chartOptionsData.seriesData4 = []
+      chartOptionsData.seriesData5= []
       initChart.value['data'].forEach(f => {
         chartOptionsData.date.unshift(numberFormatter(f.Processing_date))
         chartOptionsData.seriesData1.unshift(f.Dealer)
         chartOptionsData.seriesData2.unshift(f.Foreign_investors)
         chartOptionsData.seriesData3.unshift(f.Investment_trust)
         chartOptionsData.seriesData4.unshift(f.Total_buysell)
+        chartOptionsData.seriesData5.unshift(f.Close_price)
       })
       chartOptions.xAxis[0].categories = chartOptionsData.date;
-      chartOptions.series[0].data = chartOptionsData.seriesData1;
-      chartOptions.series[1].data = chartOptionsData.seriesData2;
-      chartOptions.series[2].data = chartOptionsData.seriesData3;
-      chartOptions.series[3].data = chartOptionsData.seriesData4;
+      chartOptions.series[1].data = chartOptionsData.seriesData1;
+      chartOptions.series[2].data = chartOptionsData.seriesData2;
+      chartOptions.series[3].data = chartOptionsData.seriesData3;
+      chartOptions.series[4].data = chartOptionsData.seriesData4;
+      chartOptions.series[0].data = chartOptionsData.seriesData5;
       if (initChart.value['data'].data !== null){
         console.log('newValue!== null:', initChart.value['data'])
         console.log('chartOptionsData', chartOptionsData)
@@ -125,11 +129,41 @@ export default {
         categories: [],
         crosshair: true
       }],
-      yAxis: {
-        title: {
-          text: '張數'
-        }
-      },
+      yAxis:
+          // {
+        // title: {
+        //   text: '張數'
+        // }
+      // }
+          [{ // Primary yAxis
+            labels: {
+              format: '{value}',
+              style: {
+                color: '#171515'
+              }
+            },
+            title: {
+              text: '張數',
+              style: {
+                color: '#151515'
+              }
+            }
+          }, { // Secondary yAxis
+            title: {
+              text: '股價',
+              style: {
+                color: '#0c0c0c'
+              }
+            },
+            labels: {
+              format: '{value}元',
+              style: {
+                color: '#050505'
+              }
+            },
+            opposite: true
+          }]
+      ,
       tooltip: {
         crosshairs: true,
         shared: true
@@ -148,9 +182,20 @@ export default {
           }
         }
       },
-      series: [{
+      series: [
+        {
+          name: '股價',
+          type: 'column',
+          yAxis: 1,
+          data: [],
+          tooltip: {
+            valueSuffix: ' ',
+            animation: true
+          },
+          color: 'rgba(245,202,92,0.58)'
+        },{
         name: '自營買賣超張數',
-        color: 'rgba(250,231,137,0.92)',
+        color: 'rgb(231,0,30)',
         marker: {
           symbol: 'circle'
         },
@@ -158,7 +203,7 @@ export default {
 
       }, {
         name: '外資買賣超張數',
-        color: '#e24a4a',
+        color: '#023ef3',
         marker: {
           symbol: 'circle'
         },
@@ -166,19 +211,20 @@ export default {
       },
         {
           name: '投信買賣超張數',
-          color: '#95d25b',
+          color: '#7f7897',
           marker: {
             symbol: 'circle'
           },
           data: []
         },{
           name: '總買賣超張數',
-          color: '#58ace8',
+          color: '#036c05',
           marker: {
             symbol: 'circle'
           },
           data: []
-        }
+        },
+
       ],
 
     });

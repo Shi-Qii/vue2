@@ -13,7 +13,7 @@
               <b-form-input type="text" class="col-5" disabled
                             v-model="individualVueData.stockInfo.name"></b-form-input>
             </b-input-group>
-            <b-input-group prepend="選擇查詢月份數" class=" col-6">
+            <b-input-group prepend="查詢天數" class=" col-6">
               <b-form-select
                   class="col-5"
                   v-model="individualVueData.selectDay.value"
