@@ -49,17 +49,17 @@
         >
           <template #cell(Growth_mon)="data">
             <span
-                :class="''+(data.value > 0  && data.value < 100 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value >= 100   ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Growth_year)="data">
             <span
-                :class="''+(data.value > 0  && data.value < 100 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value >= 100   ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Grow_total_earn)="data">
             <span
-                :class="''+(data.value > 0 && data.value < 100 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0 && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value >= 100   ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Stock_num)="data">
@@ -177,17 +177,21 @@ export default {
           let Growth_mon = f['Growth_mon']; //上月比較增減(%)
           let Growth_year = f['Growth_year']; //去年同月增減(%)
           let Grow_total_earn = f['Grow_total_earn']; //前期比較增減(%)
-
-          if (Growth_mon > 100 || Growth_year > 100 || Grow_total_earn > 100) {
-            f['_cellVariants'] = {Growth_mon: 'danger'}
+          let obj = {}
+          if (Growth_mon > 100) {
+            obj['Growth_mon'] = 'danger'
+            // f['_cellVariants'] = {Growth_mon: 'danger'}
           }
           if (Growth_year > 100) {
-            f['_cellVariants'] = {Growth_year: 'danger'}
+            obj['Growth_year'] = 'danger'
+            // f['_cellVariants'] = {Growth_year: 'danger'}
           }
           if (Grow_total_earn > 100) {
-            f['_cellVariants'] = {Grow_total_earn: 'danger'}
+            obj['Grow_total_earn'] = 'danger'
+            // f['_cellVariants'] = {Grow_total_earn: 'danger'}
           }
-
+          console.log(obj);
+          f['_cellVariants'] = obj
         })
       }
 
