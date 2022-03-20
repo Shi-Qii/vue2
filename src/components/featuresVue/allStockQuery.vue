@@ -223,13 +223,13 @@ export default {
 
     })
 
-    const search = function (name) {
-      search1('上市');
-      search1('上櫃');
+    const search = function () {
+      searchforRequest('上市');
+      searchforRequest('上櫃');
     }
 
 
-    const search1 = function (name) {
+    const searchforRequest = function (name) {
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue',
@@ -249,7 +249,6 @@ export default {
           individualVueData.items.cabinet = [];
           individualVueData.items.cabinet = res.ddata;
         }
-
         if (res.data.length > 0) {
           showState.showSpinner = false
           showState.showPagination = true
