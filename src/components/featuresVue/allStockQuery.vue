@@ -259,7 +259,7 @@ export default {
         if ('上櫃' === name && '上櫃' === selected.value.toString()) {
           individualVueData.items.cabinet = [];
           individualVueData.items.cabinet = res.data;
-          individualVueData.items.value = [...individualVueData.items.listed]
+          individualVueData.items.value = [...individualVueData.items.cabinet]
         }
         if (res.data.length > 0) {
           showState.showSpinner = false
