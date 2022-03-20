@@ -49,17 +49,17 @@
         >
           <template #cell(Growth_mon)="data">
             <span
-                :class="''+(data.value > 0  ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0  && data.value < 100 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Growth_year)="data">
             <span
-                :class="''+(data.value > 0  ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0  && data.value < 100 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Grow_total_earn)="data">
             <span
-                :class="''+(data.value > 0  ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0 && data.value < 100 ? 'text-danger bold ': '' )+(data.value < 0 ? 'text-success bold  ': '' )+(data.value>100   ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Stock_num)="data">
