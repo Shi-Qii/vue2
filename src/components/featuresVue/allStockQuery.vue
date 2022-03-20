@@ -125,12 +125,12 @@ export default {
   },
   setup(props) {
     console.log('props:', props)
-    const params1 = reactive({
+    const params = reactive({
       parentUrl: computed(() => {
         return router
       }),
     });
-    console.log('params1:', params1)
+    console.log('params:', params)
     const transProps = {
       // Transition name
       name: 'flip-list'
@@ -152,7 +152,7 @@ export default {
       stockCode1: {value: ''},
       stockCode2: {value: ''},
 
-      items: {value: []},
+      items: {value: [], listed: [], cabinet: []},
       fields: {
         value: []
       },
@@ -167,12 +167,9 @@ export default {
       showPagination: false,
     })
 
-    onMounted(() => {
 
-    })
     const allFunction = reactive({
-      editHTMLcolorClassification: (res) => {
-        individualVueData.items.value = res
+      editHTMLcolorClassification: () => {
         individualVueData.items.value.forEach(f => {
           let Growth_mon = f['Growth_mon']; //上月比較增減(%)
           let Growth_year = f['Growth_year']; //去年同月增減(%)
@@ -198,33 +195,8 @@ export default {
           }
           f['_cellVariants'] = obj
         })
-      }
-
-    })
-
-    const search = function () {
-
-      let selectKey = {
-        idName: null,
-        key1: 'Listed_Monthly_Revenue',
-        key2: selected.value.toString(),
-        key3: individualVueData.stockCode1.value,
-        key4: individualVueData.stockCode2.value,
-        key5: '1',
-        //Listed_Monthly_Revenue	Monthly_revenue
-      }
-      selectKey.idName = individualVueData.selected.value
-      //上市
-      //buy
-      GetStockData.getUserBoard(selectKey).then(res => {
-        showState.showSpinner = true;
-        console.log('res', res.data)
-        if (res.data.length > 0) {
-          showState.showSpinner = false
-          showState.showPagination = true
-        }
-
-        allFunction.editHTMLcolorClassification(res.data);
+      },
+      setField: () => {
         individualVueData.fields.value = [
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
@@ -245,19 +217,55 @@ export default {
           {key: 'Grow_total_earn', label: '前期比較增減(%)', thClass: 'text-center', tdClass: 'text-center ', sortable: true},
           {key: 'Comment', label: '註記', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
         ]
+      }
 
+    })
+
+    const search = function (name) {
+
+      let selectKey = {
+        idName: null,
+        key1: 'Listed_Monthly_Revenue',
+        key2: name.toString(),
+        key3: individualVueData.stockCode1.value,
+        key4: individualVueData.stockCode2.value,
+        key5: '1',
+        //Listed_Monthly_Revenue	Monthly_revenue
+      }
+      selectKey.idName = individualVueData.selected.value
+      //上市
+      //buy
+
+      GetStockData.getUserBoard(selectKey).then(res => {
+        showState.showSpinner = true;
+        if ('上市' === name) {
+          individualVueData.items.listed = [];
+          individualVueData.items.listed = res.data;
+        }
+        if ('上櫃' === name) {
+          individualVueData.items.cabinet = [];
+          individualVueData.items.cabinet = res.ddata;
+        }
+
+        if (res.data.length > 0) {
+          showState.showSpinner = false
+          showState.showPagination = true
+        }
+        allFunction.editHTMLcolorClassification(res.data);
+        allFunction.setField();
       })
     }
     const changeFn = function () {
-      search();
-      // if (selected.value.toString() === '上市') {
-      //   individualVueData.items.value = []
-      //   individualVueData.items.value = [...individualVueData.items.listed]
-      // } else if (selected.value.toString() === '上櫃') {
-      //   individualVueData.items.value = []
-      //   individualVueData.items.value = [...individualVueData.items.cabinet]
-      //   allFunction.editHTMLcolorClassification();
-      // }
+
+      if (selected.value.toString() === '上市') {
+        individualVueData.items.value = []
+        individualVueData.items.value = [...individualVueData.items.listed]
+        allFunction.editHTMLcolorClassification();
+      } else if (selected.value.toString() === '上櫃') {
+        individualVueData.items.value = []
+        individualVueData.items.value = [...individualVueData.items.cabinet]
+        allFunction.editHTMLcolorClassification();
+      }
 
       // key2: selected.value.toString()
 
@@ -282,8 +290,13 @@ export default {
       })
     }
 
+    onMounted(() => {
+      search('上市');
+      search('上櫃');
+      individualVueData.items.value = [...individualVueData.items.listed]
+    })
     return {
-      showState, rows, individualVueData, rowClass, transProps, search, selected, options,changeFn
+      showState, rows, individualVueData, rowClass, transProps, search, selected, options, changeFn
     }
   }
 
@@ -303,6 +316,7 @@ table#table-transition-example .flip-list-move {
 .table-danger, .table-danger > th, .table-danger > td {
   background-color: #ed0c24;
 }
+
 .table-success, .table-success > th, .table-success > td {
   background-color: #04661b;
 }
