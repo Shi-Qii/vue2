@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div class="col-12 cursive text-danger  ">
     {{ individualVueData.foreignNm }}
     <hr/>
     <b-form-radio-group
@@ -25,7 +25,7 @@
       </b-input-group>
     </div>
 
-
+    <hr/>
     <section class="col-12">
       <div class="col-12">
         <b-table
@@ -63,7 +63,7 @@
               {{ data.value }}</span>
           </template>
           <template #cell(Stock_num)="data">
-            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'institutional_investors'}}">
+            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'monthly_revenue'}}">
               <a>{{ data.value }}</a>
             </router-link>
           </template>
