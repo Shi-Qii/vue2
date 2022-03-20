@@ -2,6 +2,13 @@
   <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
+    <b-form-radio-group
+        button-variant="outline-primary"
+        v-model="selected"
+        :options="options"
+        buttons
+        @change="changeFn()"
+    ></b-form-radio-group>
     <div class="container-fluid">
       <b-input-group class="mt-3">
         <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode1.value"
@@ -16,6 +23,7 @@
         </b-input-group-append>
       </b-input-group>
     </div>
+    <hr/>
     <section class="col-12">
       <div class="col-12">
         <b-table
@@ -38,7 +46,9 @@
         >
 
           <template #cell(Stock_num)="data">
-            <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
+            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'monthly_revenue'}}">
+              <a>{{ data.value }}</a>
+            </router-link>
           </template>
           <template #cell()="data">
             <span v-html="data.value"></span>
@@ -87,7 +97,7 @@
 </template>
 
 <script>
-import VueCompositionAPI, {computed, reactive} from "@vue/composition-api";
+import VueCompositionAPI, {computed, reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
@@ -123,13 +133,18 @@ export default {
       stockCode1: {value: ''},
       stockCode2: {value: ''},
 
-      items: {value: []},
+      items: {value: [], listed: [], cabinet: []},
       fields: {
         value: []
       },
       currentPage: 1,
       perPage: 10,
     })
+    const selected = ref('上市');
+    const options = reactive([
+      {text: '上市', value: '上市'},
+      {text: '上櫃', value: '上櫃'}
+    ])
     const showState = reactive({
       showTable: true,
       showSpinner: false,
@@ -138,39 +153,82 @@ export default {
       showPagination: false,
     })
     const search = function () {
+      searchforRequest('上市');
+      searchforRequest('上櫃');
+    }
+    const searchforRequest = function (name) {
       showState.showSpinner = true;
       //key3 年	key4 月  可輸入
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue_Short_Long',
-        key2: '上市',
+        key2: name,
         key3: individualVueData.stockCode1.value,
         key4: individualVueData.stockCode2.value,
         key5: '1',
-        //Listed_Monthly_Revenue	Monthly_revenue
+
       }
       selectKey.idName = individualVueData.selected.value
-      //上市
-      //buy
+
       GetStockData.getUserBoard(selectKey).then(res => {
-        console.log('res', res.data)
+
         if (res.data.length > 0) {
           showState.showSpinner = false
           showState.showPagination = true
         }
+        if ('上市' === name) {
+          individualVueData.items.listed = [];
+          individualVueData.items.listed = res.data;
+          individualVueData.items.value = [...individualVueData.items.listed]
 
-        // individualVueData.items.value = res.data;
+        }
+        if ('上櫃' === name) {
+          individualVueData.items.cabinet = [];
+          individualVueData.items.cabinet = res.data;
 
-        // {
-        //   {Up_down: 'This is <i>escaped</i> content'},
-        //   Up_down_pct: 'This is <i>raw <strong>HTML</strong></i> <span style="color:red">content</span>',
-        // }
-        allFunction.editHTMLcolorClassification(res.data);
-        individualVueData.fields.value = [
-          {key: 'Year', label: '年', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Month', label: '月', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+        }
+        allFunction.editHTMLcolorClassification();
+        allFunction.setField();
+      })
+    }
+
+
+    const allFunction = reactive({
+      editHTMLcolorClassification: () => {
+        individualVueData.items.value.forEach(() => {
+          // let Growth_mon = f['Growth_mon']; //上月比較增減(%)
+          // let Growth_year = f['Growth_year']; //去年同月增減(%)
+          // let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
+          // console.log(Growth_mon,Growth_year,Grow_total_earn,)
+          // 對應漲跌  + 紅色
+          //          - 綠色
+          // if (Growth_mon > 0 || Growth_year > 0 || Grow_total_earn > 0) {
+          //   arr[index]['Growth_mon'] =
+          //       '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
+          //   arr[index]['Growth_year'] =
+          //       '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
+          //   arr[index]['Grow_total_earn'] =
+          //       '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+          // } else if (Growth_mon < 0 || Growth_year < 0) {
+          //   arr[index]['Growth_mon'] =
+          //       '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
+          //   arr[index]['Growth_year'] =
+          //       '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
+          //   arr[index]['Grow_total_earn'] =
+          //       '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+          // }
+
+
+        })
+        // console.log('individualVueData.items.value:',individualVueData.items.value)
+      },
+      setField: () => {
+        individualVueData.fields.value =[
+          // {key: 'Year', label: '年', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          // {key: 'Month', label: '月', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Close_price', label: '最新股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Mon_earn', label: '當月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Short_earn', label: '短期營收加總', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {
@@ -185,43 +243,21 @@ export default {
           {key: 'Long_earn_last', label: '去年同期長期營收加總', thClass: 'text-center', tdClass: 'text-center ', sortable: true},
           {key: 'Growth_long', label: '長期營收成長率', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
         ]
-      })
-    }
-
-
-    const allFunction = reactive({
-      editHTMLcolorClassification: (res) => {
-        individualVueData.items.value = res
-        individualVueData.items.value.forEach((f, index, arr) => {
-          let Growth_mon = f['Growth_mon']; //上月比較增減(%)
-          let Growth_year = f['Growth_year']; //去年同月增減(%)
-          let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
-          // 對應漲跌  + 紅色
-          //          - 綠色
-          if (Growth_mon > 0 || Growth_year > 0 || Grow_total_earn > 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          } else if (Growth_mon < 0 || Growth_year < 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          }
-
-
-        })
-        // console.log('individualVueData.items.value:',individualVueData.items.value)
       }
 
     })
 
-
+    const changeFn = function () {
+      if (selected.value.toString() === '上市') {
+        individualVueData.items.value = []
+        individualVueData.items.value = [...individualVueData.items.listed]
+        allFunction.editHTMLcolorClassification();
+      } else if (selected.value.toString() === '上櫃') {
+        individualVueData.items.value = []
+        individualVueData.items.value = [...individualVueData.items.cabinet]
+        allFunction.editHTMLcolorClassification();
+      }
+    }
     function rowClass(item) {
       Object.keys(item).forEach(f => {
         // console.log('*',item[f])
@@ -234,7 +270,7 @@ export default {
     }
 
     return {
-      showState, rows, individualVueData, rowClass, transProps, search
+      showState, rows, individualVueData, rowClass, transProps, search ,selected, options,changeFn
     }
   }
 

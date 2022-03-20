@@ -238,7 +238,7 @@ export default {
       if ('institutional_investors'===params1){
         mainVueData.selected.value =  { "idName": "institutional_investors", "functionKey": "Ind_Institutional_Investors_Day", "key2": "來自輸入框的值", "key3": "60", "key4": "Foreign_investors", "key5": "20", "entrance": "sndividualStockInquiry" }
       }else if ('monthly_revenue'===params1){
-        mainVueData.selected.value =  { "idName": "monthly_revenue", "functionKey": "Ind_Monthly_Revenue_Mon", "key2": "來自輸入框的值", "key3": "12", "key4": "1", "key5": "1", "entrance": "monthlyrevenue" }
+        mainVueData.selected.value =  { "idName": "monthly_revenue", "functionKey": "Ind_Monthly_Revenue_Mon", "key2": "來自輸入框的值", "key3": "60", "key4": "1", "key5": "1", "entrance": "monthlyrevenue" }
       }
 
 

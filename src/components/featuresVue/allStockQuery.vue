@@ -256,7 +256,7 @@ export default {
           showState.showSpinner = false
           showState.showPagination = true
         }
-        allFunction.editHTMLcolorClassification(res.data);
+        allFunction.editHTMLcolorClassification();
         allFunction.setField();
       })
     }
