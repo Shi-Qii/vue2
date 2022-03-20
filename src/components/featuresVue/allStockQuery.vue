@@ -49,17 +49,17 @@
         >
           <template #cell(Growth_mon)="data">
             <span
-                :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value < (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value < (-100)  ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Growth_year)="data">
             <span
-                :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value < (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value < (-100)  ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Grow_total_earn)="data">
             <span
-                :class="''+(data.value > 0 && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value < (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value < (-100)  ? 'text-light bold ': '' ) ">
+                :class="''+(data.value > 0 && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
           </template>
           <template #cell(Stock_num)="data">
@@ -194,7 +194,7 @@ export default {
             obj['Grow_total_earn'] = 'danger'
           }
           if (Grow_total_earn < (-100)) {
-            obj['Grow_total_earn'] = 'danger'
+            obj['Grow_total_earn'] = 'success'
           }
           f['_cellVariants'] = obj
         })
