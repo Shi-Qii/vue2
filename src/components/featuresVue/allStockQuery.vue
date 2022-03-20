@@ -273,7 +273,23 @@ export default {
 
 }
 
+
 table#table-transition-example .flip-list-move {
   transition: transform 1s;
+}
+
+.table-danger, .table-danger > th, .table-danger > td {
+  background-color: #ed0c24;
+}
+
+.text-danger {
+  color: #e50a0a !important;
+  font-weight: bold;
+}
+
+
+.text-success {
+  color: #04661b !important;
+  font-weight: bold;
 }
 </style>
