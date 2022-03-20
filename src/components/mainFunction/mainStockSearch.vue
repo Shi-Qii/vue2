@@ -244,7 +244,7 @@ export default {
       const url = location.href;
       let isUrl;
       isUrl = url.split('?')[1];
-      if (isUrl === 'undefined') {
+      if (isUrl !== 'undefined') {
         let id = "";
         let params1 = "";
         //在此直接將各自的參數資料切割放進ary中

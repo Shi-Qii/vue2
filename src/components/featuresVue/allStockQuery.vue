@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 cursive text-danger  ">
+  <div class="col-12">
     {{ individualVueData.foreignNm }}
     <hr/>
     <b-form-radio-group
@@ -148,7 +148,7 @@ export default {
     })
     const individualVueData = reactive({
       selected: {value: 'monthly_revenue'},
-      foreignNm: '上市全部營收查詢',
+      foreignNm: '全部營收查詢',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       stockCode1: {value: ''},
@@ -226,6 +226,14 @@ export default {
     const search = function () {
       searchforRequest('上市');
       searchforRequest('上櫃');
+      if ('上市' === selected.value) {
+        individualVueData.items.listed = [];
+        individualVueData.items.value = [...individualVueData.items.listed]
+      }
+      if ('上櫃' === selected.value) {
+        individualVueData.items.cabinet = [];
+        individualVueData.items.value = [...individualVueData.items.listed]
+      }
     }
 
 
@@ -244,7 +252,7 @@ export default {
         if ('上市' === name) {
           individualVueData.items.listed = [];
           individualVueData.items.listed = res.data;
-          individualVueData.items.value = [...individualVueData.items.listed]
+          // individualVueData.items.value = [...individualVueData.items.listed]
 
         }
         if ('上櫃' === name) {
