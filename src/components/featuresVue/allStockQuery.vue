@@ -273,7 +273,7 @@ export default {
             showState.showPagination = true;
             showState.showTable = true;
           }
-        },1000)
+        },10)
         if (res.data.length > 0) {
           showState.showSpinner = false
           showState.showPagination = true
