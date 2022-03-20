@@ -3,7 +3,7 @@
     <div v-if="state">
       <hr/>
       {{ '圖表' }}
-      <highcharts  :options="chartOptions"></highcharts>
+      <highcharts :options="chartOptions"></highcharts>
 
     </div>
 
@@ -13,7 +13,7 @@
 <script>
 
 import {Chart} from 'highcharts-vue';
-import VueCompositionAPI, {reactive, watch, ref,onMounted} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, watch, ref, onMounted} from "@vue/composition-api";
 import Vue from 'vue'
 
 Vue.use(VueCompositionAPI)
@@ -41,25 +41,28 @@ export default {
       chartOptionsData.date = []
       chartOptionsData.seriesData1 = []
       chartOptionsData.seriesData2 = []
+      chartOptionsData.seriesData3 = []
 
       initChart.value['data'].forEach(f => {
-      let fromatdate =  (f.Year+'/'+f.Month).toString();
+        let fromatdate = (f.Year + '/' + f.Month).toString();
         chartOptionsData.date.unshift(fromatdate)
         chartOptionsData.seriesData1.unshift(f.Growth_short)
         chartOptionsData.seriesData2.unshift(f.Growth_long)
+        chartOptionsData.seriesData3.unshift(f.Price)
 
       })
       chartOptions.xAxis[0].categories = chartOptionsData.date;
-      chartOptions.series[0].data = chartOptionsData.seriesData1;
-      chartOptions.series[1].data = chartOptionsData.seriesData2;
+      chartOptions.series[0].data = chartOptionsData.seriesData3;
+      chartOptions.series[1].data = chartOptionsData.seriesData1;
+      chartOptions.series[2].data = chartOptionsData.seriesData2;
 
-      if (initChart.value['data'].data !== null){
+      if (initChart.value['data'].data !== null) {
         console.log('newValue!== null:', initChart.value['data'])
         console.log('chartOptionsData', chartOptionsData)
         state.value = true;
       }
     })
-    watch(initChart.value['data'], (newValue,oldVal) => {
+    watch(initChart.value['data'], (newValue, oldVal) => {
       /* ... */
       console.log('newValue:', newValue)
       console.log('oldVal:', oldVal)
@@ -94,11 +97,34 @@ export default {
         categories: [],
         crosshair: true
       }],
-      yAxis: {
+      yAxis: [{ // Primary yAxis
+        labels: {
+          format: '{value}',
+          style: {
+            color: '#171515'
+          }
+        },
         title: {
-          text: '張數'
+          text: '比率',
+          style: {
+            color: '#151515'
+          }
         }
-      },
+      }, { // Secondary yAxis
+        title: {
+          text: '股價',
+          style: {
+            color: '#0c0c0c'
+          }
+        },
+        labels: {
+          format: '{value}元',
+          style: {
+            color: '#050505'
+          }
+        },
+        opposite: true
+      }],
       tooltip: {
         crosshairs: true,
         shared: true
@@ -112,12 +138,22 @@ export default {
             }
           },
           marker: {
-            radius:3,
+            radius: 3,
             enabled: true
           }
         }
       },
       series: [{
+        name: '股價',
+        type: 'column',
+        yAxis: 1,
+        data: [],
+        tooltip: {
+          valueSuffix: ' ',
+          animation: true
+        },
+        color: 'rgba(245,202,92,0.58)'
+      }, {
         name: '短期年增率',
         color: 'rgba(253,108,10,0.95)',
         marker: {
@@ -137,7 +173,7 @@ export default {
       ],
 
     });
-    return {chartOptions, initChart, chartOptionsData,state}
+    return {chartOptions, initChart, chartOptionsData, state}
   }
 
 }

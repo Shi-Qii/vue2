@@ -3,7 +3,7 @@
     <div v-if="state">
       <hr/>
       {{ '圖表' }}
-      <highcharts  :options="chartOptions"></highcharts>
+      <highcharts :options="chartOptions"></highcharts>
 
     </div>
 
@@ -13,7 +13,7 @@
 <script>
 
 import {Chart} from 'highcharts-vue';
-import VueCompositionAPI, {reactive, watch, ref,onMounted} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, watch, ref, onMounted} from "@vue/composition-api";
 import Vue from 'vue'
 
 Vue.use(VueCompositionAPI)
@@ -44,7 +44,7 @@ export default {
       chartOptionsData.seriesData2 = []
       chartOptionsData.seriesData3 = []
       chartOptionsData.seriesData4 = []
-      chartOptionsData.seriesData5= []
+      chartOptionsData.seriesData5 = []
       initChart.value['data'].forEach(f => {
         chartOptionsData.date.unshift(numberFormatter(f.Processing_date))
         chartOptionsData.seriesData1.unshift(f.Dealer)
@@ -59,13 +59,13 @@ export default {
       chartOptions.series[3].data = chartOptionsData.seriesData3;
       chartOptions.series[4].data = chartOptionsData.seriesData4;
       chartOptions.series[0].data = chartOptionsData.seriesData5;
-      if (initChart.value['data'].data !== null){
+      if (initChart.value['data'].data !== null) {
         console.log('newValue!== null:', initChart.value['data'])
         console.log('chartOptionsData', chartOptionsData)
         state.value = true;
       }
     })
-    watch(initChart.value['data'], (newValue,oldVal) => {
+    watch(initChart.value['data'], (newValue, oldVal) => {
       /* ... */
       console.log('newValue:', newValue)
       console.log('oldVal:', oldVal)
@@ -99,7 +99,7 @@ export default {
       if (typeof num === 'number') {
         console.log('判斷型態:', typeof num)
         let dd = new Date(num);
-        return dd.toISOString().substring(0,10);
+        return dd.toISOString().substring(0, 10);
       }
       return num
     }
@@ -130,11 +130,6 @@ export default {
         crosshair: true
       }],
       yAxis:
-          // {
-        // title: {
-        //   text: '張數'
-        // }
-      // }
           [{ // Primary yAxis
             labels: {
               format: '{value}',
@@ -177,7 +172,7 @@ export default {
             }
           },
           marker: {
-            radius:3,
+            radius: 3,
             enabled: true
           }
         }
@@ -193,22 +188,22 @@ export default {
             animation: true
           },
           color: 'rgba(245,202,92,0.58)'
-        },{
-        name: '自營買賣超張數',
-        color: 'rgb(231,0,30)',
-        marker: {
-          symbol: 'circle'
-        },
-        data: []
+        }, {
+          name: '自營買賣超張數',
+          color: 'rgb(231,0,30)',
+          marker: {
+            symbol: 'circle'
+          },
+          data: []
 
-      }, {
-        name: '外資買賣超張數',
-        color: '#023ef3',
-        marker: {
-          symbol: 'circle'
+        }, {
+          name: '外資買賣超張數',
+          color: '#023ef3',
+          marker: {
+            symbol: 'circle'
+          },
+          data: []
         },
-        data: []
-      },
         {
           name: '投信買賣超張數',
           color: '#7f7897',
@@ -216,7 +211,7 @@ export default {
             symbol: 'circle'
           },
           data: []
-        },{
+        }, {
           name: '總買賣超張數',
           color: '#036c05',
           marker: {
@@ -228,7 +223,7 @@ export default {
       ],
 
     });
-    return {chartOptions, initChart, chartOptionsData,state}
+    return {chartOptions, initChart, chartOptionsData, state}
   }
 
 }
