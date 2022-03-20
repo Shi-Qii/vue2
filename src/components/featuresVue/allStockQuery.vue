@@ -224,16 +224,25 @@ export default {
     })
 
     const search = function () {
+      showState.showSpinner = true
+      showState.showPagination = false
       searchforRequest('上市');
       searchforRequest('上櫃');
-      if ('上市' === selected.value.toString()) {
-        individualVueData.items.value = [];
-        individualVueData.items.value = [...individualVueData.items.listed]
-      }
-      if ('上櫃' === selected.value.toString()) {
-        individualVueData.items.value = [];
-        individualVueData.items.value = [...individualVueData.items.cabinet]
-      }
+      setTimeout(()=>{
+        if ('上市' === selected.value.toString()) {
+          individualVueData.items.value = [];
+          individualVueData.items.value = [...individualVueData.items.listed]
+          showState.showSpinner = false;
+          showState.showPagination = true;
+        }
+        if ('上櫃' === selected.value.toString()) {
+          individualVueData.items.value = [];
+          individualVueData.items.value = [...individualVueData.items.cabinet]
+          showState.showSpinner = false;
+          showState.showPagination = true;
+        }
+      },500)
+
     }
 
 
