@@ -226,22 +226,11 @@ export default {
     const search = function () {
       showState.showSpinner = true
       showState.showPagination = false
+      showState.showTable = false
+
       searchforRequest('上市');
       searchforRequest('上櫃');
-      setTimeout(()=>{
-        if ('上市' === selected.value.toString()) {
-          individualVueData.items.value = [];
-          individualVueData.items.value = [...individualVueData.items.listed]
-          showState.showSpinner = false;
-          showState.showPagination = true;
-        }
-        if ('上櫃' === selected.value.toString()) {
-          individualVueData.items.value = [];
-          individualVueData.items.value = [...individualVueData.items.cabinet]
-          showState.showSpinner = false;
-          showState.showPagination = true;
-        }
-      },500)
+
 
     }
 
@@ -269,6 +258,22 @@ export default {
           individualVueData.items.cabinet = res.data;
 
         }
+        individualVueData.items.value = [];
+        setTimeout(()=>{
+          if ('上市' === selected.value.toString()) {
+            individualVueData.items.value = [];
+            individualVueData.items.value = [...individualVueData.items.listed]
+            showState.showSpinner = false;
+            showState.showPagination = true;
+            showState.showTable = true;
+          } else if ('上櫃' === selected.value.toString()) {
+            individualVueData.items.value = [];
+            individualVueData.items.value = [...individualVueData.items.cabinet]
+            showState.showSpinner = false;
+            showState.showPagination = true;
+            showState.showTable = true;
+          }
+        },1000)
         if (res.data.length > 0) {
           showState.showSpinner = false
           showState.showPagination = true
