@@ -181,19 +181,19 @@ export default {
           if (Growth_mon > 100) {
             obj['Growth_mon'] = 'danger'
           }
-          if (Growth_mon < (-100)) {
+          if (Growth_mon <= (-100)) {
             obj['Growth_mon'] = 'success'
           }
           if (Growth_year > 100) {
             obj['Growth_year'] = 'danger'
           }
-          if (Growth_year < (-100)) {
+          if (Growth_year <= (-100)) {
             obj['Growth_year'] = 'success'
           }
           if (Grow_total_earn > 100) {
             obj['Grow_total_earn'] = 'danger'
           }
-          if (Grow_total_earn < (-100)) {
+          if (Grow_total_earn <= (-100)) {
             obj['Grow_total_earn'] = 'success'
           }
           f['_cellVariants'] = obj
@@ -289,6 +289,9 @@ table#table-transition-example .flip-list-move {
 
 .table-danger, .table-danger > th, .table-danger > td {
   background-color: #ed0c24;
+}
+.table-success, .table-success > th, .table-success > td {
+  background-color: #04661b;
 }
 
 .text-danger {
