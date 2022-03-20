@@ -63,7 +63,9 @@
               {{ data.value }}</span>
           </template>
           <template #cell(Stock_num)="data">
-            <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
+            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'institutional_investors'}}">
+              <a>{{ data.value }}</a>
+            </router-link>
           </template>
           <template #cell()="data">
             <span v-html="data.value"></span>
@@ -222,7 +224,12 @@ export default {
     })
 
     const search = function (name) {
+      search1('上市');
+      search1('上櫃');
+    }
 
+
+    const search1 = function (name) {
       let selectKey = {
         idName: null,
         key1: 'Listed_Monthly_Revenue',
@@ -230,12 +237,8 @@ export default {
         key3: individualVueData.stockCode1.value,
         key4: individualVueData.stockCode2.value,
         key5: '1',
-        //Listed_Monthly_Revenue	Monthly_revenue
       }
       selectKey.idName = individualVueData.selected.value
-      //上市
-      //buy
-
       GetStockData.getUserBoard(selectKey).then(res => {
         showState.showSpinner = true;
         if ('上市' === name) {
@@ -255,8 +258,9 @@ export default {
         allFunction.setField();
       })
     }
-    const changeFn = function () {
 
+
+    const changeFn = function () {
       if (selected.value.toString() === '上市') {
         individualVueData.items.value = []
         individualVueData.items.value = [...individualVueData.items.listed]
@@ -266,9 +270,6 @@ export default {
         individualVueData.items.value = [...individualVueData.items.cabinet]
         allFunction.editHTMLcolorClassification();
       }
-
-      // key2: selected.value.toString()
-
     }
     // const numberFormatter = function (num) {
     //   if (typeof num === 'number') {
@@ -291,9 +292,7 @@ export default {
     }
 
     onMounted(() => {
-      search('上市');
-      search('上櫃');
-      individualVueData.items.value = [...individualVueData.items.listed]
+
     })
     return {
       showState, rows, individualVueData, rowClass, transProps, search, selected, options, changeFn
