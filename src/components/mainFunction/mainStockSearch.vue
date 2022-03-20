@@ -40,7 +40,7 @@
 
 <script>
 import VueCompositionAPI from "@vue/composition-api";
-import {reactive, ref, watch,onMounted} from "@vue/composition-api";
+import {reactive, ref, watch, onMounted} from "@vue/composition-api";
 import Vue from "vue";
 import GetAppVueInit from "@/services/getAppVueInit";
 import sndividualStockInquiry from "@/components/featuresVue/sndividualStockInquiry";
@@ -91,7 +91,7 @@ export default {
               idName: 'monthly_revenue',
               functionKey: 'Ind_Monthly_Revenue_Mon',
               key2: '來自輸入框的值',
-              key3: '12',
+              key3: '60',
               key4: '1',
               key5: '1',
               entrance: 'monthlyrevenue'
@@ -167,7 +167,27 @@ export default {
                 showState.showSpinner = false
 
               })
-        } else {
+        }else if (mainVueData.selected.value.functionKey === 'Ind_Monthly_Revenue_Mon'){
+          let selectKey = {
+            idName: mainVueData.selected.value.idName,
+            key1: mainVueData.selected.value.functionKey,
+            key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+            key3: mainVueData.selected.value.key3,
+            key4: mainVueData.selected.value.key4,
+            key5: mainVueData.selected.value.key5,
+          }
+          console.log('mainVueData.selected.value_Ind_Monthly_Revenue_Mon:', mainVueData.selected.value)
+
+          GetStockData.getUserBoard(selectKey)
+              .then(res => {
+                isType.value = mainVueData.selected.value.entrance;
+                isTypeData.value = res.data;
+                console.log('res>>Ind_Monthly_Revenue_Mon:', res)
+                showState.showSpinner = false
+
+              })
+
+        }else {
           let selectKey = {
             idName: mainVueData.selected.value.idName,
             key1: mainVueData.selected.value.functionKey,
@@ -220,33 +240,50 @@ export default {
       console.log('newval:', newval);
       console.log('oldval:', oldval);
     })
-    onMounted(()=>{
+    onMounted(() => {
       const url = location.href;
-      let id = "";
-      let params1 = "";
-      //在此直接將各自的參數資料切割放進ary中
-      let ary = url.split('?')[1].split('&');
-      //下迴圈去搜尋每個資料參數
-      for(let i=0;i<=ary.length-1;i++) {
-        //如果資料名稱為id的話那就把他取出來
-        if(ary[i].split('=')[0] == 'id') {
-          id = ary[i].split('=')[1];
-        }else if (ary[i].split('=')[0] == 'params'){
-          params1 = ary[i].split('=')[1];
+      let isUrl;
+      isUrl = url.split('?')[1];
+      if (isUrl === 'undefined') {
+        let id = "";
+        let params1 = "";
+        //在此直接將各自的參數資料切割放進ary中
+        let ary = url.split('?')[1].split('&');
+        //下迴圈去搜尋每個資料參數
+        for (let i = 0; i <= ary.length - 1; i++) {
+          //如果資料名稱為id的話那就把他取出來
+          if (ary[i].split('=')[0] == 'id') {
+            id = ary[i].split('=')[1];
+          } else if (ary[i].split('=')[0] == 'params') {
+            params1 = ary[i].split('=')[1];
+          }
         }
+        if ('institutional_investors' === params1) {
+          mainVueData.selected.value = {
+            "idName": "institutional_investors",
+            "functionKey": "Ind_Institutional_Investors_Day",
+            "key2": "來自輸入框的值",
+            "key3": "60",
+            "key4": "Foreign_investors",
+            "key5": "20",
+            "entrance": "sndividualStockInquiry"
+          }
+        } else if ('monthly_revenue' === params1) {
+          mainVueData.selected.value = {
+            "idName": "monthly_revenue",
+            "functionKey": "Ind_Monthly_Revenue_Mon",
+            "key2": "來自輸入框的值",
+            "key3": "60",
+            "key4": "1",
+            "key5": "1",
+            "entrance": "monthlyrevenue"
+          }
+        }
+        mainVueData.stockCode.value = id;
+        search();
       }
-      if ('institutional_investors'===params1){
-        mainVueData.selected.value =  { "idName": "institutional_investors", "functionKey": "Ind_Institutional_Investors_Day", "key2": "來自輸入框的值", "key3": "60", "key4": "Foreign_investors", "key5": "20", "entrance": "sndividualStockInquiry" }
-      }else if ('monthly_revenue'===params1){
-        mainVueData.selected.value =  { "idName": "monthly_revenue", "functionKey": "Ind_Monthly_Revenue_Mon", "key2": "來自輸入框的值", "key3": "60", "key4": "1", "key5": "1", "entrance": "monthlyrevenue" }
-      }
 
 
-
-      mainVueData.stockCode.value = id;
-      search();
-      console.log('params1',params1)
-      console.log('id',id)
     })
     return {
       mainVueData, datalists, search, clean, isType, isTypeData, showState

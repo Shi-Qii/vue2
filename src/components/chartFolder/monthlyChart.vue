@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      {{ '圖表' }}
+      {{ '圖表' }}{{selectionsDay}}
       <highcharts :options="chartOptions"></highcharts>
     </div>
 
@@ -11,8 +11,9 @@
 <script>
 
 import {Chart} from 'highcharts-vue';
-import VueCompositionAPI, {reactive, ref, onMounted, watch} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, ref, nextTick} from "@vue/composition-api";
 import Vue from 'vue'
+
 
 Vue.use(VueCompositionAPI)
 export default {
@@ -20,55 +21,23 @@ export default {
     highcharts: Chart,
   },
   props: {
-    initChartData: Object
+    initChartData: Object,
+    selectionsDay: Number
   },
   setup(prop) {
-
     const initChart = ref(prop.initChartData)
-    console.log('initChart1:', initChart.value)
+    let selectionsDay = ref(prop.selectionsDay)
+    console.log('>>>day:', selectionsDay.value)
     const chartOptionsData = reactive({
       date: null
       , seriesData1: null
       , seriesData2: null
+      , filterData: null
+      , allData: null
 
     })
-    onMounted(() => {
-      console.log('initChart2:', initChart.value)
-      chartOptionsData.date = []
-      chartOptionsData.seriesData1 = []
-      chartOptionsData.seriesData2 = []
-      //series[0]  是月營收
-      //series[1]  是月均價(股價)
-      let newval = initChart.value
-      let formatDate = ''
 
-      newval.data.forEach(f => {
-        formatDate = f.Year + '年' + f.Month + '月';
-        // formatDate = f.Year + '/' + f.Month ;
-        chartOptionsData.date.unshift(formatDate);
-        chartOptionsData.seriesData1.unshift(f.Mon_earn);
-        chartOptionsData.seriesData2.unshift(f.Price);
-      })
-      chartOptions.series[0].data = chartOptionsData.seriesData1;
-      chartOptions.series[1].data = chartOptionsData.seriesData2;
-      chartOptions.xAxis[0].categories = chartOptionsData.date
-    })
-    watch(initChart.value, (newval, oldval) => {
-      let formatDate = ''
-      console.log('initChart.value>oldval:', oldval);
-      console.log('initChart.value:>newval:', newval);
-      newval.data.forEach(f => {
-        formatDate = f.Year + '年' + f.Month + '月';
-        // formatDate = f.Year + '/' + f.Month ;
-        chartOptionsData.date.unshift(formatDate);
-        chartOptionsData.seriesData1.unshift(f.Mon_earn);
-        chartOptionsData.seriesData2.unshift(f.Price);
-      })
-      chartOptions.series[0].data = chartOptionsData.seriesData1;
-      chartOptions.series[1].data = chartOptionsData.seriesData2;
-      chartOptions.xAxis[0].categories = chartOptionsData.date;
 
-    })
     const chartOptions = reactive({
       chart: {
         zoomType: 'xy'
@@ -154,7 +123,42 @@ export default {
           color: '#e33232'
         }]
     });
-    return {chartOptions, initChart}
+
+    nextTick(() => {
+      const filterDataFunction = function () {
+        chartOptionsData.allData = []
+        chartOptionsData.allData = [...initChart.value['data']];
+      }
+
+
+      console.log('initChart2:', initChart.value.data)
+      console.log('chartOptionsData.allData:', chartOptionsData.allData)
+      filterDataFunction();
+      chartOptionsData.filterData = []
+      chartOptionsData.filterData = chartOptionsData.allData.filter((f, idx) => {
+        return idx < selectionsDay.value
+      })
+      console.log('chartOptionsData.allData:', chartOptionsData.filterData)
+      chartOptionsData.date = []
+      chartOptionsData.seriesData1 = []
+      chartOptionsData.seriesData2 = []
+
+      let formatDate = ''
+
+      chartOptionsData.filterData.forEach(f => {
+        formatDate = f.Year + '年' + f.Month + '月';
+        // formatDate = f.Year + '/' + f.Month ;
+        chartOptionsData.date.unshift(formatDate);
+        chartOptionsData.seriesData1.unshift(f.Mon_earn);
+        chartOptionsData.seriesData2.unshift(f.Price);
+      })
+      chartOptions.series[0].data = chartOptionsData.seriesData1;
+      chartOptions.series[1].data = chartOptionsData.seriesData2;
+      chartOptions.xAxis[0].categories = chartOptionsData.date
+
+    })
+
+    return {chartOptions, selectionsDay, initChart}
   }
 
 }

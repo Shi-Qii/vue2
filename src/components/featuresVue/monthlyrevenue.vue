@@ -18,7 +18,7 @@
             <b-input-group prepend="選擇查詢天數" class=" col-6">
               <b-form-select
                   class="col-5"
-                  v-model="individualVueData.selectDay.value"
+                  v-model="selectDay.value"
                   :options="individualVueData.selectDayOptions.value"
                   @change="changeSelectDay"
                   disabled-field="notEnabled"
@@ -28,9 +28,11 @@
           </div>
         </b-card>
       </b-collapse>
-
-      <monthly-chart v-if="showState.showTable" :initChartData="initChartData"></monthly-chart>
-
+      <div>
+        {{ '圖表' }}
+        <highcharts :options="chartOptions"></highcharts>
+        <hr/>
+      </div>
       <section class="col-12">
         <div class="col-12">
           <b-table
@@ -104,36 +106,45 @@
 <script>
 import VueCompositionAPI, {onMounted, reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
-import GetStockData from "@/services/getStockData";
-import MonthlyChart from "@/components/chartFolder/monthlyChart";
-// import GetAppVueInit from "@/services/getAppVueInit";
+import {Chart} from "highcharts-vue";
+
 
 Vue.use(VueCompositionAPI)
 export default {
   components: {
-    MonthlyChart
+    highcharts: Chart,
   },
   props: {
     isTypeData: Array
   },
   setup(props) {
     const pr = ref(props);
-    console.log('pr', pr.value)
+    console.log('pr_Ind_Monthly_Revenue_Mon', pr.value['isTypeData'])
+
+    const selectDay = reactive({value: 12})
     const individualVueData = reactive({
       selected: {value: 'monthly_revenue'},
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       selectDayOptions: {value: ['12', '24', '36', '48', '60']},
-      selectDay: {value: 12},
+
       stockCode: {value: null},
       stockInfo: {name: null, note: null},
-      items: {value: []},
+      items: {value: [], allData: []},
       fields: {value: []},
       currentPage: 1,
-      perPage: 10,
+      perPage: 12,
     })
 
-
+    const dataFilter = function () {
+      individualVueData.items.allData = [...pr.value['isTypeData']];
+      let dataFilter = individualVueData.items.allData.filter((f, idx) => {
+        return idx < 12;
+      })
+      individualVueData.items.value = [...dataFilter]
+      console.log('dataFilter:', dataFilter)
+    }
+    dataFilter();
     const showState = reactive({
       showTable: true,
       showSpinner: true,
@@ -142,134 +153,88 @@ export default {
       showPagination: false,
     })
     const initChartData = reactive({data: []})
+    const selectionsDay = ref(12)
 
 //==============function=================
 
-
     const changeSelectDay = function () {
-      // initChartData.data = null;
-      //individualVueData.selectDay.value選到的天數
-      showState.showTable = false;
-      initChartData.data = null;
-      console.log('initChartData:', initChartData.data)
-      // individualVueData.items.value = [];
-      // search();
-      // this.$emit('changevalue', individualVueData.selectDay.value)
-      setTimeout(()=>{
-        search();
-      },300)
-    }
-
-
-    //近來畫面後 可以用下拉選單 再次更新data
-    const search = function () {
-      let Key = {
-        idName: 'monthly_revenue',
-        key1: 'Ind_Monthly_Revenue_Mon',
-        key2: individualVueData.stockInfo.note,
-        key3: individualVueData.selectDay.value.toString(),
-        key4: '1',
-        key5: '1',
-      }
-      showState.showSpinne = true
-      showState.showTable = true
-      showState.showCollapse = true
-      console.log('Key', Key)
-
-      GetStockData.getUserBoard(Key).then(res => {
-        let original = res.data
-        console.log('original.length:', original.length)
-
-        individualVueData.stockInfo.name = original[0]['Stock_name'];
-        individualVueData.stockInfo.note = original[0]['Stock_num'];
-
-      }).then(() => {
-        showState.showTable = true;
-        showState.showSpinner = false
-        showState.showBCardNm = true
-      }).catch(() => {
-        showState.showSpinner = true
+      individualVueData.items.value = []
+      let dataFilter = individualVueData.items.allData.filter((f, idx) => {
+        return idx < selectDay.value;
       })
+      individualVueData.items.value = [...dataFilter]
+      individualVueData.perPage = selectDay.value;
+      selectionsDay.value = Number(selectDay.value);
+      setChartData();
     }
-    onMounted(() => {
-      console.log('onMounted<<')
-      // showState.showSpinne = true
-      showState.showTable = true
-      showState.showCollapse = true
-      let original = pr.value['isTypeData'];
-      initChartData.data = original;
-      individualVueData.stockInfo.name = original[0]['Stock_name'];
-      individualVueData.stockInfo.note = original[0]['Stock_num'];
-      initChartData.data = original;
-      if (original.length > 0) {
-        showState.showSpinner = false
-        showState.showPagination = true
-      }
-      allFunction.editHTMLcolorClassification(original);
-      individualVueData.fields.value = [{
-        key: 'Year',
-        label: '年份',
-        thClass: 'text-center ',
-        tdClass: 'text-center ',
-        sortable: true
-      }, {
-        key: 'Month',
-        label: '月份',
-        thClass: 'text-center ',
-        tdClass: 'text-center ',
-        sortable: true
+
+
+    const allFunction = reactive({
+      editHTMLcolorClassification: (res) => {
+        individualVueData.items.value = res
+        // individualVueData.items.value.forEach((f, index, arr) => {
+        //   let Growth_mon = f['Growth_mon']; //上月比較增減(%)
+        //   let Growth_year = f['Growth_year']; //去年同月增減(%)
+        //   let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
+        //   // 對應漲跌  + 紅色
+        //   //          - 綠色
+        //   if (Growth_mon > 0 || Growth_year > 0 || Grow_total_earn > 0) {
+        //     arr[index]['Growth_mon'] =
+        //         '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
+        //     arr[index]['Growth_year'] =
+        //         '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
+        //     arr[index]['Grow_total_earn'] =
+        //         '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+        //   } else if (Growth_mon < 0 || Growth_year < 0) {
+        //     arr[index]['Growth_mon'] =
+        //         '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
+        //     arr[index]['Growth_year'] =
+        //         '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
+        //     arr[index]['Grow_total_earn'] =
+        //         '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
+        //   }
+        //
+        //
+        // })
+        // console.log('individualVueData.items.value:',individualVueData.items.value)
       },
-        {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Price', label: '平均月股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Mon_earn', label: '當月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Last_mon_earn', label: '上月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Growth_mon', label: '上月比較增減(%)', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Last_year_mon_earn', label: '去年同月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {
-          key: 'Growth_year',
-          label: '去年同月增減(%)',
+      setField: () => {
+        individualVueData.fields.value = [{
+          key: 'Year',
+          label: '年份',
+          thClass: 'text-center ',
+          tdClass: 'text-center ',
+          sortable: true
+        }, {
+          key: 'Month',
+          label: '月份',
           thClass: 'text-center ',
           tdClass: 'text-center ',
           sortable: true
         },
-        {key: 'Total_earn', label: '當月累計營收', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-        {key: 'Last_total_earn', label: '去年累計營收', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
-        {key: 'Grow_total_earn', label: '前期比較增減(%)', thClass: 'text-center', tdClass: 'text-center ', sortable: true},
-        {key: 'Comment', label: '註記', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
-      ]
-    })
-    const allFunction = reactive({
-      editHTMLcolorClassification: (res) => {
-        individualVueData.items.value = res
-        individualVueData.items.value.forEach((f, index, arr) => {
-          let Growth_mon = f['Growth_mon']; //上月比較增減(%)
-          let Growth_year = f['Growth_year']; //去年同月增減(%)
-          let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
-          // 對應漲跌  + 紅色
-          //          - 綠色
-          if (Growth_mon > 0 || Growth_year > 0 || Grow_total_earn > 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          } else if (Growth_mon < 0 || Growth_year < 0) {
-            arr[index]['Growth_mon'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
-            arr[index]['Growth_year'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
-            arr[index]['Grow_total_earn'] =
-                '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-          }
-
-
-        })
-        // console.log('individualVueData.items.value:',individualVueData.items.value)
+          {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Price', label: '平均月股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Mon_earn', label: '當月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Last_mon_earn', label: '上月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Growth_mon', label: '上月比較增減(%)', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Last_year_mon_earn', label: '去年同月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {
+            key: 'Growth_year',
+            label: '去年同月增減(%)',
+            thClass: 'text-center ',
+            tdClass: 'text-center ',
+            sortable: true
+          },
+          {key: 'Total_earn', label: '當月累計營收', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Last_total_earn', label: '去年累計營收', thClass: 'text-center ', tdClass: 'text-center ', sortable: true},
+          {key: 'Grow_total_earn', label: '前期比較增減(%)', thClass: 'text-center', tdClass: 'text-center ', sortable: true},
+          {key: 'Comment', label: '註記', thClass: 'text-center', tdClass: 'text-center ', sortable: true}
+        ]
       }
 
     })
+
     function rowClass(item) {
       Object.keys(item).forEach(f => {
         // console.log('*',item[f])
@@ -280,19 +245,168 @@ export default {
         }
       })
     }
+
     const transProps = {
       // Transition name
       name: 'flip-list'
     }
+
+
+    const chartOptionsData = reactive({
+      date: null
+      , seriesData1: null
+      , seriesData2: null
+      , filterData: null
+      , allData: null
+
+    })
+
+
+    const chartOptions = reactive({
+      chart: {
+        zoomType: 'xy'
+      },
+      loading: {
+        hideDuration: 1000,
+        showDuration: 3000
+      },
+      title: {
+        text: ' Monthly '
+      },
+      subtitle: {
+        text: ''
+      },
+      xAxis: [{
+        categories: [],
+        crosshair: true
+      }],
+      yAxis: [{ // Primary yAxis
+        labels: {
+          format: '{value}',
+          style: {
+            color: '#171515'
+          }
+        },
+        title: {
+          text: '千元',
+          style: {
+            color: '#151515'
+          }
+        }
+      }, { // Secondary yAxis
+        title: {
+          text: '股價',
+          style: {
+            color: '#0c0c0c'
+          }
+        },
+        labels: {
+          format: '{value}元',
+          style: {
+            color: '#050505'
+          }
+        },
+        opposite: true
+      }],
+      tooltip: {
+        shared: true
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true,
+        backgroundColor:
+        // theme
+            'rgba(255,255,255,0.25)'
+      },
+      series: [{
+        name: '每月營收',
+        type: 'column',
+        data: [],
+        tooltip: {
+          valueSuffix: ' ',
+          animation: true
+        },
+        color: '#f8c839',
+        marker: {
+          enabled: true
+        },
+      },
+        {
+          name: '月均價',
+          type: 'spline',
+          yAxis: 1,
+          data: [],
+          tooltip: {
+            valueSuffix: ' ',
+            animation: true
+          },
+          color: '#e33232'
+        }]
+    });
+
+    const setChartData = function () {
+
+      chartOptionsData.allData = []
+      chartOptionsData.allData = [...initChartData.data];
+      chartOptionsData.filterData = []
+      chartOptionsData.filterData = chartOptionsData.allData.filter((f, idx) => {
+        return idx < selectionsDay.value
+      })
+      console.log('chartOptionsData.allData:', chartOptionsData.filterData)
+      chartOptionsData.date = []
+      chartOptionsData.seriesData1 = []
+      chartOptionsData.seriesData2 = []
+
+      let formatDate = ''
+
+      chartOptionsData.filterData.forEach(f => {
+        formatDate = f.Year + '年' + f.Month + '月';
+        // formatDate = f.Year + '/' + f.Month ;
+        chartOptionsData.date.unshift(formatDate);
+        chartOptionsData.seriesData1.unshift(f.Mon_earn);
+        chartOptionsData.seriesData2.unshift(f.Price);
+      })
+      chartOptions.series[0].data = chartOptionsData.seriesData1;
+      chartOptions.series[1].data = chartOptionsData.seriesData2;
+      chartOptions.xAxis[0].categories = chartOptionsData.date
+
+    }
+    onMounted(() => {
+      console.log('onMounted<<')
+      // showState.showSpinne = true
+      showState.showTable = true
+      showState.showCollapse = true
+      let original = pr.value['isTypeData'];
+      initChartData.data = original;
+      individualVueData.stockInfo.name = original[0]['Stock_name'];
+      individualVueData.stockInfo.note = original[0]['Stock_num'];
+
+      if (original.length > 0) {
+        showState.showSpinner = false
+        showState.showPagination = true
+      }
+      allFunction.editHTMLcolorClassification(original);
+      allFunction.setField();
+      setChartData();
+    })
+
+
     return {
       allFunction,
       individualVueData,
       showState,
-      search,
       initChartData,
+      selectionsDay,
       changeSelectDay,
       rowClass,
-      transProps
+      transProps,
+      dataFilter,
+      selectDay,
+      chartOptions
     }
   }
 
