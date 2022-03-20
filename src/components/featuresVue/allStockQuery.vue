@@ -250,16 +250,16 @@ export default {
       selectKey.idName = individualVueData.selected.value
       GetStockData.getUserBoard(selectKey).then(res => {
         showState.showSpinner = true;
-        if ('上市' === name) {
+        if ('上市' === name && '上市' === selected.value.toString()) {
           individualVueData.items.listed = [];
           individualVueData.items.listed = res.data;
           individualVueData.items.value = [...individualVueData.items.listed]
 
         }
-        if ('上櫃' === name) {
+        if ('上櫃' === name && '上櫃' === selected.value.toString()) {
           individualVueData.items.cabinet = [];
           individualVueData.items.cabinet = res.data;
-
+          individualVueData.items.value = [...individualVueData.items.listed]
         }
         if (res.data.length > 0) {
           showState.showSpinner = false
