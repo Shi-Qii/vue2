@@ -226,6 +226,14 @@ export default {
     const search = function () {
       searchforRequest('上市');
       searchforRequest('上櫃');
+      if ('上市' === selected.value.toString()) {
+        individualVueData.items.value = [];
+        individualVueData.items.value = [...individualVueData.items.listed]
+      }
+      if ('上櫃' === selected.value.toString()) {
+        individualVueData.items.value = [];
+        individualVueData.items.value = [...individualVueData.items.cabinet]
+      }
     }
 
 
@@ -244,13 +252,13 @@ export default {
         if ('上市' === name) {
           individualVueData.items.listed = [];
           individualVueData.items.listed = res.data;
-          individualVueData.items.value = [...individualVueData.items.listed]
+
 
         }
         if ('上櫃' === name ) {
           individualVueData.items.cabinet = [];
           individualVueData.items.cabinet = res.data;
-          individualVueData.items.value = [...individualVueData.items.cabinet]
+
         }
         if (res.data.length > 0) {
           showState.showSpinner = false
