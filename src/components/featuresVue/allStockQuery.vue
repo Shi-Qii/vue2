@@ -248,7 +248,20 @@ export default {
 
       })
     }
+    const changeFn = function () {
+      search();
+      // if (selected.value.toString() === '上市') {
+      //   individualVueData.items.value = []
+      //   individualVueData.items.value = [...individualVueData.items.listed]
+      // } else if (selected.value.toString() === '上櫃') {
+      //   individualVueData.items.value = []
+      //   individualVueData.items.value = [...individualVueData.items.cabinet]
+      //   allFunction.editHTMLcolorClassification();
+      // }
 
+      // key2: selected.value.toString()
+
+    }
     // const numberFormatter = function (num) {
     //   if (typeof num === 'number') {
     //     // console.log('判斷型態:', typeof num)
@@ -270,7 +283,7 @@ export default {
     }
 
     return {
-      showState, rows, individualVueData, rowClass, transProps, search, selected, options
+      showState, rows, individualVueData, rowClass, transProps, search, selected, options,changeFn
     }
   }
 
