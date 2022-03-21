@@ -52,19 +52,19 @@
               :current-page="individualVueData.currentPage"
               class=" setTB col-12"
           >
-            <template #cell(Growth_mon)="data1" >
+            <template #cell(Growth_mon)="data" >
             <span
-                :class="''+(data1.value > 0  ? 'text-danger bold ': '')+(data1.value < 0 ? 'text-success bold  ': '' )">
-              {{ data1.value }}</span>
+                :class="''+(data.value > 0 && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
+              {{ data.value }}</span>
             </template>
             <template #cell(Growth_year)="data">
             <span
-                :class="''+(data.value > 0 ? 'text-danger bold ': '')+(data.value < 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
             </template>
             <template #cell(Grow_total_earn)="data">
             <span
-                :class="''+(data.value > 0 ? 'text-danger bold ': '')+(data.value < 0 ? 'text-success bold  ': '' )">
+                :class="''+(data.value > 0 && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
               {{ data.value }}</span>
             </template>
 
@@ -183,30 +183,34 @@ export default {
     const allFunction = reactive({
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
-        // individualVueData.items.value.forEach((f, index, arr) => {
-        //   let Growth_mon = f['Growth_mon']; //上月比較增減(%)
-        //   let Growth_year = f['Growth_year']; //去年同月增減(%)
-        //   let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
+        individualVueData.items.value.forEach((f, index, arr) => {
+          let Growth_mon = f['Growth_mon']; //上月比較增減(%)
+          let Growth_year = f['Growth_year']; //去年同月增減(%)
+          let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
         //   // 對應漲跌  + 紅色
         //   //          - 綠色
-        //   if (Growth_mon > 0 || Growth_year > 0 || Grow_total_earn > 0) {
-        //     arr[index]['Growth_mon'] =
-        //         '<Strong><span style="color:red">' + arr[index]['Growth_mon'] + '</span></Strong>';
-        //     arr[index]['Growth_year'] =
-        //         '<Strong><span style="color:red">' + arr[index]['Growth_year'] + '</span></Strong>';
-        //     arr[index]['Grow_total_earn'] =
-        //         '<Strong><span style="color:red">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-        //   } else if (Growth_mon < 0 || Growth_year < 0) {
-        //     arr[index]['Growth_mon'] =
-        //         '<Strong><span style="color:darkgreen">' + arr[index]['Growth_mon'] + '</span></Strong>';
-        //     arr[index]['Growth_year'] =
-        //         '<Strong><span style="color:darkgreen">' + arr[index]['Growth_year'] + '</span></Strong>';
-        //     arr[index]['Grow_total_earn'] =
-        //         '<Strong><span style="color:darkgreen">' + arr[index]['Grow_total_earn'] + '</span></Strong>';
-        //   }
-        //
-        //
-        // })
+          let obj = {}
+          if (Growth_mon > 100) {
+            obj['Growth_mon'] = 'danger'
+          }
+          if (Growth_mon <= (-100)) {
+            obj['Growth_mon'] = 'success'
+          }
+          if (Growth_year > 100) {
+            obj['Growth_year'] = 'danger'
+          }
+          if (Growth_year <= (-100)) {
+            obj['Growth_year'] = 'success'
+          }
+          if (Grow_total_earn > 100) {
+            obj['Grow_total_earn'] = 'danger'
+          }
+          if (Grow_total_earn <= (-100)) {
+            obj['Grow_total_earn'] = 'success'
+          }
+          f['_cellVariants'] = obj
+
+        })
         // console.log('individualVueData.items.value:',individualVueData.items.value)
       },
       setField: () => {
