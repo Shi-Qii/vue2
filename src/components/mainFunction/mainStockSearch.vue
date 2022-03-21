@@ -101,9 +101,9 @@ export default {
             item: {
               idName: 'monthly_revenue',
               functionKey: 'Ind_Monthly_Revenue_Short_Long',
-              key2: '上市',
-              key3: '來自輸入框的值',
-              key4: '60', //預設撈60個月，預設顯示12個月
+              key2: '來自輸入框的值',
+              key3: '1',
+              key4: '1', //預設撈60個月，預設顯示12個月
               key5: '1',
               entrance: 'indMonthlyRevenueShortLong'
             }, name: '長短期月營收'
@@ -152,8 +152,8 @@ export default {
           let selectKey = {
             idName: mainVueData.selected.value.idName,
             key1: mainVueData.selected.value.functionKey,
-            key2: mainVueData.selected.value.key2,
-            key3: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+            key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+            key3: mainVueData.selected.value.key3,
             key4: mainVueData.selected.value.key4,
             key5: mainVueData.selected.value.key5,
           }
@@ -286,9 +286,9 @@ export default {
           mainVueData.selected.value = {
             "idName": "monthly_revenue",
             "functionKey": "Ind_Monthly_Revenue_Short_Long",
-            "key2": "上市",
-            "key3": "來自輸入框的值",
-            "key4": "60",
+            "key2": "來自輸入框的值",
+            "key3": "1",
+            "key4": "1",
             "key5": "1",
             "entrance": "indMonthlyRevenueShortLong"
           }
