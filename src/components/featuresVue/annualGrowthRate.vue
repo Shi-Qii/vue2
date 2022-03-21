@@ -127,7 +127,7 @@ export default {
     })
     const individualVueData = reactive({
       selected: {value: 'monthly_revenue'},
-      foreignNm: '上市月營收長短期年增率',
+      foreignNm: '月營收長短期年增率',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       stockCode1: {value: ''},

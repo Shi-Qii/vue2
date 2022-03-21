@@ -62,9 +62,12 @@
                 :class="''+(data.value > 0 ? 'text-danger bold ': '')+(data.value < 0 ? 'text-success bold  ': '' )">
               {{ data.value }}</span>
             </template>
-            <template #cell(Stock_num)="data">
-              <a :href="`/${'sndividualStockInquiry?id='+data.value}`">{{ data.value }}</a>
+            <template #cell(Grow_total_earn)="data">
+            <span
+                :class="''+(data.value > 0 ? 'text-danger bold ': '')+(data.value < 0 ? 'text-success bold  ': '' )">
+              {{ data.value }}</span>
             </template>
+
             <template #cell()="data">
               <span v-html="data.value"></span>
             </template>
@@ -220,8 +223,8 @@ export default {
           tdClass: 'text-center ',
           sortable: true
         },
-          {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          // {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          // {key: 'Stock_name', label: '股票名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Price', label: '平均月股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Mon_earn', label: '當月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Last_mon_earn', label: '上月營收', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
