@@ -46,7 +46,7 @@
         >
 
           <template #cell(Stock_num)="data">
-            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'monthly_revenue'}}">
+            <router-link :to="{ path:'/mainStockSearch', query:{id:data.value,params:'monthly_revenue',type:'Ind_Monthly_Revenue_Short_Long'    }}">
               <a>{{ data.value }}</a>
             </router-link>
           </template>
