@@ -183,7 +183,7 @@ export default {
     const allFunction = reactive({
       editHTMLcolorClassification: (res) => {
         individualVueData.items.value = res
-        individualVueData.items.value.forEach((f, index, arr) => {
+        individualVueData.items.value.forEach((f) => {
           let Growth_mon = f['Growth_mon']; //上月比較增減(%)
           let Growth_year = f['Growth_year']; //去年同月增減(%)
           let Grow_total_earn = f['Growth_year']; //前期比較增減(%)
