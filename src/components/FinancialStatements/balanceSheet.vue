@@ -25,7 +25,7 @@
           @change="changeFn()"
       ></b-form-radio-group>
       <br/>
-      <field-season-select @update="changeEmit1"></field-season-select>
+      <field-season-select v-if="false" @update="changeEmit1"></field-season-select>
     </div>
 
     <hr/>
@@ -246,7 +246,7 @@ export default {
         console.log(res)
         showState.showSpinner = true;
         if ('上市' === name) {
-          individualVueData.items.listed = [{"Stock_num":"6104","Close_price":291.5,"Stock_name":"創惟","Asset":3571227.0,"Liability":1683779.0,"Total_equity":1887448.0,"Book_value_per_share":20.86},{"Stock_num":"6109","Close_price":9.1,"Stock_name":"亞元","Asset":1192192.0,"Liability":647817.0,"Total_equity":544375.0,"Book_value_per_share":9.19}];
+          individualVueData.items.listed = [{"Stock_num":"1101","Close_price":48.95,"Stock_name":"台泥","Asset":441684559.0,"Liability":216029886.0,"Total_equity":225654673.0,"Book_value_per_share":32.37},{"Stock_num":"1110","Close_price":20.5,"Stock_name":"東泥","Asset":10958500.0,"Liability":2247791.0,"Total_equity":8710709.0,"Book_value_per_share":15.13}];
           // individualVueData.items.listed = res.data;
 
 
