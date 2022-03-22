@@ -200,19 +200,19 @@
               <b-dropdown Block id="dropdown-dropright" dropright text="財務報表" variant="primary" class="m-2 ">
                 <b-dropdown-item>
                   <router-link to="/balanceSheet">
-                    <font-awesome-icon icon="box"/>
+                    <font-awesome-icon icon="home"/>
                     資產負債表
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link to="/hightcharts_monthlyChart">
-                    <font-awesome-icon icon="file-word"/>
+                    <font-awesome-icon icon="home"/>
                     損益表
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link to="/stockCandlesstick">
-                    <font-awesome-icon icon="cash" />
+                    <font-awesome-icon icon="home" />
                     現金流量表
                   </router-link>
                 </b-dropdown-item>
@@ -224,7 +224,7 @@
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <router-link  to="/stockCandlesstick">
-                    <font-awesome-icon icon="user-plus"/>
+                    <font-awesome-icon icon="home"/>
                     財務趨勢圖
                   </router-link>
                 </b-dropdown-item>

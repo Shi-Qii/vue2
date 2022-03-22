@@ -4,10 +4,12 @@
     <hr/>
     <div class="container-fluid">
       <b-input-group class="">
-        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode1.value"
+        <b-form-input type="text" maxlength="3" class="col-2"
+                      @input.native="focusNext($event, 3)"
+                      v-model="individualVueData.stockCode1.value"
                       list="my-list-id"></b-form-input>
         <b-input-group-text>年</b-input-group-text>
-        <b-form-input type="text" class="col-2" v-model="individualVueData.stockCode2.value"
+        <b-form-input type="text" class="col-2"  ref= 'focusElement' v-model="individualVueData.stockCode2.value"
                       list="my-list-id"></b-form-input>
         <b-input-group-text>季</b-input-group-text>
         <b-input-group-append>
@@ -210,6 +212,7 @@ export default {
         individualVueData.fields.value = [
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Close_price', label: '最新股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Asset', label: '資產總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Liability', label: '負債總計', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Total_equity', label: '權益總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
@@ -320,8 +323,12 @@ export default {
     onMounted(() => {
 
     })
+    const focusNext = function (e, maxlength) {
+      console.log('e, maxlength',e.target.value.length,  this,maxlength)
+      if (e.target.value.length === maxlength) this.$refs['focusElement'].focus();
+    };
     return {
-      showState, rows, individualVueData, rowClass, transProps, search, selected, options, changeFn, changeEmit1
+      showState, rows, individualVueData, rowClass, transProps, search, selected, options, changeFn, changeEmit1,focusNext
     }
   }
 
