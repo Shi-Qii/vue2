@@ -18,17 +18,10 @@ export default {
   name: "fieldSelect",
   emits: ["changeEmit"]
   , setup(props, {emit}) {
-    const selected = ref(1)
+    const selected = ref(2)
     const options = ref([
-      {value: 1, text: '1日排行'},
-      {value: 2, text: '2日排行'},
-      {value: 3, text: '3日排行'},
-      {value: 4, text: '4日排行'},
-      {value: 5, text: '5日排行'},
-      {value: 7, text: '7日排行'},
-      {value: 10, text: '10日排行'},
-      {value: 20, text: '20日排行'},
-      {value: 60, text: '60日排行'},
+      {value: 1, text: '單季'},
+      {value: 2, text: '累季'},
 
     ])
     // const changeEmit = function () {

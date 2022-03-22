@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <!--      <a class="navbar-brand">影評網</a>-->
+
       <a class="navbar-brand">股票</a>
 
       <div class="navbar-nav mr-auto">
@@ -194,6 +194,40 @@
                   </router-link>
                 </b-dropdown-item>
 
+              </b-dropdown>
+            </div>
+            <div class="px-3 py-2">
+              <b-dropdown Block id="dropdown-dropright" dropright text="財務報表" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/balanceSheet">
+                    <font-awesome-icon icon="box"/>
+                    資產負債表
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/hightcharts_monthlyChart">
+                    <font-awesome-icon icon="file-word"/>
+                    損益表
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/stockCandlesstick">
+                    <font-awesome-icon icon="cash" />
+                    現金流量表
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/stockCandlesstick">
+                    <font-awesome-icon icon="home"/>
+                    財務比率表
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link  to="/stockCandlesstick">
+                    <font-awesome-icon icon="user-plus"/>
+                    財務趨勢圖
+                  </router-link>
+                </b-dropdown-item>
               </b-dropdown>
             </div>
           </b-sidebar>

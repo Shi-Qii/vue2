@@ -193,7 +193,11 @@ export const router = new Router({
             name: "totalSalesSell",
             component: () => import("./components/featuresVue/totalSalesSell.vue")
         },
-
+        {
+            path: "/balanceSheet",
+            name: "balanceSheet",
+            component: () => import("./components/FinancialStatements/balanceSheet.vue")
+        },
     ]
 });
 
