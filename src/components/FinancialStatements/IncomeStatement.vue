@@ -260,61 +260,13 @@ export default {
         showState.showSpinner = true;
         if ('上市' === name) {
           // individualVueData.items.listed = [{"Stock_num":"1101","Close_price":48.95,"Stock_Name":"台泥","Operating_profit":4679063.0,"Out_operating_revence":2053460.0,"CNI":946727.0,"Basic_EPS":0.89},{"Stock_num":"1110","Close_price":20.5,"Stock_Name":"東泥","Operating_profit":12846.0,"Out_operating_revence":7758.0,"CNI":83277.0,"Basic_EPS":0.04}];
-          individualVueData.items.listed = [{
-            "Stock_num": "6126",
-            "Close_price": 25.15,
-            "Stock_Name": "信音",
-            "Operating_profit": 432272.0,
-            "Out_operating_revence": 12621.0,
-            "CNI": 313463.0,
-            "Basic_EPS": 1.97
-          }, {
-            "Stock_num": "6129",
-            "Close_price": 34.1,
-            "Stock_Name": "普誠",
-            "Operating_profit": 115182.0,
-            "Out_operating_revence": 45889.0,
-            "CNI": 153370.0,
-            "Basic_EPS": 0.63
-          }, {
-            "Stock_num": "6140",
-            "Close_price": 16.9,
-            "Stock_Name": "訊達電腦",
-            "Operating_profit": 39714.0,
-            "Out_operating_revence": -4652.0,
-            "CNI": 28296.0,
-            "Basic_EPS": 0.68
-          }];
-          // individualVueData.items.listed = res.data;
+          individualVueData.items.listed = [];
+          individualVueData.items.listed = res.data;
         }
         if ('上櫃' === name) {
           // individualVueData.items.cabinet = [{"Stock_num":"6104","Close_price":291.5,"Stock_Name":"創惟","Operating_profit":267962.0,"Out_operating_revence":-4355.0,"CNI":227855.0,"Basic_EPS":2.52},{"Stock_num":"6109","Close_price":9.1,"Stock_Name":"亞元","Operating_profit":-26610.0,"Out_operating_revence":-20767.0,"CNI":-43139.0,"Basic_EPS":-0.78},];
-          individualVueData.items.cabinet = [{
-            "Stock_num": "1231",
-            "Close_price": 81.2,
-            "Stock_Name": "聯華食",
-            "Operating_profit": 946253.0,
-            "Out_operating_revence": 64498.0,
-            "CNI": 790915.0,
-            "Basic_EPS": 4.03
-          }, {
-            "Stock_num": "1232",
-            "Close_price": 156.5,
-            "Stock_Name": "大統益",
-            "Operating_profit": 1530914.0,
-            "Out_operating_revence": 66856.0,
-            "CNI": 1297219.0,
-            "Basic_EPS": 7.76
-          }, {
-            "Stock_num": "1233",
-            "Close_price": 33.85,
-            "Stock_Name": "天仁",
-            "Operating_profit": 14836.0,
-            "Out_operating_revence": 38102.0,
-            "CNI": 30989.0,
-            "Basic_EPS": 0.48
-          },];
-          // individualVueData.items.cabinet = res.data;
+          individualVueData.items.cabinet = [];
+          individualVueData.items.cabinet = res.data;
         }
         individualVueData.items.value = [];
         setTimeout(() => {
