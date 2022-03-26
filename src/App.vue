@@ -205,7 +205,7 @@
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link to="/hightcharts_monthlyChart">
+                  <router-link to="/IncomeStatement">
                     <font-awesome-icon icon="home"/>
                     損益表
                   </router-link>

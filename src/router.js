@@ -197,6 +197,10 @@ export const router = new Router({
             path: "/balanceSheet",
             name: "balanceSheet",
             component: () => import("./components/FinancialStatements/balanceSheet.vue")
+        },{
+            path: "/IncomeStatement",
+            name: "IncomeStatement",
+            component: () => import("./components/FinancialStatements/IncomeStatement.vue")
         },
     ]
 });

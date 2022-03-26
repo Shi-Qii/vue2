@@ -3,7 +3,7 @@
     <div class=" col-4 pl-0 ">
       <br/>
       <b-input-group prepend="選擇幾日排行:"  >
-        <b-form-select v-model="selected" :options="options" @change="changeEmit(selected)"></b-form-select>
+        <b-form-select  v-model="selected" :options="options" @change="changeEmit(selected)"></b-form-select>
       </b-input-group>
     </div>
   </div>
@@ -18,16 +18,17 @@ export default {
   name: "fieldSelect",
   emits: ["changeEmit"]
   , setup(props, {emit}) {
-    const selected = ref(2)
+    const selected = ref('accumulate')
     const options = ref([
-      {value: 1, text: '單季'},
-      {value: 2, text: '累季'},
+      {value: 'single', text: '單季'},
+      {value: 'accumulate', text: '累季'},
 
     ])
     // const changeEmit = function () {
     //   this.$emit('changeEmit', {selected});
     //   console.log(this.$emit());
     // }
+
     const changeEmit = (val) => {
       emit('update', val);
     };

@@ -9,7 +9,8 @@
                       v-model="individualVueData.stockCode1.value"
                       list="my-list-id"></b-form-input>
         <b-input-group-text>年</b-input-group-text>
-        <b-form-input type="text" class="col-2"   maxlength="1" ref= 'focusElement' v-model="individualVueData.stockCode2.value"
+        <b-form-input type="text" class="col-2" maxlength="1" ref='focusElement'
+                      v-model="individualVueData.stockCode2.value"
                       list="my-list-id"></b-form-input>
         <b-input-group-text>季</b-input-group-text>
         <b-input-group-append>
@@ -27,7 +28,7 @@
           @change="changeFn()"
       ></b-form-radio-group>
       <br/>
-      <field-season-select v-if="false" @update="changeEmit1"></field-season-select>
+      <field-season-select @update="changeEmit1"></field-season-select>
     </div>
 
     <hr/>
@@ -125,6 +126,7 @@ import GetStockData from "@/services/getStockData";
 import {router} from "@/router";
 
 import fieldSeasonSelect from "@/components/model_using/fieldSeasonSelect";
+
 Vue.use(VueCompositionAPI)
 export default {
   name: "allStockQuery",
@@ -154,9 +156,10 @@ export default {
     const rows = computed(() => {
       return individualVueData.items.value.length
     })
+
     const individualVueData = reactive({
-      selected: {value: 'monthly_revenue'},
-      foreignNm: '資產負債表',
+      selected: {value: 'financial_report'},
+      foreignNm: '損益表',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       stockCode1: {value: ''},
@@ -211,13 +214,18 @@ export default {
 
         individualVueData.fields.value = [
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Stock_name', label: '公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Stock_Name', label: '公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Close_price', label: '最新股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Asset', label: '資產總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Liability', label: '負債總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Total_equity', label: '權益總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Book_value_per_share', label: '每股參考淨值', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-
+          {key: 'Operating_profit', label: '營業利益', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {
+            key: 'Out_operating_revence',
+            label: '營業外損益',
+            thClass: 'text-center ',
+            tdClass: 'text-center',
+            sortable: true
+          },
+          {key: 'CNI', label: '本期綜合損益總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Basic_EPS', label: '基本每股盈餘（元）', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
         ]
       }
 
@@ -227,32 +235,85 @@ export default {
       showState.showSpinner = true
       showState.showPagination = false
       showState.showTable = false
-
-      searchforRequest('上市');
-      searchforRequest('上櫃');
+      //def 預設查詢是累加 === accumulate 對應 Comprehensive_Income
+      let def = 'Comprehensive_Income';
+      searchforRequest('上市', def);
+      searchforRequest('上櫃', def);
 
 
     }
 
-    const searchforRequest = function (name) {
+    const searchforRequest = function (name, keyOne) {
+
       let selectKey = {
         idName: null,
-        key1: 'Listed_Monthly_Revenue',
+        key1: keyOne.toString(),
         key2: name.toString(),
         key3: individualVueData.stockCode1.value,
         key4: individualVueData.stockCode2.value,
         key5: '1',
       }
+
       selectKey.idName = individualVueData.selected.value
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log(res)
         showState.showSpinner = true;
         if ('上市' === name) {
-          individualVueData.items.listed = [{"Stock_num":"1101","Close_price":48.95,"Stock_name":"台泥","Asset":441684559.0,"Liability":216029886.0,"Total_equity":225654673.0,"Book_value_per_share":32.37},{"Stock_num":"1110","Close_price":20.5,"Stock_name":"東泥","Asset":10958500.0,"Liability":2247791.0,"Total_equity":8710709.0,"Book_value_per_share":15.13}];
+          // individualVueData.items.listed = [{"Stock_num":"1101","Close_price":48.95,"Stock_Name":"台泥","Operating_profit":4679063.0,"Out_operating_revence":2053460.0,"CNI":946727.0,"Basic_EPS":0.89},{"Stock_num":"1110","Close_price":20.5,"Stock_Name":"東泥","Operating_profit":12846.0,"Out_operating_revence":7758.0,"CNI":83277.0,"Basic_EPS":0.04}];
+          individualVueData.items.listed = [{
+            "Stock_num": "6126",
+            "Close_price": 25.15,
+            "Stock_Name": "信音",
+            "Operating_profit": 432272.0,
+            "Out_operating_revence": 12621.0,
+            "CNI": 313463.0,
+            "Basic_EPS": 1.97
+          }, {
+            "Stock_num": "6129",
+            "Close_price": 34.1,
+            "Stock_Name": "普誠",
+            "Operating_profit": 115182.0,
+            "Out_operating_revence": 45889.0,
+            "CNI": 153370.0,
+            "Basic_EPS": 0.63
+          }, {
+            "Stock_num": "6140",
+            "Close_price": 16.9,
+            "Stock_Name": "訊達電腦",
+            "Operating_profit": 39714.0,
+            "Out_operating_revence": -4652.0,
+            "CNI": 28296.0,
+            "Basic_EPS": 0.68
+          }];
           // individualVueData.items.listed = res.data;
         }
         if ('上櫃' === name) {
-          individualVueData.items.cabinet = [{"Stock_num":"6104","Close_price":291.5,"Stock_name":"創惟","Asset":3571227.0,"Liability":1683779.0,"Total_equity":1887448.0,"Book_value_per_share":20.86},{"Stock_num":"6109","Close_price":9.1,"Stock_name":"亞元","Asset":1192192.0,"Liability":647817.0,"Total_equity":544375.0,"Book_value_per_share":9.19}];
+          // individualVueData.items.cabinet = [{"Stock_num":"6104","Close_price":291.5,"Stock_Name":"創惟","Operating_profit":267962.0,"Out_operating_revence":-4355.0,"CNI":227855.0,"Basic_EPS":2.52},{"Stock_num":"6109","Close_price":9.1,"Stock_Name":"亞元","Operating_profit":-26610.0,"Out_operating_revence":-20767.0,"CNI":-43139.0,"Basic_EPS":-0.78},];
+          individualVueData.items.cabinet = [{
+            "Stock_num": "1231",
+            "Close_price": 81.2,
+            "Stock_Name": "聯華食",
+            "Operating_profit": 946253.0,
+            "Out_operating_revence": 64498.0,
+            "CNI": 790915.0,
+            "Basic_EPS": 4.03
+          }, {
+            "Stock_num": "1232",
+            "Close_price": 156.5,
+            "Stock_Name": "大統益",
+            "Operating_profit": 1530914.0,
+            "Out_operating_revence": 66856.0,
+            "CNI": 1297219.0,
+            "Basic_EPS": 7.76
+          }, {
+            "Stock_num": "1233",
+            "Close_price": 33.85,
+            "Stock_Name": "天仁",
+            "Operating_profit": 14836.0,
+            "Out_operating_revence": 38102.0,
+            "CNI": 30989.0,
+            "Basic_EPS": 0.48
+          },];
           // individualVueData.items.cabinet = res.data;
         }
         individualVueData.items.value = [];
@@ -312,19 +373,46 @@ export default {
       })
     }
 
-    const changeEmit1 = function () {
+    const changeEmit1 = function (event) {
+      console.log('changeEmit1', event)
+      if ('single' === event) {
+        showState.showSpinner = true
+        showState.showPagination = false
+        showState.showTable = false
+        let def = 'Comprehensive_Income_Season';
+        searchforRequest('上市', def);
+        searchforRequest('上櫃', def);
+      } else if ('accumulate' === event) {
+        showState.showSpinner = true
+        showState.showPagination = false
+        showState.showTable = false
+        let def = 'Comprehensive_Income';
+        searchforRequest('上市', def);
+        searchforRequest('上櫃', def);
+      }
+
 
     }
-    changeEmit1();
+
     onMounted(() => {
 
     })
     const focusNext = function (e, maxlength) {
-      console.log('e, maxlength',e.target.value.length,  this,maxlength)
+      console.log('e, maxlength', e.target.value.length, this, maxlength)
       if (e.target.value.length === maxlength) this.$refs['focusElement'].focus();
     };
     return {
-      showState, rows, individualVueData, rowClass, transProps, search, selected, options, changeFn, changeEmit1,focusNext
+      showState,
+      rows,
+      individualVueData,
+      rowClass,
+      transProps,
+      search,
+      selected,
+      options,
+      changeFn,
+      changeEmit1,
+      focusNext
     }
   }
 
