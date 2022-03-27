@@ -421,16 +421,20 @@ export default {
 </script>
 <style>
 .setColor{
-  color: white;
-  background:radial-gradient(circle farthest-side at center,yellow,red);
+  color: #070707;
+  background:radial-gradient(circle farthest-side at center, #b5c6f6, rgba(36, 94, 191, 0.79));
+  font-weight: bolder;
+  font-size:21px;
 }
 
 .setwidth{
   color: red;
-  width: 300px;
+  width: 400px;
 }
 .setbg{
-  color: white;
-  background:radial-gradient(circle farthest-side at center,yellow,red);
+  color: #070707;
+  background:radial-gradient(circle farthest-side at center, #b5c6f6, rgba(36, 94, 191, 0.79));
+  font-weight: bolder;
+  font-size:21px;
 }
 </style>
