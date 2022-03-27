@@ -1,23 +1,24 @@
 <template>
   <div>
     {{ '基本公司資訊' }}
-    <div class="container-fluid">
+    <div class="container-fluid ">
 
 
       <b-table
-          outlined
-          sort
-          striped
           bordered
           hover
-          sticky-header
           v-if="showState.showTable"
           :items="individualVueData.items.value"
           :fields="individualVueData.fields.value"
-          responsive="sm"
-          class="setTB"
-      >
 
+          class="setWidth"
+      >
+<!--        <template #thead-top>-->
+<!--          <b-tr>-->
+<!--            <b-td variant="primary text-center" rowspan="1" >公司基本資料</b-td>-->
+<!--&lt;!&ndash;            <b-th variant="primary text-center" colspan="2">公司基本資料</b-th>&ndash;&gt;-->
+<!--          </b-tr>-->
+<!--        </template>-->
       </b-table>
       <b-table
           outlined
@@ -30,8 +31,13 @@
           :items="individualVueData.items1.value"
           :fields="individualVueData.fields1.value"
           responsive="sm"
-          class="setTB"
+
       >
+        <template #thead-top>
+          <b-tr>
+            <b-th class="setbg text-center" colspan="4">重要子公司基本資料</b-th>
+          </b-tr>
+        </template>
 
       </b-table>
       <b-table
@@ -45,9 +51,13 @@
           :items="individualVueData.items2.value"
           :fields="individualVueData.fields2.value"
           responsive="sm"
-          class="setTB"
-      >
 
+      >
+        <template #thead-top>
+          <b-tr>
+            <b-th variant=" text-center" class="setColor" colspan="4">海外子公司基本資料</b-th>
+          </b-tr>
+        </template>
       </b-table>
 
 
@@ -144,12 +154,14 @@ export default {
     // Important_Subsidiary
     // Oversea_Company
     const getBasicInfo = function (stockNum) {
-      let value=[{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}]
-      let field = setField(value);
-      console.log('field:',field)
+      // let value=[{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}]
+      // let field = setField(value);
+      // console.log('field:',field)
       // individualVueData.items['value']=[]
-      // individualVueData.items['value']= [{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}]
+      // individualVueData.items['value']=field['item']
+      // // individualVueData.items['value']= [{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}]
       // individualVueData.fields['value']=[]
+      // individualVueData.fields['value']=field['field']
       // individualVueData.fields['value']= [
       //
       //   {key: 'Revenue_YoY', label: '營收年成長率', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
@@ -162,73 +174,101 @@ export default {
       // ]
       showState.showSpinner = false
       console.log(stockNum)
-      // let selectKey = {
-      //   idName: 'basic_info',
-      //   key1: 'Basic_Info',
-      //   key2: stockNum,
-      //   key3: '1',
-      //   key4: '1',
-      //   key5: '1',
-      // }
-      // console.log('selectKey', selectKey)
-      // GetStockData.getUserBoard(selectKey)
-      //     .then(res => {
-      //       console.log('res>>Oversea_Company:', res)
-      //       showState.showSpinner = false
-      //     })
+      let selectKey = {
+        idName: 'basic_info',
+        key1: 'Basic_Info',
+        key2: stockNum,
+        key3: '1',
+        key4: '1',
+        key5: '1',
+      }
+      console.log('selectKey', selectKey)
+      GetStockData.getUserBoard(selectKey)
+          .then(res => {
+            let value=res.data;
+            let field = setField(value);
+            individualVueData.items['value']=[]
+            individualVueData.items['value']=field['item']
+            // individualVueData.items['value']= [{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}]
+            individualVueData.fields['value']=[]
+            individualVueData.fields['value']=field['field']
+            console.log('res>>Oversea_Company:', res)
+            showState.showSpinner = false
+          })
     }
     const getImportantSubsidiary = function (stockNum) {
       console.log(stockNum)
-      individualVueData.items1['value']=[]
-      individualVueData.items1['value']= [{"Stock_num":"2330","Happen_date":"2004-04-16","Subsidiary":"台灣積體電路(北美)公司","ccc":"積體電路及其他半導體裝置之銷售業務","Region":"U.S.A美國","Market_type":"上市"},{"Stock_num":"2330","Happen_date":"2017-02-16","Subsidiary":"TSMC Global Ltd.","Bussiness":"一般投資業務","Region":"British Virgin IS.英屬維京群島","Market_type":"上市"}]
-      individualVueData.fields1['value']=[]
-      individualVueData.fields1['value']= [
-        //登錄日期	子公司名稱	主要經營業務	地區
-        {key: 'Happen_date', label: '登錄日期', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Subsidiary', label: '子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Bussiness', label: '主要經營業務', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        ]
-      // let selectKey = {
-      //   idName: 'basic_info',
-      //   key1: 'Important_Subsidiary',
-      //   key2: stockNum,
-      //   key3: '1',
-      //   key4: '1',
-      //   key5: '1',
-      // }
-      // console.log('selectKey', selectKey)
-      // GetStockData.getUserBoard(selectKey)
-      //     .then(res => {
-      //       console.log('res>>Oversea_Company:', res)
-      //       showState.showSpinner = false
-      //     })
+      // individualVueData.items1['value']=[]
+      // individualVueData.items1['value']= [{"Stock_num":"2330","Happen_date":"2004-04-16","Subsidiary":"台灣積體電路(北美)公司","ccc":"積體電路及其他半導體裝置之銷售業務","Region":"U.S.A美國","Market_type":"上市"},{"Stock_num":"2330","Happen_date":"2017-02-16","Subsidiary":"TSMC Global Ltd.","Bussiness":"一般投資業務","Region":"British Virgin IS.英屬維京群島","Market_type":"上市"}]
+      // individualVueData.fields1['value']=[]
+      // individualVueData.fields1['value']=
+      // [
+      //   //登錄日期	子公司名稱	主要經營業務	地區
+      //   {key: 'Happen_date', label: '登錄日期', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   {key: 'Subsidiary', label: '子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   {key: 'Bussiness', label: '主要經營業務', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   ]
+      let selectKey = {
+        idName: 'basic_info',
+        key1: 'Important_Subsidiary',
+        key2: stockNum,
+        key3: '1',
+        key4: '1',
+        key5: '1',
+      }
+      console.log('selectKey', selectKey)
+      GetStockData.getUserBoard(selectKey)
+          .then(res => {
+            individualVueData.items1['value']=[]
+            individualVueData.items1['value']=res.data
+            individualVueData.fields1['value']=[]
+            individualVueData.fields1['value']= [
+                  //登錄日期	子公司名稱	主要經營業務	地區
+                  {key: 'Happen_date', label: '登錄日期', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                  {key: 'Subsidiary', label: '子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                  {key: 'Bussiness', label: '主要經營業務', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                  {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                  ]
+            console.log('res>>Oversea_Company:', res)
+            showState.showSpinner = false
+          })
     }
     const getOverseaCompany = function (stockNum) {
       console.log(stockNum)
-      // let selectKey = {
-      //   idName: 'basic_info',
-      //   key1: 'Oversea_Company',
-      //   key2: stockNum,
-      //   key3: '1',
-      //   key4: '1',
-      //   key5: '1',
-      // }
-      // console.log('selectKey', selectKey)
-      // GetStockData.getUserBoard(selectKey)
-      //     .then(res => {
-      //       console.log('res>>Oversea_Company:', res)
-      //       showState.showSpinner = false
-      //     })
-      individualVueData.items2['value']=[]
-      individualVueData.items2['value']= [{"Stock_num":"2330","Oversea_company_name":"VTAF III","Oversea_company":"Growth Fund","Region":"開曼群島","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Europe","Region":"荷蘭","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Global","Region":"英屬維京群島","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Partners","Region":"英屬維京群島","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Partners","Oversea_company":"TSMC Technology","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Partners","Oversea_company":"TSMC Development","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC North America","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Arizona","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Development","Oversea_company":"WaferTech","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Korea","Region":"南韓","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Partners","Oversea_company":"TSMC Canada","Region":"加拿大","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"JASM","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC 3DIC","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Japan","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC JDC","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"Emerging Fund","Region":"開曼群島","Hold_equity":99.9},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"VTAF II","Region":"開曼群島","Hold_equity":98.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"VTAF III","Region":"開曼群島","Hold_equity":98.0}]
-      individualVueData.fields2['value']=[]
-      individualVueData.fields2['value']= [
-        {key: 'Oversea_company_name', label: '重要子公司', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Oversea_company', label: '重要子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        {key: 'Hold_equity', label: '持股比率', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-        ] }
+      let selectKey = {
+        idName: 'basic_info',
+        key1: 'Oversea_Company',
+        key2: stockNum,
+        key3: '1',
+        key4: '1',
+        key5: '1',
+      }
+      console.log('selectKey', selectKey)
+      GetStockData.getUserBoard(selectKey)
+          .then(res => {
+            individualVueData.items2['value']=[]
+            individualVueData.items2['value']=res.data
+            individualVueData.fields2['value']=[]
+            individualVueData.fields2['value']=[
+                {key: 'Oversea_company_name', label: '重要子公司', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                {key: 'Oversea_company', label: '重要子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                {key: 'Hold_equity', label: '持股比率', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+                ]
+            console.log('res>>Oversea_Company:', res)
+            showState.showSpinner = false
+          })
+          }
+      // individualVueData.items2['value']=[]
+      // individualVueData.items2['value']= [{"Stock_num":"2330","Oversea_company_name":"VTAF III","Oversea_company":"Growth Fund","Region":"開曼群島","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Europe","Region":"荷蘭","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Global","Region":"英屬維京群島","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Partners","Region":"英屬維京群島","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Partners","Oversea_company":"TSMC Technology","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Partners","Oversea_company":"TSMC Development","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC North America","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Arizona","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Development","Oversea_company":"WaferTech","Region":"美國","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Korea","Region":"南韓","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"TSMC Partners","Oversea_company":"TSMC Canada","Region":"加拿大","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"JASM","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC 3DIC","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC Japan","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"TSMC JDC","Region":"日本","Hold_equity":100.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"Emerging Fund","Region":"開曼群島","Hold_equity":99.9},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"VTAF II","Region":"開曼群島","Hold_equity":98.0},{"Stock_num":"2330","Oversea_company_name":"台積公司","Oversea_company":"VTAF III","Region":"開曼群島","Hold_equity":98.0}]
+      // individualVueData.fields2['value']=[]
+      // individualVueData.fields2['value']= [
+      //   {key: 'Oversea_company_name', label: '重要子公司', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   {key: 'Oversea_company', label: '重要子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   {key: 'Hold_equity', label: '持股比率', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+      //   ] }
 
     onMounted(() => {
       let original = pr.value['isTypeData'];
@@ -275,7 +315,7 @@ export default {
       let fieldsObj1 = {}
       value.forEach(f => {
         //{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}
-        let dateformat = (f['Year'] + '年' + f['Season'] + '季').toString();
+        let dateformat = ( '公司基本資料' );
         itemsObj1['date']='公司代號'
         itemsObj2['date']='市場別'
         itemsObj3['date']='產業別'
@@ -326,19 +366,19 @@ export default {
         let fieldsObj2 = {
           key: null,
           label: null,
-          thClass: 'text-center',
-          tdClass: 'text-center',
-          sortable: true
+          thClass: 'text-center setbg ',
+          tdClass: 'text-left ',
+
         }
         fieldsObj2['key'] = dateformat
         fieldsObj2['label'] = dateformat
         tableFieldsArr.push(fieldsObj2)
 
         fieldsObj1['key'] = 'date'
-        fieldsObj1['label'] = '公司基本資料'
-        fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-        fieldsObj1['tdClass'] = 'text-center '
-        fieldsObj1['sortable'] = true
+        fieldsObj1['label'] = ''
+        fieldsObj1['thClass'] = 'text-center setwidth setbg'
+        fieldsObj1['tdClass'] = 'text-center setbg '
+
         fieldsObj1['stickyColumn'] = true
       })
      tableItemsArr.push(itemsObj1)
@@ -379,3 +419,18 @@ export default {
 
 }
 </script>
+<style>
+.setColor{
+  color: white;
+  background:radial-gradient(circle farthest-side at center,yellow,red);
+}
+
+.setwidth{
+  color: red;
+  width: 300px;
+}
+.setbg{
+  color: white;
+  background:radial-gradient(circle farthest-side at center,yellow,red);
+}
+</style>
