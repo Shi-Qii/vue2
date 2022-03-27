@@ -441,7 +441,7 @@ export default {
   color: #070707;
   background:radial-gradient(circle farthest-side at center, #b5c6f6, rgba(36, 94, 191, 0.79));
   font-weight: bolder;
-  font-size:170%;
+  font-size:160%;
 }
 
 .setfront{
