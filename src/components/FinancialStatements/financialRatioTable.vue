@@ -116,7 +116,7 @@ export default {
         value: []
       },
       currentPage: 1,
-      perPage: 10,
+      perPage: 20,
     })
     const showState = reactive({
       showTable: true,
@@ -203,11 +203,29 @@ export default {
     const editFinancialRatio = function (data) {
       let value = data;
       let profitability = GetField.setFieldProfitability(value);
-      let earningsQuarterlyGrowthRate = GetField.setFieldEarningsQuarterlyGrowthRate(value);
+      let ProfitYearGrow = GetField.setFieldProfitYearGrow(value);
+      let VarAssetToTotAsset = GetField.setFieldVarAssetToTotAsset(value);
+      let VarAssetQuarterGrow = GetField.setFieldVarAssetQuarterGrow(value);
+      let VarAssetYearGrow = GetField.setFieldVarAssetYearGrow(value);
+      let EquityDebtToTotAsset = GetField.setFieldEquityDebtToTotAsset(value);
+      let EquityDebtQuaterGrow = GetField.setFieldEquityDebtQuaterGrow(value);
+      let EquityDebtYearGrow = GetField.setFieldEquityDebtYearGrow(value);
+      let Solvency = GetField.setFieldSolvency(value);
+      let CashflowStatement = GetField.setFieldCashflowStatement(value);
+      let OtherIndicators = GetField.setFieldOtherIndicators(value);
 
 
       financialRatios.items.push(profitability)
-      financialRatios.items.push(earningsQuarterlyGrowthRate)
+      financialRatios.items.push(ProfitYearGrow)
+      financialRatios.items.push(VarAssetToTotAsset)
+      financialRatios.items.push(VarAssetQuarterGrow)
+      financialRatios.items.push(VarAssetYearGrow)
+      financialRatios.items.push(EquityDebtToTotAsset)
+      financialRatios.items.push(EquityDebtQuaterGrow)
+      financialRatios.items.push(EquityDebtYearGrow)
+      financialRatios.items.push(Solvency)
+      financialRatios.items.push(CashflowStatement)
+      financialRatios.items.push(OtherIndicators)
       // console.log(financialRatios.items)
     }
     return {
@@ -254,6 +272,6 @@ table#table-transition-example .flip-list-move {
   font-weight: bold;
 }
 .setwidth {
-   width: 200px;
+  width: 200px;
 }
 </style>
