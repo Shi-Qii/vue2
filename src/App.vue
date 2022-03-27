@@ -211,7 +211,7 @@
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link to="/stockCandlesstick">
+                  <router-link to="/cashFlowSatement">
                     <font-awesome-icon icon="home" />
                     現金流量表
                   </router-link>

@@ -129,7 +129,7 @@ import fieldSeasonSelect from "@/components/model_using/fieldSeasonSelect";
 
 Vue.use(VueCompositionAPI)
 export default {
-  name: "IncomeStatement",
+  name: "cashFlowSatement",
   props: {
     idName: String
   },
@@ -159,7 +159,7 @@ export default {
 
     const individualVueData = reactive({
       selected: {value: 'financial_report'},
-      foreignNm: '損益表',
+      foreignNm: '現金流量表',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       stockCode1: {value: ''},
@@ -216,19 +216,16 @@ export default {
           {key: 'Stock_num', label: '公司代號', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Stock_name', label: '公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
           {key: 'Close_price', label: '最新股價', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Operating_profit', label: '營業利益', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {
-            key: 'Out_operating_revence',
-            label: '營業外損益',
-            thClass: 'text-center ',
-            tdClass: 'text-center',
-            sortable: true
-          },
-          {key: 'CNI', label: '本期綜合損益總額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-          {key: 'Basic_EPS', label: '基本每股盈餘（元）', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'CFO', label: '營業現金流', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'CFI', label: '投資現金流', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'CFF', label: '融資現金流', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'ECF', label: '匯率變動增減', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'CF', label: '本期增減', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Pre_CF', label: '期初餘額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+          {key: 'Aft_CF', label: '期末餘額', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+
         ]
       }
-
     })
 
     const search = function () {
@@ -259,14 +256,14 @@ export default {
         console.log(res)
         showState.showSpinner = true;
         if ('上市' === name) {
-          // individualVueData.items.listed = [{"Stock_num":"1101","Close_price":48.95,"Stock_Name":"台泥","Operating_profit":4679063.0,"Out_operating_revence":2053460.0,"CNI":946727.0,"Basic_EPS":0.89},{"Stock_num":"1110","Close_price":20.5,"Stock_Name":"東泥","Operating_profit":12846.0,"Out_operating_revence":7758.0,"CNI":83277.0,"Basic_EPS":0.04}];
-          individualVueData.items.listed = [];
-          individualVueData.items.listed = res.data;
+          individualVueData.items.listed = [{"Stock_num":"1451","Stock_name":"年興","Close_price":20.45,"CFO":456659.0,"CFI":151722.0,"CFF":-172063.0,"ECF":-23305.0,"CF":413013.0,"Pre_CF":1134391.0,"Aft_CF":1547404.0}];
+          // individualVueData.items.listed = [];
+          // individualVueData.items.listed = res.data;
         }
         if ('上櫃' === name) {
-          // individualVueData.items.cabinet = [{"Stock_num":"6104","Close_price":291.5,"Stock_Name":"創惟","Operating_profit":267962.0,"Out_operating_revence":-4355.0,"CNI":227855.0,"Basic_EPS":2.52},{"Stock_num":"6109","Close_price":9.1,"Stock_Name":"亞元","Operating_profit":-26610.0,"Out_operating_revence":-20767.0,"CNI":-43139.0,"Basic_EPS":-0.78},];
-          individualVueData.items.cabinet = [];
-          individualVueData.items.cabinet = res.data;
+          individualVueData.items.cabinet = [{"Stock_num":"3228","Stock_name":"金麗科","Close_price":387.5,"CFO":185860.0,"CFI":-213228.0,"CFF":13952.0,"ECF":null,"CF":-13416.0,"Pre_CF":210742.0,"Aft_CF":197326.0},{"Stock_num":"3259","Stock_name":"鑫創","Close_price":23.9,"CFO":-131555.0,"CFI":-16853.0,"CFF":225937.0,"ECF":null,"CF":77529.0,"Pre_CF":94242.0,"Aft_CF":171771.0},{"Stock_num":"3264","Stock_name":"欣銓","Close_price":50.4,"CFO":5604349.0,"CFI":-5682753.0,"CFF":556045.0,"ECF":-57824.0,"CF":419817.0,"Pre_CF":1787064.0,"Aft_CF":2206881.0}];
+          // individualVueData.items.cabinet = [];
+          // individualVueData.items.cabinet = res.data;
         }
         individualVueData.items.value = [];
         setTimeout(() => {

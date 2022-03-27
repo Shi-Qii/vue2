@@ -201,6 +201,10 @@ export const router = new Router({
             path: "/IncomeStatement",
             name: "IncomeStatement",
             component: () => import("./components/FinancialStatements/IncomeStatement.vue")
+        },{
+            path: "/cashFlowSatement",
+            name: "cashFlowSatement",
+            component: () => import("./components/FinancialStatements/cashFlowSatement.vue")
         },
     ]
 });
