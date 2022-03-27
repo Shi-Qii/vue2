@@ -90,19 +90,15 @@
   </div>
 </template>
 <script>
-import VueCompositionAPI, {computed, onMounted, reactive, ref} from "@vue/composition-api";
+import VueCompositionAPI, { reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 
 Vue.use(VueCompositionAPI)
 export default {
 
-  props: {
-    isTypeData: String
-  },
-  setup(props) {
-    const pr = ref(props);
-    console.log('pr', pr.value['isTypeData'])
+  setup() {
+
     const individualVueData = reactive({
       selected: {value: '公司基本資料'},
       originalData: {value: 'institutional_investors'},
