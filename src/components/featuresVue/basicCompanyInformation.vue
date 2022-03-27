@@ -85,7 +85,9 @@
             :key="variant"
         ></b-spinner>
       </div>
-
+      <datalist id="my-list-id">
+        <option v-for="size in datalists" :key="size">{{ size }}</option>
+      </datalist>
     </div>
   </div>
 </template>
@@ -93,6 +95,7 @@
 import VueCompositionAPI, { reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
+import GetAppVueInit from "@/services/getAppVueInit";
 
 Vue.use(VueCompositionAPI)
 export default {
@@ -124,7 +127,7 @@ export default {
       showBCardNm: false,
       showCollapse: false,
     })
-    const datalists = ref([])
+
     const initChartData = {data: null}
 
 //==============function=================
@@ -398,7 +401,19 @@ export default {
       getImportantSubsidiary();
       getOverseaCompany();
     }
+    //1.datalists 預選的清單
+    const datalists = ref([])
 
+    function initFn() {
+      GetAppVueInit.getInitData().then((res) => {
+        let data = res.data
+        data.forEach(f => {
+          datalists.value.push(f['Stock_nm'])
+        })
+      })
+    }
+
+    initFn();
     return {
       individualVueData,
       showState,
