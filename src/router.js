@@ -209,6 +209,10 @@ export const router = new Router({
             path: "/financialRatioTable",
             name: "financialRatioTable",
             component: () => import("./components/FinancialStatements/financialRatioTable.vue")
+        },{
+            path: "/basicCompanyInformation",
+            name: "basicCompanyInformation",
+            component: () => import("./components/featuresVue/basicCompanyInformation.vue")
         },
     ]
 });
