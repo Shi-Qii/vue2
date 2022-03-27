@@ -155,7 +155,7 @@ export default {
       return individualVueData.items.value.length
     })
     const individualVueData = reactive({
-      selected: {value: 'monthly_revenue'},
+      selected: {value: 'financial_report'},
       foreignNm: '資產負債表',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
