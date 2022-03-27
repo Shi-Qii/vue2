@@ -2,7 +2,7 @@
   <div>
     <div class=" col-4 pl-0 ">
       <br/>
-      <b-input-group prepend="選擇幾日排行:"  >
+      <b-input-group prepend="選擇單季或累季:"  >
         <b-form-select  v-model="selected" :options="options" @change="changeEmit(selected)"></b-form-select>
       </b-input-group>
     </div>
