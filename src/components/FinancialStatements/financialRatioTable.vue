@@ -26,7 +26,7 @@
 
     <hr/>
     <section class="col-12">
-      <div class="col-12">
+      <div class="col-12 ">
         <div v-for="financialRatio in financialRatios.items" :key="financialRatio ">
           <b-table
               id="table-transition-example"
@@ -43,7 +43,7 @@
               :fields="financialRatio['field']"
               :per-page="individualVueData.perPage"
               :current-page="individualVueData.currentPage"
-              class=" setTB col-12"
+              class=" setTB col-12 m-0"
           >
           </b-table>
         </div>
