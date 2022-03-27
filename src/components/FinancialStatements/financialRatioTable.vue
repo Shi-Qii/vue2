@@ -162,8 +162,9 @@ export default {
       }
       //financial ratio table
       selectKey.idName = individualVueData.selected.value
-      showState.showSpinner = false;
+      showState.showSpinner = true;
       GetStockData.getUserBoard(selectKey).then(res => {
+        showState.showSpinner = false;
         console.log(res)
         // if (res.data.length > 0) {
         //   showState.showSpinner = false
@@ -174,6 +175,7 @@ export default {
         let formatData = res.data.filter((item, idx) => {
           return idx < 10
         })
+        financialRatios.items=[];
         editFinancialRatio(formatData);
 
       })
