@@ -43,7 +43,7 @@
           striped
           bordered
           hover
-          sticky-header
+          sticky-header="100%"
           v-if="showState.showTable"
           :items="individualVueData.items1.value"
           :fields="individualVueData.fields1.value"
@@ -63,7 +63,7 @@
           striped
           bordered
           hover
-          sticky-header
+          sticky-header="100%"
           v-if="showState.showTable"
           :items="individualVueData.items2.value"
           :fields="individualVueData.fields2.value"
@@ -214,10 +214,10 @@ export default {
             individualVueData.fields1['value'] = []
             individualVueData.fields1['value'] = [
               //登錄日期	子公司名稱	主要經營業務	地區
-              {key: 'Happen_date', label: '登錄日期', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-              {key: 'Subsidiary', label: '子公司名稱', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-              {key: 'Bussiness', label: '主要經營業務', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-              {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Happen_date', label: '登錄日期', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
+              {key: 'Subsidiary', label: '子公司名稱', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
+              {key: 'Bussiness', label: '主要經營業務', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
+              {key: 'Region', label: '地區', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
             ]
             console.log('res>>Oversea_Company:', res)
             showState.showSpinner = false
@@ -243,19 +243,19 @@ export default {
               {
                 key: 'Oversea_company_name',
                 label: '重要子公司',
-                thClass: 'text-center ',
-                tdClass: 'text-center',
+                thClass: 'text-center setthfront',
+                tdClass: 'text-center setfront',
                 sortable: true
               },
               {
                 key: 'Oversea_company',
                 label: '重要子公司名稱',
-                thClass: 'text-center ',
-                tdClass: 'text-center',
+                thClass: 'text-center setthfront',
+                tdClass: 'text-center setfront',
                 sortable: true
               },
-              {key: 'Region', label: '地區', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
-              {key: 'Hold_equity', label: '持股比率', thClass: 'text-center ', tdClass: 'text-center', sortable: true},
+              {key: 'Region', label: '地區', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
+              {key: 'Hold_equity', label: '持股比率', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
             ]
             console.log('res>>Oversea_Company:', res)
             showState.showSpinner = false
@@ -335,12 +335,12 @@ export default {
         itemsObj6[dateformat] = f['English_name'];
         itemsObj7[dateformat] = f['Funding_date'];
         itemsObj8[dateformat] = f['Listed_date'];
-        itemsObj9[dateformat] = f['Paid_in_capital'];
-        itemsObj10[dateformat] = f['Current_equity'];
-        itemsObj11[dateformat] = f['Per_value'];
-        itemsObj12[dateformat] = f['Outstanding_shares'];
-        itemsObj13[dateformat] = f['Private_shares'];
-        itemsObj14[dateformat] = f['Special_shares'];
+        itemsObj9[dateformat] = (Math.round((f['Paid_in_capital'] + Number.EPSILON) * 100) / 100).toLocaleString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")+'(億元)';
+        itemsObj10[dateformat] = (Math.round((f['Current_equity'] + Number.EPSILON) * 100) / 100).toLocaleString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")+'(億元)';
+        itemsObj11[dateformat] = '新台幣 '+f['Per_value']+' 元';
+        itemsObj12[dateformat] = f['Outstanding_shares'].toLocaleString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")+' 股';
+        itemsObj13[dateformat] = f['Private_shares'].toLocaleString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")+' 股';
+        itemsObj14[dateformat] = f['Special_shares'].toLocaleString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")+' 股';
         itemsObj15[dateformat] = f['Assign_share_fre'];
         itemsObj16[dateformat] = f['Financal_report_type'];
         itemsObj17[dateformat] = f['Chairman'];
@@ -354,7 +354,7 @@ export default {
           key: null,
           label: null,
           thClass: 'text-center setbg ',
-          tdClass: 'text-left ',
+          tdClass: 'text-left setfront',
 
         }
         fieldsObj2['key'] = dateformat
@@ -435,12 +435,25 @@ export default {
 
 .setwidth{
   color: red;
-  width: 400px;
+  width: 450px;
 }
 .setbg{
   color: #070707;
   background:radial-gradient(circle farthest-side at center, #b5c6f6, rgba(36, 94, 191, 0.79));
   font-weight: bolder;
-  font-size:21px;
+  font-size:170%;
 }
+
+.setfront{
+  font-size:150%;
+  font-weight: initial;
+  color: #030303;
+}
+
+.setthfront{
+  font-size:150%;
+  font-weight: bold;
+  color: #030303;
+}
+
 </style>
