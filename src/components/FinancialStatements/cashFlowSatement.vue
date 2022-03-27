@@ -172,7 +172,7 @@ export default {
     })
 
     const individualVueData = reactive({
-      selected: {value: 'monthly_revenue'},
+      selected: {value: 'financial_report'},
       foreignNm: '現金流量表',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
@@ -270,14 +270,14 @@ export default {
         console.log(res)
         showState.showSpinner = true;
         if ('上市' === name) {
-          individualVueData.items.listed = [{"Stock_num":"1451","Stock_name":"年興","Close_price":20.45,"CFO":456659.0,"CFI":151722.0,"CFF":-172063.0,"ECF":-23305.0,"CF":413013.0,"Pre_CF":1134391.0,"Aft_CF":1547404.0}];
-          // individualVueData.items.listed = [];
-          // individualVueData.items.listed = res.data;
+          // individualVueData.items.listed = [{"Stock_num":"1451","Stock_name":"年興","Close_price":20.45,"CFO":456659.0,"CFI":151722.0,"CFF":-172063.0,"ECF":-23305.0,"CF":413013.0,"Pre_CF":1134391.0,"Aft_CF":1547404.0}];
+          individualVueData.items.listed = [];
+          individualVueData.items.listed = res.data;
         }
         if ('上櫃' === name) {
-          individualVueData.items.cabinet = [{"Stock_num":"3228","Stock_name":"金麗科","Close_price":387.5,"CFO":185860.0,"CFI":-213228.0,"CFF":13952.0,"ECF":null,"CF":-13416.0,"Pre_CF":210742.0,"Aft_CF":197326.0},{"Stock_num":"3259","Stock_name":"鑫創","Close_price":23.9,"CFO":-131555.0,"CFI":-16853.0,"CFF":225937.0,"ECF":null,"CF":77529.0,"Pre_CF":94242.0,"Aft_CF":171771.0},{"Stock_num":"3264","Stock_name":"欣銓","Close_price":50.4,"CFO":5604349.0,"CFI":-5682753.0,"CFF":556045.0,"ECF":-57824.0,"CF":419817.0,"Pre_CF":1787064.0,"Aft_CF":2206881.0}];
-          // individualVueData.items.cabinet = [];
-          // individualVueData.items.cabinet = res.data;
+          // individualVueData.items.cabinet = [{"Stock_num":"3228","Stock_name":"金麗科","Close_price":387.5,"CFO":185860.0,"CFI":-213228.0,"CFF":13952.0,"ECF":null,"CF":-13416.0,"Pre_CF":210742.0,"Aft_CF":197326.0},{"Stock_num":"3259","Stock_name":"鑫創","Close_price":23.9,"CFO":-131555.0,"CFI":-16853.0,"CFF":225937.0,"ECF":null,"CF":77529.0,"Pre_CF":94242.0,"Aft_CF":171771.0},{"Stock_num":"3264","Stock_name":"欣銓","Close_price":50.4,"CFO":5604349.0,"CFI":-5682753.0,"CFF":556045.0,"ECF":-57824.0,"CF":419817.0,"Pre_CF":1787064.0,"Aft_CF":2206881.0}];
+          individualVueData.items.cabinet = [];
+          individualVueData.items.cabinet = res.data;
         }
         individualVueData.items.value = [];
         setTimeout(() => {
