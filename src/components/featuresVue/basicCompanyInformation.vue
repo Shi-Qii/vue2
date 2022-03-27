@@ -75,7 +75,7 @@
 <script>
 import VueCompositionAPI, {computed, onMounted, reactive, ref} from "@vue/composition-api";
 import Vue from 'vue'
-// import GetStockData from "@/services/getStockData";
+import GetStockData from "@/services/getStockData";
 
 Vue.use(VueCompositionAPI)
 export default {
