@@ -246,8 +246,8 @@ export default {
       showState.showSpinner = true
       showState.showPagination = false
       showState.showTable = false
-      //def 預設查詢是累加 === accumulate 對應 Comprehensive_Income
-      let def = 'Comprehensive_Income';
+      //def 預設查詢是累加 === accumulate 對應 Cash_Flow_Statement
+      let def = 'Cash_Flow_Statement';
       searchforRequest('上市', def);
       searchforRequest('上櫃', def);
 
@@ -341,14 +341,14 @@ export default {
         showState.showSpinner = true
         showState.showPagination = false
         showState.showTable = false
-        let def = 'Comprehensive_Income_Season';
+        let def = 'Cash_Flow_Statement_Season';
         searchforRequest('上市', def);
         searchforRequest('上櫃', def);
       } else if ('accumulate' === event) {
         showState.showSpinner = true
         showState.showPagination = false
         showState.showTable = false
-        let def = 'Comprehensive_Income';
+        let def = 'Cash_Flow_Statement';
         searchforRequest('上市', def);
         searchforRequest('上櫃', def);
       }
