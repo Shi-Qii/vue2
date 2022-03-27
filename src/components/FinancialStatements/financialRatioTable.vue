@@ -6,7 +6,7 @@
       <b-input-group class="">
         <b-input-group-text>股票代號</b-input-group-text>
         <b-form-input type="text" class="col-2"
-                      v-model="stockCodeInput"></b-form-input>
+                      v-model="individualVueData.stockCode1"></b-form-input>
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
           <!--          <b-button @click="clean" variant="danger">清除</b-button>-->
@@ -129,7 +129,7 @@ export default {
       // Transition name
       name: 'flip-list'
     }
-    const stockCodeInput = ref('')
+
 
     const rows = computed(() => {
       return individualVueData.items.value.length
@@ -216,7 +216,7 @@ export default {
       search,
       changeEmit1,
       financialRatios,
-      stockCodeInput
+
     }
   }
 
