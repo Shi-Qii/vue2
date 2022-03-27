@@ -217,7 +217,7 @@
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link to="/stockCandlesstick">
+                  <router-link to="/financialRatioTable">
                     <font-awesome-icon icon="home"/>
                     財務比率表
                   </router-link>

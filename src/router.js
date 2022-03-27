@@ -205,6 +205,10 @@ export const router = new Router({
             path: "/cashFlowSatement",
             name: "cashFlowSatement",
             component: () => import("./components/FinancialStatements/cashFlowSatement.vue")
+        },{
+            path: "/financialRatioTable",
+            name: "financialRatioTable",
+            component: () => import("./components/FinancialStatements/financialRatioTable.vue")
         },
     ]
 });

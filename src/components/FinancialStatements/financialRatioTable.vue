@@ -143,7 +143,7 @@ import fieldSeasonSelect from "@/components/model_using/fieldSeasonSelect";
 
 Vue.use(VueCompositionAPI)
 export default {
-  name: "cashFlowSatement",
+  name: "financialRatioTable",
   props: {
     idName: String
   },
@@ -173,7 +173,7 @@ export default {
 
     const individualVueData = reactive({
       selected: {value: 'financial_report'},
-      foreignNm: '現金流量表',
+      foreignNm: '財務比率表',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       stockCode1: {value: ''},
@@ -264,6 +264,7 @@ export default {
         key4: individualVueData.stockCode2.value,
         key5: '1',
       }
+      //financial ratio table
       selectKey.idName = individualVueData.selected.value
       GetStockData.getUserBoard(selectKey).then(res => {
         console.log(res)
