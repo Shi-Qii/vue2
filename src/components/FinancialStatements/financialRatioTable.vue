@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import VueCompositionAPI, {computed, reactive, ref} from "@vue/composition-api";
+import VueCompositionAPI, {computed, reactive} from "@vue/composition-api";
 import Vue from 'vue'
 import GetStockData from "@/services/getStockData";
 import GetField from '@/services/getMoreTableField'
