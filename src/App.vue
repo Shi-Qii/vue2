@@ -42,15 +42,16 @@
                 <!--                  </router-link>-->
                 <!--                </b-dropdown-item>-->
                 <b-dropdown-item>
-                  <router-link to="/mainStockSearch">
-                    個股查詢
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
                   <router-link to="/basicCompanyInformation">
                     公司基本資料
                   </router-link>
                 </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/mainStockSearch">
+                    個股查詢
+                  </router-link>
+                </b-dropdown-item>
+
               </b-dropdown>
             </div>
             <div class="px-3 py-2">

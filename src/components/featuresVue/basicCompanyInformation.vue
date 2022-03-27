@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ '基本公司資訊' }}
+
 
     <div class="container-fluid ">
       <b-input-group prepend="個股查詢" class="mt-3">
@@ -20,7 +20,7 @@
 
         </b-input-group-append>
       </b-input-group>
-
+      <br/>
       <b-table
           bordered
           hover
