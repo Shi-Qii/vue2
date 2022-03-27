@@ -70,7 +70,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '獲利能力'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -141,7 +141,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '獲利年成長率'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -211,7 +211,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '各項資產佔總資產比重'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -283,7 +283,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '資產季成長率'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -356,7 +356,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '資產年成長率'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -426,7 +426,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '負債&股東權益佔總資產'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -496,7 +496,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '負債&股東權益季增減率'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -566,7 +566,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '負債&股東權益年增減率'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -631,7 +631,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '償債能力'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -721,7 +721,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '現金流量狀況'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })
@@ -805,7 +805,7 @@ class getField {
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '其他指標'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
-            fieldsObj1['tdClass'] = 'text-center '
+            fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })

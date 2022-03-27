@@ -262,8 +262,9 @@ table#table-transition-example .flip-list-move {
 }
 
 .text-danger {
-  color: #e50a0a !important;
+  color: #0909d9 !important;
   font-weight: bold;
+  font-size:21px;
 }
 
 

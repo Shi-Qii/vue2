@@ -257,19 +257,72 @@ export default {
       let itemsObj5 = {}
       let itemsObj6 = {}
       let itemsObj7 = {}
+      let itemsObj8 = {}
+      let itemsObj9 = {}
+      let itemsObj10 = {}
+      let itemsObj11 = {}
+      let itemsObj12 = {}
+      let itemsObj13 = {}
+      let itemsObj14 = {}
+      let itemsObj15 = {}
+      let itemsObj16 = {}
+      let itemsObj17 = {}
+      let itemsObj18 = {}
+      let itemsObj19 = {}
+      let itemsObj20 = {}
+      let itemsObj21 = {}
+      let itemsObj22 = {}
       let fieldsObj1 = {}
       value.forEach(f => {
         //{"Stock_num":"2330","Company_name":"台灣積體電路製造股份有限公司","Stock_name":"台積電","Industry_sector":"半導體業","Adress":"新竹科學園區力行六路8號","Chairman":"劉德音","President":"總裁: 魏哲家","Spokesman":"黃仁昭","Funding_date":"1987-02-21  (成立35年)","Listed_date":"1994-09-05  (上市28年)","Per_value":10.0,"Paid_in_capital":2593.1767458,"Outstanding_shares":25931767458.0,"Private_shares":0.0,"Special_shares":0.0,"Financal_report_type":"合併","Assign_share_fre":"每季","English_name":"TSMC","Company_web":"https:www.tsmc.com","Market_type":"上市","Processing_date":"2022-03-21","Main_business":"依客戶之訂單與其提供之產品設計說明，以從事製造與銷售積體電路以及其他晶圓半導體裝置。提供前述產品之封裝與測試服務、積體電路之電腦輔助設計技術服務。提供製造光罩及其設計服務。","Current_equity":151960.15730388}
         let dateformat = (f['Year'] + '年' + f['Season'] + '季').toString();
-        itemsObj1['date'] = '公司代號'
+        itemsObj1['date']='公司代號'
+        itemsObj2['date']='市場別'
+        itemsObj3['date']='產業別'
+        itemsObj4['date']='公司名稱'
+        itemsObj5['date']='公司簡稱'
+        itemsObj6['date']='英文簡稱'
+        itemsObj7['date']='成立日期'
+        itemsObj8['date']='上市、上櫃日'
+        itemsObj9['date']='實收資本額(元)'
+        itemsObj10['date']='目前市值'
+        itemsObj11['date']='普通股每股面額'
+        itemsObj12['date']='發行股數'
+        itemsObj13['date']='私募普通股(股)'
+        itemsObj14['date']='特別股(股)'
+        itemsObj15['date']='普通股盈餘分派或虧損撥補頻率'
+        itemsObj16['date']='財務報告類型'
+        itemsObj17['date']='董事長'
+        itemsObj18['date']='總經理'
+        itemsObj19['date']='發言人'
+        itemsObj20['date']='公司網址'
+        itemsObj21['date']='地址'
+        itemsObj22['date']='主要業務'
 
-        itemsObj1[dateformat] = Math.round((f['Revenue_YoY'] + Number.EPSILON) * 100) / 100;
-        itemsObj2[dateformat] = Math.round((f['Gross_YoY'] + Number.EPSILON) * 100) / 100;
-        itemsObj3[dateformat] = Math.round((f['Profit_YoY'] + Number.EPSILON) * 100) / 100;
-        itemsObj4[dateformat] = Math.round((f['Pre_tax_income_YoY'] + Number.EPSILON) * 100) / 100;
-        itemsObj5[dateformat] = Math.round((f['Net_income_margin_YoY'] + Number.EPSILON) * 100) / 100;
-        itemsObj6[dateformat] = Math.round((f['Net_income_margin_pa_YoY'] + Number.EPSILON) * 100) / 100;
-        itemsObj7[dateformat] = Math.round((f['EPS_YoY'] + Number.EPSILON) * 100) / 100;
+
+        itemsObj1[dateformat] = f['Stock_num'];
+        itemsObj2[dateformat] = f['Market_type'];
+        itemsObj3[dateformat] = f['Industry_sector'];
+        itemsObj4[dateformat] = f['Company_name'];
+        itemsObj5[dateformat] = f['Stock_name'];
+        itemsObj6[dateformat] = f['English_name'];
+        itemsObj7[dateformat] = f['Funding_date'];
+        itemsObj8[dateformat] = f['Listed_date'];
+        itemsObj9[dateformat] = f['Paid_in_capital'];
+        itemsObj10[dateformat] = f['Current_equity'];
+        itemsObj11[dateformat] = f['Per_value'];
+        itemsObj12[dateformat] = f['Outstanding_shares'];
+        itemsObj13[dateformat] = f['Private_shares'];
+        itemsObj14[dateformat] = f['Special_shares'];
+        itemsObj15[dateformat] = f['Assign_share_fre'];
+        itemsObj16[dateformat] = f['Financal_report_type'];
+        itemsObj17[dateformat] = f['Chairman'];
+        itemsObj18[dateformat] = f['President'];
+        itemsObj19[dateformat] = f['Spokesman'];
+        itemsObj20[dateformat] = f['Company_web'];
+        itemsObj21[dateformat] = f['Adress'];
+        itemsObj22[dateformat] = f['Main_business'];
+
         let fieldsObj2 = {
           key: null,
           label: null,
@@ -282,17 +335,34 @@ export default {
         tableFieldsArr.push(fieldsObj2)
 
         fieldsObj1['key'] = 'date'
-        fieldsObj1['label'] = '獲利季成長率'
+        fieldsObj1['label'] = '公司基本資料'
         fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
         fieldsObj1['tdClass'] = 'text-center '
         fieldsObj1['sortable'] = true
         fieldsObj1['stickyColumn'] = true
       })
-      tableItemsArr.push(itemsObj1)
-      tableItemsArr.push(itemsObj2)
-      tableItemsArr.push(itemsObj3)
-      tableItemsArr.push(itemsObj4)
-
+     tableItemsArr.push(itemsObj1)
+     tableItemsArr.push(itemsObj2)
+     tableItemsArr.push(itemsObj3)
+     tableItemsArr.push(itemsObj4)
+     tableItemsArr.push(itemsObj5)
+     tableItemsArr.push(itemsObj6)
+     tableItemsArr.push(itemsObj7)
+     tableItemsArr.push(itemsObj8)
+     tableItemsArr.push(itemsObj9)
+     tableItemsArr.push(itemsObj10)
+     tableItemsArr.push(itemsObj11)
+     tableItemsArr.push(itemsObj12)
+     tableItemsArr.push(itemsObj13)
+     tableItemsArr.push(itemsObj14)
+     tableItemsArr.push(itemsObj15)
+     tableItemsArr.push(itemsObj16)
+     tableItemsArr.push(itemsObj17)
+     tableItemsArr.push(itemsObj18)
+     tableItemsArr.push(itemsObj19)
+     tableItemsArr.push(itemsObj20)
+     tableItemsArr.push(itemsObj21)
+     tableItemsArr.push(itemsObj22)
       tableFieldsArr.unshift(fieldsObj1)
       let bigObj = {item: tableItemsArr, field: tableFieldsArr}
       return bigObj;
