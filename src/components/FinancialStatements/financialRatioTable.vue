@@ -185,14 +185,14 @@ export default {
       if ('single' === event) {
         showState.showSpinner = true
         showState.showPagination = false
-        showState.showTable = false
+        showState.showTable = true
         let def = 'Financial_Ratio_Season';
         searchforRequest(def);
 
       } else if ('accumulate' === event) {
         showState.showSpinner = true
         showState.showPagination = false
-        showState.showTable = false
+        showState.showTable = true
         let def = 'Financial_Ratio';
         searchforRequest(def);
       }
