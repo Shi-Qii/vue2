@@ -43,6 +43,7 @@ import VueCompositionAPI from "@vue/composition-api";
 import {reactive, ref, watch, onMounted} from "@vue/composition-api";
 import Vue from "vue";
 import GetAppVueInit from "@/services/getAppVueInit";
+import basicCompanyInformation from "@/components/featuresVue/basicCompanyInformation";
 import sndividualStockInquiry from "@/components/featuresVue/sndividualStockInquiry";
 import monthlyrevenue from "@/components/featuresVue/monthlyrevenue";
 import indMonthlyRevenueShortLong from "@/components/featuresVue/IndMonthlyRevenueShortLong";
@@ -56,12 +57,14 @@ export default {
   * |單一查詢   | sndividualStockInquiry
   * |月營收    | monthlyrevenue
   * |長短期月營收    | monthlyrevenue
+  * |公司基本資料    | monthlyrevenue
 
    */
   components: {
     sndividualStockInquiry,
     monthlyrevenue,
-    indMonthlyRevenueShortLong
+    indMonthlyRevenueShortLong,
+    basicCompanyInformation
   },
   setup() {
 
@@ -107,6 +110,20 @@ export default {
               key5: '1',
               entrance: 'indMonthlyRevenueShortLong'
             }, name: '長短期月營收'
+          },
+          {
+            item: {
+              // 個股_基本資料	Basic_Info	Basic_info	basic_info.py	Check代碼	股票代碼
+              // 個股_重要子公司	Important_Subsidiary	Important_subsidiary	basic_info.py	Check代碼	股票代碼
+              // 個股_海外子公司	Oversea_Company	Oversea_company	basic_info.py	Check代碼	股票代碼
+              idName: 'basic_info',
+              functionKey: 'Oversea_Company',
+              key2: '來自輸入框的值',
+              key3: '1',
+              key4: '1', //預設撈60個月，預設顯示12個月
+              key5: '1',
+              entrance: 'basicCompanyInformation'
+            }, name: '公司基本資料'
           }]
       }
     })
@@ -186,6 +203,30 @@ export default {
                 showState.showSpinner = false
 
               })
+
+        }else if (mainVueData.selected.value.functionKey === 'Oversea_Company'){
+          isType.value = mainVueData.selected.value.entrance;
+          let inputValue= mainVueData.stockCode.value.toLocaleString().substring(0, 4);
+          isTypeData.value = inputValue;
+          showState.showSpinner = false
+          // let selectKey = {
+          //   idName: mainVueData.selected.value.idName,
+          //   key1: mainVueData.selected.value.functionKey,
+          //   key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+          //   key3: mainVueData.selected.value.key3,
+          //   key4: mainVueData.selected.value.key4,
+          //   key5: mainVueData.selected.value.key5,
+          // }
+          // console.log('mainVueData.selected.value_Oversea_Company:', mainVueData.selected.value)
+          //
+          // GetStockData.getUserBoard(selectKey)
+          //     .then(res => {
+          //       isType.value = mainVueData.selected.value.entrance;
+          //       isTypeData.value = res.data;
+          //       console.log('res>>Oversea_Company:', res)
+          //       showState.showSpinner = false
+          //
+          //     })
 
         }else {
           let selectKey = {
