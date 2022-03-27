@@ -69,7 +69,7 @@ class getField {
 
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '獲利能力'
-            fieldsObj1['thClass'] = 'text-center text-danger'
+            fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
             fieldsObj1['tdClass'] = 'text-center '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
@@ -140,8 +140,8 @@ class getField {
 
             fieldsObj1['key'] = 'date'
             fieldsObj1['label'] = '獲利季成長率'
-            fieldsObj1['thClass'] = 'text-center  '
-            fieldsObj1['tdClass'] = 'text-center text-danger'
+            fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
+            fieldsObj1['tdClass'] = 'text-center '
             fieldsObj1['sortable'] = true
             fieldsObj1['stickyColumn'] = true
         })

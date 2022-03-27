@@ -251,4 +251,7 @@ table#table-transition-example .flip-list-move {
   color: #04661b !important;
   font-weight: bold;
 }
+.setwidth {
+   width: 200px;
+}
 </style>
