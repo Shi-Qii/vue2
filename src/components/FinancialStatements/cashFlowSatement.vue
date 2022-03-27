@@ -53,6 +53,20 @@
             :current-page="individualVueData.currentPage"
             class=" setTB col-12"
         >
+          <template #thead-top>
+            <b-tr>
+
+<!--              <b-th rowspan="1">  </b-th>-->
+<!--              <b-th rowspan="2"> 公司名稱</b-th>-->
+<!--              <b-th rowspan="2"> 最新股價</b-th>-->
+<!--              <b-th rowspan="2"> 營業現金流</b-th>-->
+<!--              <b-th rowspan="2"> 投資現金流</b-th>-->
+<!--              <b-th rowspan="2"> 融資現金流</b-th>-->
+              <b-th variant="primary text-center" colspan="6">基本資料</b-th>
+              <b-th variant="primary text-center" colspan="4">現金及約當現金</b-th>
+            </b-tr>
+          </template>
+
           <template #cell(Growth_mon)="data">
             <span
                 :class="''+(data.value > 0  && data.value < 99.9 ? 'text-danger bold ': '' )+(data.value < 0  && data.value > (-99.9)? 'text-success bold  ': '' )+(data.value >= 100 ||data.value <= (-100)  ? 'text-light bold ': '' ) ">
@@ -158,7 +172,7 @@ export default {
     })
 
     const individualVueData = reactive({
-      selected: {value: 'financial_report'},
+      selected: {value: 'monthly_revenue'},
       foreignNm: '現金流量表',
       originalData: {value: 'institutional_investors'},
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
