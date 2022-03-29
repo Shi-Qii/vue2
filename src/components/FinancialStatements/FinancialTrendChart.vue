@@ -2,12 +2,12 @@
   <div>
     <div class="container-fluid">
       <b-input-group prepend="個股查詢" class="mt-3">
-        <b-form-input type="text" class="col-2" v-model="stockCode.value"
-                      list="my-list-id"></b-form-input>
+        <b-form-input type="text" class="col-2"   list="my-list-id" v-model="vueData.stockCode.value"
+        ></b-form-input>
         <b-form-select
             class="col-2"
-            v-model="selected.value"
-            :options="selectOptions"
+            v-model="vueData.selected2.value"
+            :options="vueData.selectOptions.value"
             value-field="value"
             text-field="text"
         ></b-form-select>
@@ -33,8 +33,6 @@
                   class="col-5"
                   v-model="vueData.selectDay.value"
                   :options="vueData.selectDayOptions.value"
-                  @change="changeSelectDay"
-                  disabled-field="notEnabled"
               ></b-form-select>
             </b-input-group>
             <b-input-group prepend="選擇單季或累計" class=" col-3">
@@ -42,8 +40,6 @@
                   class="col-5"
                   v-model="vueData.selected.value"
                   :options="vueData.selectedOptions.value"
-                  @change="changeSelectDay"
-                  disabled-field="notEnabled"
               ></b-form-select>
             </b-input-group>
           </div>
@@ -108,7 +104,7 @@ export default {
 */
 
     const stockCode = ref('')
-    const selected = ref('')
+
     const vueData = reactive({
 
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
@@ -124,23 +120,26 @@ export default {
       currentPage: 1,
       perPage: 5,
       data: null,
+      selected2: {value: null},
+      selectOptions:{
+        value: [{text: '獲利能力', value: '獲利能力'},
+          {text: '獲利年成長率', value: '獲利年成長率'},
+          {text: '各項資產佔總資產比重', value: '各項資產佔總資產比重'},
+          {text: '資產季成長率', value: '資產季成長率'},
+          {text: '資產年成長率', value: '資產年成長率'},
+          {text: '負債&股東權益佔總資產', value: '負債&股東權益佔總資產'},
+          {text: '負債&股東權益季增減率', value: '負債&股東權益季增減率'},
+          {text: '負債&股東權益年增減率', value: '負債&股東權益年增減率'},
+          {text: '償債能力', value: '償債能力'},
+          {text: '經營能力', value: '經營能力'},
+          {text: '現金流量狀況', value: '現金流量狀況'},
+          {text: '其他指標', value: '其他指標'},]
+      }
     })
-    const selectOptions = reactive([
-      {text: '獲利能力', value: '獲利能力'},
-      {text: '獲利年成長率', value: '獲利年成長率'},
-      {text: '各項資產佔總資產比重', value: '各項資產佔總資產比重'},
-      {text: '資產季成長率', value: '資產季成長率'},
-      {text: '資產年成長率', value: '資產年成長率'},
-      {text: '負債&股東權益佔總資產', value: '負債&股東權益佔總資產'},
-      {text: '負債&股東權益季增減率', value: '負債&股東權益季增減率'},
-      {text: '負債&股東權益年增減率', value: '負債&股東權益年增減率'},
-      {text: '償債能力', value: '償債能力'},
-      {text: '經營能力', value: '經營能力'},
-      {text: '現金流量狀況', value: '現金流量狀況'},
-      {text: '其他指標', value: '其他指標'},
-    ])
+
     const search = function () {
       //Financial_Ratio
+      console.log('stockCode.value:',vueData.stockCode.value)
       showState.showCollapse = true;
       // let params = {
       //   idName: 'financial_report',
@@ -251,7 +250,7 @@ export default {
     }
 
     initFn();
-    return {stockCode, selectOptions, selected, search, datalists, vueData, showState}
+    return {stockCode, search, datalists, vueData, showState}
   }
 
 
