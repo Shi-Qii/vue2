@@ -213,6 +213,10 @@ export const router = new Router({
             path: "/basicCompanyInformation",
             name: "basicCompanyInformation",
             component: () => import("./components/featuresVue/basicCompanyInformation.vue")
+        },{
+            path: "/financialTrendChart",
+            name: "financialTrendChart",
+            component: () => import("./components/FinancialStatements/FinancialTrendChart.vue")
         },
     ]
 });

@@ -229,7 +229,7 @@
                   </router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link  to="/stockCandlesstick">
+                  <router-link  to="/financialTrendChart">
                     <font-awesome-icon icon="home"/>
                     財務趨勢圖
                   </router-link>
