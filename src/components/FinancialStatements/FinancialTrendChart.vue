@@ -162,6 +162,7 @@ export default {
         key4: '1',
         key5: '1',
       }
+      vueData.stockInfo.note = vueData.stockCode.value.toLocaleString().substring(0, 4);
       showState.showSpinner = true;
       GetStockData.getUserBoard(selectKey).then(res => {
         vueData.provisionalData = res.data;
@@ -324,6 +325,7 @@ export default {
       vueData.fields.value = [];
       vueData.items.value = [];
       if (vueData.selected.value == '累季') {
+        console.log('切換累季');
         switch (vueData.selected2.value) {
           case '獲利能力' :
             showState.showTable = true
@@ -366,6 +368,7 @@ export default {
             break;
         }
       } else if (vueData.selected.value == '單季') {
+        console.log('切換單季');
         switch (vueData.selected2.value) {
           case '獲利能力' :
             showState.showTable = true
