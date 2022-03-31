@@ -274,8 +274,8 @@ export default {
     }
     const setTableData = function (keyOne) {
       showState.showTable = false;
-      vueData.fields.value =[];
-      vueData.items.value =[];
+      vueData.fields.value = [];
+      vueData.items.value = [];
       switch (vueData.selected2.value) {
         case '獲利能力' :
           showState.showTable = true
@@ -283,9 +283,6 @@ export default {
           var items1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr[0]['item'] : financialRatios.itemsB.profitabilityArr[0]['item'];
           vueData.fields.value = fields1;
           vueData.items.value = items1;
-          console.log('>>獲利能力', keyOne);
-          console.log('>>vueData.fields', vueData.fields);
-          console.log('>>vueData.items', vueData.items);
           break;
         case '獲利年成長率' :
           showState.showTable = true
@@ -293,11 +290,13 @@ export default {
           var items2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr[0]['item'] : financialRatios.itemsB.ProfitYearGrowArr[0]['item'];
           vueData.fields.value = fields2;
           vueData.items.value = items2;
-          console.log('>>獲利年成長率', keyOne);
-          console.log('>>vueData.fields', vueData.fields);
-          console.log('>>vueData.items', vueData.items);
           break;
         case '各項資產佔總資產比重' :
+          showState.showTable = true
+          var fields3 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'] : financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'];
+          var items3 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'] : financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'];
+          vueData.fields.value = fields3;
+          vueData.items.value = items3;
           break;
         case '資產季成長率' :
           break;
@@ -320,30 +319,32 @@ export default {
 
       }
     }
-    const changTalbe=function () {
+    const changTalbe = function () {
+      showState.showTable = false;
       vueData.fields.value = [];
-      vueData.items.value =[];
-      if(vueData.selected.value=='累季'){
+      vueData.items.value = [];
+      if (vueData.selected.value == '累季') {
         switch (vueData.selected2.value) {
           case '獲利能力' :
             showState.showTable = true
-            var fields1 =  financialRatios.itemsA.profitabilityArr[0]['field'];
-            var items1 =  financialRatios.itemsA.profitabilityArr[0]['item'];
+            var fields1 = financialRatios.itemsA.profitabilityArr[0]['field'];
+            var items1 = financialRatios.itemsA.profitabilityArr[0]['item'];
             vueData.fields.value = fields1;
             vueData.items.value = items1;
-            console.log('>>vueData.fields', vueData.fields);
-            console.log('>>vueData.items', vueData.items);
             break;
           case '獲利年成長率' :
             showState.showTable = true
-            var fields2 =  financialRatios.itemsA.ProfitYearGrowArr[0]['field'];
-            var items2 =  financialRatios.itemsA.ProfitYearGrowArr[0]['item'];
+            var fields2 = financialRatios.itemsA.ProfitYearGrowArr[0]['field'];
+            var items2 = financialRatios.itemsA.ProfitYearGrowArr[0]['item'];
             vueData.fields.value = fields2;
             vueData.items.value = items2;
-            console.log('>>vueData.fields', vueData.fields);
-            console.log('>>vueData.items', vueData.items);
             break;
           case '各項資產佔總資產比重' :
+            showState.showTable = true
+            var fields3 = financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'];
+            var items3 = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'];
+            vueData.fields.value = fields3;
+            vueData.items.value = items3;
             break;
           case '資產季成長率' :
             break;
@@ -363,7 +364,48 @@ export default {
             break;
           case '其他指標' :
             break;
-
+        }
+      } else if (vueData.selected.value == '單季') {
+        switch (vueData.selected2.value) {
+          case '獲利能力' :
+            showState.showTable = true
+            var fields11 = financialRatios.itemsB.profitabilityArr[0]['field'];
+            var items11 = financialRatios.itemsB.profitabilityArr[0]['item'];
+            vueData.fields.value = fields11;
+            vueData.items.value = items11;
+            break;
+          case '獲利年成長率' :
+            showState.showTable = true
+            var fields12 = financialRatios.itemsB.ProfitYearGrowArr[0]['field'];
+            var items12 = financialRatios.itemsB.ProfitYearGrowArr[0]['item'];
+            vueData.fields.value = fields12;
+            vueData.items.value = items12;
+            break;
+          case '各項資產佔總資產比重' :
+            showState.showTable = true
+            var fields13 = financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'];
+            var items13 = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'];
+            vueData.fields.value = fields13;
+            vueData.items.value = items13;
+            break;
+          case '資產季成長率' :
+            break;
+          case '資產年成長率' :
+            break;
+          case '負債&股東權益佔總資產' :
+            break;
+          case '負債&股東權益季增減率' :
+            break;
+          case '負債&股東權益年增減率' :
+            break;
+          case '償債能力' :
+            break;
+          case '經營能力' :
+            break;
+          case '現金流量狀況' :
+            break;
+          case '其他指標' :
+            break;
         }
       }
 
@@ -388,7 +430,7 @@ export default {
     }
 
     initFn();
-    return {stockCode, search, datalists, vueData, showState,changTalbe}
+    return {stockCode, search, datalists, vueData, showState, changTalbe}
   }
 
 
