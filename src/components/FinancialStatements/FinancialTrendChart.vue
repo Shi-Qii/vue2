@@ -2,7 +2,7 @@
   <div>
     <div class="container-fluid">
       <b-input-group prepend="個股查詢" class="mt-3">
-        <b-form-input type="text" class="col-2"   list="my-list-id" v-model="vueData.stockCode.value"
+        <b-form-input type="text" class="col-2" list="my-list-id" v-model="vueData.stockCode.value"
         ></b-form-input>
         <b-form-select
             class="col-2"
@@ -106,10 +106,9 @@ export default {
     const stockCode = ref('')
 
     const vueData = reactive({
-
+      provisionalData: null,
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
       selectDayOptions: {value: ['8', '16', '24', '32']},
-
       selectDay: {value: '8'},
       stockCode: {value: null},
       selected: {value: '累季'},
@@ -121,7 +120,7 @@ export default {
       perPage: 5,
       data: null,
       selected2: {value: null},
-      selectOptions:{
+      selectOptions: {
         value: [{text: '獲利能力', value: '獲利能力'},
           {text: '獲利年成長率', value: '獲利年成長率'},
           {text: '各項資產佔總資產比重', value: '各項資產佔總資產比重'},
@@ -139,17 +138,10 @@ export default {
 
     const search = function () {
       //Financial_Ratio
-      console.log('stockCode.value:',vueData.stockCode.value)
+      console.log('stockCode.value:', vueData.stockCode.value)
+      console.log('vueData.selected2.value', vueData.selected2.value)
       showState.showCollapse = true;
-      // let params = {
-      //   idName: 'financial_report',
-      //   key1: 'Financial_Ratio',
-      //   key2: stockCode.value.toLocaleString().substring(0, 4),
-      //   key3: '1',
-      //   key4: '1',
-      //   key5: '1',
-      // }
-      // GetStockData.getUserBoard(params)
+
 
       showState.showSpinner = true
       showState.showPagination = false
@@ -171,22 +163,69 @@ export default {
       }
       showState.showSpinner = true;
       GetStockData.getUserBoard(selectKey).then(res => {
+        vueData.provisionalData = res.data;
         showState.showSpinner = false;
         console.log(res)
         let formatData = res.data.filter((item, idx) => {
           return idx < 9
         })
-        financialRatios.itemsA = [];
-        financialRatios.itemsB = [];
+        financialRatios.itemsA.profitabilityArr = [];
+        financialRatios.itemsA.ProfitYearGrowArr = [];
+        financialRatios.itemsA.VarAssetToTotAssetArr = [];
+        financialRatios.itemsA.VarAssetQuarterGrowArr = [];
+        financialRatios.itemsA.VarAssetYearGrowArrArr = [];
+        financialRatios.itemsA.EquityDebtToTotAssetArr = [];
+        financialRatios.itemsA.EquityDebtQuaterGrowArr = [];
+        financialRatios.itemsA.EquityDebtYearGrowArr = [];
+        financialRatios.itemsA.SolvencyArr = [];
+        financialRatios.itemsA.CashflowStatementArr = [];
+        financialRatios.itemsA.OtherIndicatorsArr = [];
+
+        financialRatios.itemsB.profitabilityArr = [];
+        financialRatios.itemsB.ProfitYearGrowArr = [];
+        financialRatios.itemsB.VarAssetToTotAssetArr = [];
+        financialRatios.itemsB.VarAssetQuarterGrowArr = [];
+        financialRatios.itemsB.VarAssetYearGrowArrArr = [];
+        financialRatios.itemsB.EquityDebtToTotAssetArr = [];
+        financialRatios.itemsB.EquityDebtQuaterGrowArr = [];
+        financialRatios.itemsB.EquityDebtYearGrowArr = [];
+        financialRatios.itemsB.SolvencyArr = [];
+        financialRatios.itemsB.CashflowStatementArr = [];
+        financialRatios.itemsB.OtherIndicatorsArr = [];
 
         editFinancialRatio(formatData, keyOne);
-        console.log('financialRatios_A:',financialRatios.itemsA)
-        console.log('financialRatios_B:',financialRatios.itemsB)
+        console.log('financialRatios_A:', financialRatios.itemsA)
+        console.log('financialRatios_B:', financialRatios.itemsB)
       })
     }
 
     const financialRatios = reactive({
-      itemsA: [], itemsB: [],
+      itemsA: {
+        profitabilityArr: [],
+        ProfitYearGrowArr: [],
+        VarAssetToTotAssetArr: [],
+        VarAssetQuarterGrowArr: [],
+        VarAssetYearGrowArrArr: [],
+        EquityDebtToTotAssetArr: [],
+        EquityDebtQuaterGrowArr: [],
+        EquityDebtYearGrowArr: [],
+        SolvencyArr: [],
+        CashflowStatementArr: [],
+        OtherIndicatorsArr: [],
+      },
+      itemsB: {
+        profitabilityArr: [],
+        ProfitYearGrowArr: [],
+        VarAssetToTotAssetArr: [],
+        VarAssetQuarterGrowArr: [],
+        VarAssetYearGrowArrArr: [],
+        EquityDebtToTotAssetArr: [],
+        EquityDebtQuaterGrowArr: [],
+        EquityDebtYearGrowArr: [],
+        SolvencyArr: [],
+        CashflowStatementArr: [],
+        OtherIndicatorsArr: [],
+      },
     })
     const editFinancialRatio = function (data, keyOne) {
       let value = data;
@@ -202,33 +241,83 @@ export default {
       let CashflowStatement = GetField.setFieldCashflowStatement(value);
       let OtherIndicators = GetField.setFieldOtherIndicators(value);
       if (keyOne === 'Financial_Ratio_Season') {
-        financialRatios.itemsB.push(profitability)
-        financialRatios.itemsB.push(ProfitYearGrow)
-        financialRatios.itemsB.push(VarAssetToTotAsset)
-        financialRatios.itemsB.push(VarAssetQuarterGrow)
-        financialRatios.itemsB.push(VarAssetYearGrow)
-        financialRatios.itemsB.push(EquityDebtToTotAsset)
-        financialRatios.itemsB.push(EquityDebtQuaterGrow)
-        financialRatios.itemsB.push(EquityDebtYearGrow)
-        financialRatios.itemsB.push(Solvency)
-        financialRatios.itemsB.push(CashflowStatement)
-        financialRatios.itemsB.push(OtherIndicators)
+        financialRatios.itemsB.profitabilityArr.push(profitability)
+        financialRatios.itemsB.ProfitYearGrowArr.push(ProfitYearGrow)
+        financialRatios.itemsB.VarAssetToTotAssetArr.push(VarAssetToTotAsset)
+        financialRatios.itemsB.VarAssetQuarterGrowArr.push(VarAssetQuarterGrow)
+        financialRatios.itemsB.VarAssetYearGrowArrArr.push(VarAssetYearGrow)
+        financialRatios.itemsB.EquityDebtToTotAssetArr.push(EquityDebtToTotAsset)
+        financialRatios.itemsB.EquityDebtQuaterGrowArr.push(EquityDebtQuaterGrow)
+        financialRatios.itemsB.EquityDebtYearGrowArr.push(EquityDebtYearGrow)
+        financialRatios.itemsB.SolvencyArr.push(Solvency)
+        financialRatios.itemsB.CashflowStatementArr.push(CashflowStatement)
+        financialRatios.itemsB.OtherIndicatorsArr.push(OtherIndicators)
+        setTableData(keyOne);
       } else if (keyOne === 'Financial_Ratio') {
-        financialRatios.itemsA.push(profitability)
-        financialRatios.itemsA.push(ProfitYearGrow)
-        financialRatios.itemsA.push(VarAssetToTotAsset)
-        financialRatios.itemsA.push(VarAssetQuarterGrow)
-        financialRatios.itemsA.push(VarAssetYearGrow)
-        financialRatios.itemsA.push(EquityDebtToTotAsset)
-        financialRatios.itemsA.push(EquityDebtQuaterGrow)
-        financialRatios.itemsA.push(EquityDebtYearGrow)
-        financialRatios.itemsA.push(Solvency)
-        financialRatios.itemsA.push(CashflowStatement)
-        financialRatios.itemsA.push(OtherIndicators)
+        financialRatios.itemsA.profitabilityArr.push(profitability)
+        financialRatios.itemsA.ProfitYearGrowArr.push(ProfitYearGrow)
+        financialRatios.itemsA.VarAssetToTotAssetArr.push(VarAssetToTotAsset)
+        financialRatios.itemsA.VarAssetQuarterGrowArr.push(VarAssetQuarterGrow)
+        financialRatios.itemsA.VarAssetYearGrowArrArr.push(VarAssetYearGrow)
+        financialRatios.itemsA.EquityDebtToTotAssetArr.push(EquityDebtToTotAsset)
+        financialRatios.itemsA.EquityDebtQuaterGrowArr.push(EquityDebtQuaterGrow)
+        financialRatios.itemsA.EquityDebtYearGrowArr.push(EquityDebtYearGrow)
+        financialRatios.itemsA.SolvencyArr.push(Solvency)
+        financialRatios.itemsA.CashflowStatementArr.push(CashflowStatement)
+        financialRatios.itemsA.OtherIndicatorsArr.push(OtherIndicators)
+        setTableData(keyOne);
       }
 
 
       // console.log(financialRatios.items)
+    }
+    const setTableData = function (keyOne) {
+      showState.showTable = false;
+      vueData.fields.value =[];
+      vueData.items.value =[];
+      switch (vueData.selected2.value) {
+        case '獲利能力' :
+          showState.showTable = true
+          let fields1 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.profitabilityArr['field'] : financialRatios.itemsB.profitabilityArr['field'];
+          let items1 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.profitabilityArr['item'] : financialRatios.itemsB.profitabilityArr['item'];
+          vueData.fields.value = fields1;
+          vueData.items.value = items1;
+          console.log('>>獲利能力', keyOne);
+          console.log('>>vueData.fields', vueData.fields);
+          console.log('>>vueData.items', vueData.items);
+          break;
+        case '獲利年成長率' :
+          showState.showTable = true
+          let fields2 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.ProfitYearGrowArr['field'] : financialRatios.itemsB.ProfitYearGrowArr['field'];
+          let items2 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.ProfitYearGrowArr['item'] : financialRatios.itemsB.ProfitYearGrowArr['item'];
+          vueData.fields.value = fields2;
+          vueData.items.value = items2;
+          console.log('>>獲利年成長率', keyOne);
+          console.log('>>vueData.fields', vueData.fields);
+          console.log('>>vueData.items', vueData.items);
+          break;
+        case '各項資產佔總資產比重' :
+          break;
+        case '資產季成長率' :
+          break;
+        case '資產年成長率' :
+          break;
+        case '負債&股東權益佔總資產' :
+          break;
+        case '負債&股東權益季增減率' :
+          break;
+        case '負債&股東權益年增減率' :
+          break;
+        case '償債能力' :
+          break;
+        case '經營能力' :
+          break;
+        case '現金流量狀況' :
+          break;
+        case '其他指標' :
+          break;
+
+      }
     }
     const showState = reactive({
       showTable: false,
