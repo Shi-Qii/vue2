@@ -278,8 +278,8 @@ export default {
       switch (vueData.selected2.value) {
         case '獲利能力' :
           showState.showTable = true
-          let fields1 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.profitabilityArr['field'] : financialRatios.itemsB.profitabilityArr['field'];
-          let items1 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.profitabilityArr['item'] : financialRatios.itemsB.profitabilityArr['item'];
+          var fields1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr['field'] : financialRatios.itemsB.profitabilityArr['field'];
+          var items1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr['item'] : financialRatios.itemsB.profitabilityArr['item'];
           vueData.fields.value = fields1;
           vueData.items.value = items1;
           console.log('>>獲利能力', keyOne);
@@ -288,8 +288,8 @@ export default {
           break;
         case '獲利年成長率' :
           showState.showTable = true
-          let fields2 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.ProfitYearGrowArr['field'] : financialRatios.itemsB.ProfitYearGrowArr['field'];
-          let items2 = keyOne = 'Financial_Ratio' ? financialRatios.itemsA.ProfitYearGrowArr['item'] : financialRatios.itemsB.ProfitYearGrowArr['item'];
+          var fields2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr['field'] : financialRatios.itemsB.ProfitYearGrowArr['field'];
+          var items2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr['item'] : financialRatios.itemsB.ProfitYearGrowArr['item'];
           vueData.fields.value = fields2;
           vueData.items.value = items2;
           console.log('>>獲利年成長率', keyOne);
