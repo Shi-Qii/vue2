@@ -156,7 +156,7 @@ export default {
       let selectKey = {
         idName: 'financial_report',
         key1: keyOne.toString(),
-        key2: stockCode.value.toLocaleString().substring(0, 4),
+        key2: vueData.stockCode.value.toLocaleString().substring(0, 4),
         key3: '1',
         key4: '1',
         key5: '1',
