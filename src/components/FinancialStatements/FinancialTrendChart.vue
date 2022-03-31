@@ -10,6 +10,7 @@
             :options="vueData.selectOptions.value"
             value-field="value"
             text-field="text"
+            @change="changTalbe"
         ></b-form-select>
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
@@ -35,7 +36,7 @@
                   :options="vueData.selectDayOptions.value"
               ></b-form-select>
             </b-input-group>
-            <b-input-group prepend="選擇單季或累計" class=" col-3">
+            <b-input-group prepend="選擇單季或累季" class=" col-3">
               <b-form-select
                   class="col-5"
                   v-model="vueData.selected.value"
@@ -278,8 +279,8 @@ export default {
       switch (vueData.selected2.value) {
         case '獲利能力' :
           showState.showTable = true
-          var fields1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr['field'] : financialRatios.itemsB.profitabilityArr['field'];
-          var items1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr['item'] : financialRatios.itemsB.profitabilityArr['item'];
+          var fields1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr[0]['field'] : financialRatios.itemsB.profitabilityArr[0]['field'];
+          var items1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr[0]['item'] : financialRatios.itemsB.profitabilityArr[0]['item'];
           vueData.fields.value = fields1;
           vueData.items.value = items1;
           console.log('>>獲利能力', keyOne);
@@ -288,8 +289,8 @@ export default {
           break;
         case '獲利年成長率' :
           showState.showTable = true
-          var fields2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr['field'] : financialRatios.itemsB.ProfitYearGrowArr['field'];
-          var items2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr['item'] : financialRatios.itemsB.ProfitYearGrowArr['item'];
+          var fields2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr[0]['field'] : financialRatios.itemsB.ProfitYearGrowArr[0]['field'];
+          var items2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr[0]['item'] : financialRatios.itemsB.ProfitYearGrowArr[0]['item'];
           vueData.fields.value = fields2;
           vueData.items.value = items2;
           console.log('>>獲利年成長率', keyOne);
@@ -319,6 +320,54 @@ export default {
 
       }
     }
+    const changTalbe=function () {
+      vueData.fields.value = [];
+      vueData.items.value =[];
+      if(vueData.selected.value=='累季'){
+        switch (vueData.selected2.value) {
+          case '獲利能力' :
+            showState.showTable = true
+            var fields1 =  financialRatios.itemsA.profitabilityArr[0]['field'];
+            var items1 =  financialRatios.itemsA.profitabilityArr[0]['item'];
+            vueData.fields.value = fields1;
+            vueData.items.value = items1;
+            console.log('>>vueData.fields', vueData.fields);
+            console.log('>>vueData.items', vueData.items);
+            break;
+          case '獲利年成長率' :
+            showState.showTable = true
+            var fields2 =  financialRatios.itemsA.ProfitYearGrowArr[0]['field'];
+            var items2 =  financialRatios.itemsA.ProfitYearGrowArr[0]['item'];
+            vueData.fields.value = fields2;
+            vueData.items.value = items2;
+            console.log('>>vueData.fields', vueData.fields);
+            console.log('>>vueData.items', vueData.items);
+            break;
+          case '各項資產佔總資產比重' :
+            break;
+          case '資產季成長率' :
+            break;
+          case '資產年成長率' :
+            break;
+          case '負債&股東權益佔總資產' :
+            break;
+          case '負債&股東權益季增減率' :
+            break;
+          case '負債&股東權益年增減率' :
+            break;
+          case '償債能力' :
+            break;
+          case '經營能力' :
+            break;
+          case '現金流量狀況' :
+            break;
+          case '其他指標' :
+            break;
+
+        }
+      }
+
+    }
     const showState = reactive({
       showTable: false,
       showSpinner: false,
@@ -339,7 +388,7 @@ export default {
     }
 
     initFn();
-    return {stockCode, search, datalists, vueData, showState}
+    return {stockCode, search, datalists, vueData, showState,changTalbe}
   }
 
 
