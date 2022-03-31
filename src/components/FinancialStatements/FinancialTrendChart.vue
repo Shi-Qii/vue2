@@ -344,8 +344,8 @@ export default {
             break;
           case '各項資產佔總資產比重' :
             showState.showTable = true
-            var fields3 = financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'];
-            var items3 = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'];
+            var fields3 = financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'];
+            var items3 = financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'];
             vueData.fields.value = fields3;
             vueData.items.value = items3;
             break;
@@ -384,6 +384,8 @@ export default {
             var items12 = financialRatios.itemsB.ProfitYearGrowArr[0]['item'];
             vueData.fields.value = fields12;
             vueData.items.value = items12;
+            console.log('financialRatios.itemsB.ProfitYearGrowArr:',financialRatios.itemsB.ProfitYearGrowArr)
+
             break;
           case '各項資產佔總資產比重' :
             showState.showTable = true
