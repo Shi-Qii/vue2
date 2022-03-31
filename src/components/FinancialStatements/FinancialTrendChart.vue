@@ -41,6 +41,7 @@
                   class="col-5"
                   v-model="vueData.selected.value"
                   :options="vueData.selectedOptions.value"
+                  @change="changTalbe"
               ></b-form-select>
             </b-input-group>
           </div>
