@@ -821,6 +821,7 @@ class getField {
         tableItemsArr.push(itemsObj10)
         tableItemsArr.push(itemsObj11)
         tableFieldsArr.unshift(fieldsObj1)
+
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
