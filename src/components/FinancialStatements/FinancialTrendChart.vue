@@ -368,13 +368,13 @@ export default {
           case '獲利能力' :
             showState.showTable = true
 
-            vueData.fields.value = financialRatios.itemsB.profitabilityArr[0]['field'];;
-            vueData.items.value = financialRatios.itemsB.profitabilityArr[0]['item'];;
+            vueData.fields.value = financialRatios.itemsB.profitabilityArr[0]['field'];
+            vueData.items.value = financialRatios.itemsB.profitabilityArr[0]['item'];
             break;
           case '獲利年成長率' :
             showState.showTable = true
-            vueData.fields.value = financialRatios.itemsB.ProfitYearGrowArr[0]['field'];;
-            vueData.items.value = financialRatios.itemsB.ProfitYearGrowArr[0]['item'];;
+            vueData.fields.value = financialRatios.itemsB.ProfitYearGrowArr[0]['field'];
+            vueData.items.value = financialRatios.itemsB.ProfitYearGrowArr[0]['item'];
             console.log('financialRatios.itemsB.ProfitYearGrowArr:',financialRatios.itemsB.ProfitYearGrowArr)
 
             break;
