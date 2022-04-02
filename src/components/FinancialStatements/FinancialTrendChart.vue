@@ -6,11 +6,10 @@
         ></b-form-input>
         <b-form-select
             class="col-2"
-            v-model="vueData.selected2.value"
+            v-model=" selected2"
             :options="vueData.selectOptions.value"
             value-field="value"
             text-field="text"
-            @change="changTalbe"
         ></b-form-select>
         <b-input-group-append>
           <b-button @click="search" variant="outline-success">送出</b-button>
@@ -41,7 +40,6 @@
                   class="col-5"
                   v-model="vueData.selected.value"
                   :options="vueData.selectedOptions.value"
-                  @change="changTalbe"
               ></b-form-select>
             </b-input-group>
           </div>
@@ -80,11 +78,12 @@
 </template>
 
 <script>
-import VueCompositionAPI, {reactive, ref,} from "@vue/composition-api";
+import VueCompositionAPI, {reactive, ref, watch} from "@vue/composition-api";
 import GetAppVueInit from "@/services/getAppVueInit";
 import Vue from "vue";
-import GetStockData from "@/services/getStockData";
+
 import GetField from "@/services/getMoreTableField";
+
 
 Vue.use(VueCompositionAPI)
 export default {
@@ -106,7 +105,7 @@ export default {
 */
 
     const stockCode = ref('')
-
+    const selected2 = ref('獲利能力')
     const vueData = reactive({
       provisionalData: null,
       spinnerVariants: {value: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']},
@@ -137,71 +136,6 @@ export default {
           {text: '其他指標', value: '其他指標'},]
       }
     })
-
-    const search = function () {
-      //Financial_Ratio
-      console.log('stockCode.value:', vueData.stockCode.value)
-      console.log('vueData.selected2.value', vueData.selected2.value)
-      showState.showCollapse = true;
-
-
-      showState.showSpinner = true
-      showState.showPagination = false
-      showState.showTable = true
-      //def 預設查詢是累加 === accumulate 對應 Comprehensive_Income
-      let def = 'Financial_Ratio';
-      let def2 = 'Financial_Ratio_Season';
-      searchforRequest(def);
-      searchforRequest(def2);
-    }
-    const searchforRequest = function (keyOne) {
-      let selectKey = {
-        idName: 'financial_report',
-        key1: keyOne.toString(),
-        key2: vueData.stockCode.value.toLocaleString().substring(0, 4),
-        key3: '1',
-        key4: '1',
-        key5: '1',
-      }
-      vueData.stockInfo.note = vueData.stockCode.value.toLocaleString().substring(0, 4);
-      showState.showSpinner = true;
-      GetStockData.getUserBoard(selectKey).then(res => {
-        vueData.provisionalData = res.data;
-        showState.showSpinner = false;
-        console.log(res)
-        let formatData = res.data.filter((item, idx) => {
-          return idx < 9
-        })
-        financialRatios.itemsA.profitabilityArr = [];
-        financialRatios.itemsA.ProfitYearGrowArr = [];
-        financialRatios.itemsA.VarAssetToTotAssetArr = [];
-        financialRatios.itemsA.VarAssetQuarterGrowArr = [];
-        financialRatios.itemsA.VarAssetYearGrowArrArr = [];
-        financialRatios.itemsA.EquityDebtToTotAssetArr = [];
-        financialRatios.itemsA.EquityDebtQuaterGrowArr = [];
-        financialRatios.itemsA.EquityDebtYearGrowArr = [];
-        financialRatios.itemsA.SolvencyArr = [];
-        financialRatios.itemsA.CashflowStatementArr = [];
-        financialRatios.itemsA.OtherIndicatorsArr = [];
-
-        financialRatios.itemsB.profitabilityArr = [];
-        financialRatios.itemsB.ProfitYearGrowArr = [];
-        financialRatios.itemsB.VarAssetToTotAssetArr = [];
-        financialRatios.itemsB.VarAssetQuarterGrowArr = [];
-        financialRatios.itemsB.VarAssetYearGrowArrArr = [];
-        financialRatios.itemsB.EquityDebtToTotAssetArr = [];
-        financialRatios.itemsB.EquityDebtQuaterGrowArr = [];
-        financialRatios.itemsB.EquityDebtYearGrowArr = [];
-        financialRatios.itemsB.SolvencyArr = [];
-        financialRatios.itemsB.CashflowStatementArr = [];
-        financialRatios.itemsB.OtherIndicatorsArr = [];
-
-        editFinancialRatio(formatData, keyOne);
-        console.log('financialRatios_A:', financialRatios.itemsA)
-        console.log('financialRatios_B:', financialRatios.itemsB)
-      })
-    }
-
     const financialRatios = reactive({
       itemsA: {
         profitabilityArr: [],
@@ -230,6 +164,46 @@ export default {
         OtherIndicatorsArr: [],
       },
     })
+    const search = function () {
+      //Financial_Ratio
+      console.log('stockCode.value:', vueData.stockCode.value)
+      // console.log('vueData.selected2.value', vueData.selected2.value)
+      showState.showCollapse = true;
+
+
+      showState.showSpinner = true
+      showState.showPagination = false
+      showState.showTable = true
+      //def 預設查詢是累加 === accumulate 對應 Comprehensive_Income
+      let def = 'Financial_Ratio';
+      let def2 = 'Financial_Ratio_Season';
+      searchforRequest(def);
+      searchforRequest(def2);
+    }
+    const searchforRequest = function (keyOne) {
+      let selectKey = {
+        idName: 'financial_report',
+        key1: keyOne.toString(),
+        key2: vueData.stockCode.value.toLocaleString().substring(0, 4),
+        key3: '1',
+        key4: '1',
+        key5: '1',
+      }
+      vueData.stockInfo.note = vueData.stockCode.value.toLocaleString().substring(0, 4);
+      showState.showSpinner = true;
+      GetStockData.getUserBoard(selectKey).then(res => {
+
+        // console.log(res)
+
+        showState.showSpinner = false;
+        editFinancialRatio(res.data, keyOne);//裝資料 AB會有全部
+        console.log('financialRatios_A:', financialRatios.itemsA)
+        console.log('financialRatios_B:', financialRatios.itemsB)
+        setTableData('Financial_Ratio', 8);
+      })
+    }
+
+
     const editFinancialRatio = function (data, keyOne) {
       let value = data;
       let profitability = GetField.setFieldProfitability(value);
@@ -244,6 +218,18 @@ export default {
       let CashflowStatement = GetField.setFieldCashflowStatement(value);
       let OtherIndicators = GetField.setFieldOtherIndicators(value);
       if (keyOne === 'Financial_Ratio_Season') {
+        financialRatios.itemsB.profitabilityArr = [];
+        financialRatios.itemsB.ProfitYearGrowArr = [];
+        financialRatios.itemsB.VarAssetToTotAssetArr = [];
+        financialRatios.itemsB.VarAssetQuarterGrowArr = [];
+        financialRatios.itemsB.VarAssetYearGrowArrArr = [];
+        financialRatios.itemsB.EquityDebtToTotAssetArr = [];
+        financialRatios.itemsB.EquityDebtQuaterGrowArr = [];
+        financialRatios.itemsB.EquityDebtYearGrowArr = [];
+        financialRatios.itemsB.SolvencyArr = [];
+        financialRatios.itemsB.CashflowStatementArr = [];
+        financialRatios.itemsB.OtherIndicatorsArr = [];
+        console.log(keyOne === 'Financial_Ratio_Season')
         financialRatios.itemsB.profitabilityArr.push(profitability)
         financialRatios.itemsB.ProfitYearGrowArr.push(ProfitYearGrow)
         financialRatios.itemsB.VarAssetToTotAssetArr.push(VarAssetToTotAsset)
@@ -255,8 +241,20 @@ export default {
         financialRatios.itemsB.SolvencyArr.push(Solvency)
         financialRatios.itemsB.CashflowStatementArr.push(CashflowStatement)
         financialRatios.itemsB.OtherIndicatorsArr.push(OtherIndicators)
-        setTableData(keyOne);
+        // setTableData(keyOne);
       } else if (keyOne === 'Financial_Ratio') {
+        financialRatios.itemsA.profitabilityArr = [];
+        financialRatios.itemsA.ProfitYearGrowArr = [];
+        financialRatios.itemsA.VarAssetToTotAssetArr = [];
+        financialRatios.itemsA.VarAssetQuarterGrowArr = [];
+        financialRatios.itemsA.VarAssetYearGrowArrArr = [];
+        financialRatios.itemsA.EquityDebtToTotAssetArr = [];
+        financialRatios.itemsA.EquityDebtQuaterGrowArr = [];
+        financialRatios.itemsA.EquityDebtYearGrowArr = [];
+        financialRatios.itemsA.SolvencyArr = [];
+        financialRatios.itemsA.CashflowStatementArr = [];
+        financialRatios.itemsA.OtherIndicatorsArr = [];
+        console.log(keyOne === 'Financial_Ratio')
         financialRatios.itemsA.profitabilityArr.push(profitability)
         financialRatios.itemsA.ProfitYearGrowArr.push(ProfitYearGrow)
         financialRatios.itemsA.VarAssetToTotAssetArr.push(VarAssetToTotAsset)
@@ -268,80 +266,71 @@ export default {
         financialRatios.itemsA.SolvencyArr.push(Solvency)
         financialRatios.itemsA.CashflowStatementArr.push(CashflowStatement)
         financialRatios.itemsA.OtherIndicatorsArr.push(OtherIndicators)
-        setTableData(keyOne);
       }
 
-
-      // console.log(financialRatios.items)
     }
-    const setTableData = function (keyOne) {
+
+    watch(selected2, (newValue, oldValue) => {
+      console.log('newValue:', newValue, '=====', oldValue);
+      let def = 'Financial_Ratio';
+      let def2 = 'Financial_Ratio_Season';
+      let keyOne = (vueData.selected.value === '單季') ? def2 : def
+      setTableData(keyOne, vueData.selectDay['value']);
+    })
+    watch(vueData.selectDay, (newValue, oldValue) => {
+      console.log('newValue2:', newValue, '=====:', oldValue);
+      let def = 'Financial_Ratio';
+      let def2 = 'Financial_Ratio_Season';
+      let keyOne = (vueData.selected.value === '單季') ? def2 : def
+      setTableData(keyOne, vueData.selectDay['value']);
+    })
+    watch(vueData.selected, (newValue, oldValue) => {
+      console.log('newValue:', newValue, '=====', oldValue);
+      let def = 'Financial_Ratio';
+      let def2 = 'Financial_Ratio_Season';
+      let keyOne = (vueData.selected.value === '單季') ? def2 : def
+      setTableData(keyOne, vueData.selectDay['value']);
+    })
+
+
+    const setTableData = function (keyOne, defDate) {
       showState.showTable = false;
       vueData.fields.value = [];
       vueData.items.value = [];
-      switch (vueData.selected2.value) {
-        case '獲利能力' :
-          showState.showTable = true
-          var fields1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr[0]['field'] : financialRatios.itemsB.profitabilityArr[0]['field'];
-          var items1 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.profitabilityArr[0]['item'] : financialRatios.itemsB.profitabilityArr[0]['item'];
-          vueData.fields.value = fields1;
-          vueData.items.value = items1;
-          break;
-        case '獲利年成長率' :
-          showState.showTable = true
-          var fields2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr[0]['field'] : financialRatios.itemsB.ProfitYearGrowArr[0]['field'];
-          var items2 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.ProfitYearGrowArr[0]['item'] : financialRatios.itemsB.ProfitYearGrowArr[0]['item'];
-          vueData.fields.value = fields2;
-          vueData.items.value = items2;
-          break;
-        case '各項資產佔總資產比重' :
-          showState.showTable = true
-          var fields3 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'] : financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'];
-          var items3 = (keyOne == 'Financial_Ratio') ? financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'] : financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'];
-          vueData.fields.value = fields3;
-          vueData.items.value = items3;
-          break;
-        case '資產季成長率' :
-          break;
-        case '資產年成長率' :
-          break;
-        case '負債&股東權益佔總資產' :
-          break;
-        case '負債&股東權益季增減率' :
-          break;
-        case '負債&股東權益年增減率' :
-          break;
-        case '償債能力' :
-          break;
-        case '經營能力' :
-          break;
-        case '現金流量狀況' :
-          break;
-        case '其他指標' :
-          break;
-
-      }
-    }
-    const changTalbe = function () {
-      showState.showTable = false;
-      vueData.fields.value = [];
-      vueData.items.value = [];
-      if (vueData.selected.value == '累季') {
-        console.log('切換累季');
-        switch (vueData.selected2.value) {
+      if (keyOne === 'Financial_Ratio') {
+        switch (selected2.value) {
           case '獲利能力' :
             showState.showTable = true
-            vueData.fields.value = financialRatios.itemsA.profitabilityArr[0]['field'];
-            vueData.items.value = financialRatios.itemsA.profitabilityArr[0]['item'];
+            var formatData1field = financialRatios.itemsA.profitabilityArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            var formatData1item = financialRatios.itemsA.profitabilityArr[0]['item'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            vueData.fields.value = formatData1field;
+            vueData.items.value = formatData1item;
             break;
           case '獲利年成長率' :
             showState.showTable = true
-            vueData.fields.value = financialRatios.itemsA.ProfitYearGrowArr[0]['field'];
-            vueData.items.value = financialRatios.itemsA.ProfitYearGrowArr[0]['item'];
+            var formatData2field = financialRatios.itemsA.ProfitYearGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            var formatData2item = financialRatios.itemsA.ProfitYearGrowArr[0]['item'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            vueData.fields.value = formatData2field;
+            vueData.items.value = formatData2item;
             break;
           case '各項資產佔總資產比重' :
             showState.showTable = true
-            vueData.fields.value = financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'];
-            vueData.items.value = financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'];
+            var formatData3field = financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            var formatData3item = financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            vueData.fields.value = formatData3field;
+            vueData.items.value = formatData3item;
             break;
           case '資產季成長率' :
             break;
@@ -362,26 +351,41 @@ export default {
           case '其他指標' :
             break;
         }
-      } else if (vueData.selected.value == '單季') {
-        console.log('切換單季');
-        switch (vueData.selected2.value) {
+      } else if (keyOne === 'Financial_Ratio_Season') {
+        switch (selected2.value) {
           case '獲利能力' :
+            console.log('單季')
             showState.showTable = true
-
-            vueData.fields.value = financialRatios.itemsB.profitabilityArr[0]['field'];;
-            vueData.items.value = financialRatios.itemsB.profitabilityArr[0]['item'];;
+            var formatData11field = financialRatios.itemsB.profitabilityArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            var formatData11item = financialRatios.itemsB.profitabilityArr[0]['item'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            vueData.fields.value = formatData11field;
+            vueData.items.value = formatData11item;
             break;
           case '獲利年成長率' :
             showState.showTable = true
-            vueData.fields.value = financialRatios.itemsB.ProfitYearGrowArr[0]['field'];;
-            vueData.items.value = financialRatios.itemsB.ProfitYearGrowArr[0]['item'];;
-            console.log('financialRatios.itemsB.ProfitYearGrowArr:',financialRatios.itemsB.ProfitYearGrowArr)
-
+            var formatData21field = financialRatios.itemsB.ProfitYearGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            var formatData21item = financialRatios.itemsB.ProfitYearGrowArr[0]['item'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            vueData.fields.value = formatData21field;
+            vueData.items.value = formatData21item;
             break;
           case '各項資產佔總資產比重' :
             showState.showTable = true
-            vueData.fields.value =  financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'];
-            vueData.items.value = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'];
+            var formatData31field = financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            var formatData31item = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            vueData.fields.value = formatData31field;
+            vueData.items.value = formatData31item;
             break;
           case '資產季成長率' :
             break;
@@ -405,6 +409,8 @@ export default {
       }
 
     }
+
+
     const showState = reactive({
       showTable: false,
       showSpinner: false,
@@ -425,7 +431,7 @@ export default {
     }
 
     initFn();
-    return {stockCode, search, datalists, vueData, showState, changTalbe}
+    return {stockCode, search, datalists, vueData, showState, selected2}
   }
 
 
