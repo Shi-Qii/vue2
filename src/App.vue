@@ -149,6 +149,7 @@
                     </router-link>
                   </b-dropdown-item>
 
+
                   <b-dropdown-item-button>
                     <router-link
                         to='/listedForeignTrustSell'>
@@ -325,4 +326,5 @@ export default {
 .setWigth {
   width: 30px;
 }
+
 </style>
