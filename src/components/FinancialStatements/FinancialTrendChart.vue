@@ -83,7 +83,7 @@ import GetAppVueInit from "@/services/getAppVueInit";
 import Vue from "vue";
 
 import GetField from "@/services/getMoreTableField";
-
+import GetStockData from "@/services/getStockData"
 
 Vue.use(VueCompositionAPI)
 export default {
@@ -191,7 +191,7 @@ export default {
       }
       vueData.stockInfo.note = vueData.stockCode.value.toLocaleString().substring(0, 4);
       showState.showSpinner = true;
-      GetStockData.getUserBoard(selectKey).then(res => {
+      GetStockData.getQueryData(selectKey).then(res => {
 
         // console.log(res)
 

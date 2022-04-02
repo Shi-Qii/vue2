@@ -176,7 +176,7 @@ export default {
           }
           console.log('mainVueData.selected.value:', mainVueData.selected.value)
 
-          GetStockData.getUserBoard(selectKey)
+          GetStockData.getQueryData(selectKey)
               .then(res => {
                 isType.value = mainVueData.selected.value.entrance;
                 isTypeData.value = res.data;
@@ -195,7 +195,7 @@ export default {
           }
           console.log('mainVueData.selected.value_Ind_Monthly_Revenue_Mon:', mainVueData.selected.value)
 
-          GetStockData.getUserBoard(selectKey)
+          GetStockData.getQueryData(selectKey)
               .then(res => {
                 isType.value = mainVueData.selected.value.entrance;
                 isTypeData.value = res.data;
@@ -239,7 +239,7 @@ export default {
           }
           console.log('mainVueData.selected.value:', mainVueData.selected.value)
 
-          GetStockData.getUserBoard(selectKey)
+          GetStockData.getQueryData(selectKey)
               .then(res => {
                 isType.value = mainVueData.selected.value.entrance;
                 isTypeData.value = res.data;

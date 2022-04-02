@@ -255,7 +255,7 @@ export default {
       }
 
       selectKey.idName = individualVueData.selected.value
-      GetStockData.getUserBoard(selectKey).then(res => {
+      GetStockData.getQueryData(selectKey).then(res => {
         console.log(res)
         showState.showSpinner = true;
         if ('上市' === name) {

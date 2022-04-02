@@ -172,7 +172,7 @@ export default {
         key5: '1',
       }
       console.log('selectKey', selectKey)
-      GetStockData.getUserBoard(selectKey)
+      GetStockData.getQueryData(selectKey)
           .then(res => {
             let value = res.data;
             let field = setField(value);
@@ -207,7 +207,7 @@ export default {
         key5: '1',
       }
       console.log('selectKey', selectKey)
-      GetStockData.getUserBoard(selectKey)
+      GetStockData.getQueryData(selectKey)
           .then(res => {
             individualVueData.items1['value'] = []
             individualVueData.items1['value'] = res.data
@@ -234,7 +234,7 @@ export default {
         key5: '1',
       }
       console.log('selectKey', selectKey)
-      GetStockData.getUserBoard(selectKey)
+      GetStockData.getQueryData(selectKey)
           .then(res => {
             individualVueData.items2['value'] = []
             individualVueData.items2['value'] = res.data

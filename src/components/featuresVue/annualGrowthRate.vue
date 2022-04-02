@@ -170,7 +170,7 @@ export default {
       }
       selectKey.idName = individualVueData.selected.value
 
-      GetStockData.getUserBoard(selectKey).then(res => {
+      GetStockData.getQueryData(selectKey).then(res => {
 
         if (res.data.length > 0) {
           showState.showSpinner = false

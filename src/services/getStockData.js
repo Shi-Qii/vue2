@@ -10,7 +10,7 @@ const request = {
 
 class UserService {
 
-    getUserBoard(selectKey) {
+    getQueryData(selectKey) {
         // console.log('selectKey', selectKey)
         request.key = selectKey;
         return axios.post(API_URL, request, {headers: authHeader()});

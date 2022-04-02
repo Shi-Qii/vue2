@@ -245,7 +245,7 @@ export default {
         key5: '1',
       }
       selectKey.idName = individualVueData.selected.value
-      GetStockData.getUserBoard(selectKey).then(res => {
+      GetStockData.getQueryData(selectKey).then(res => {
         showState.showSpinner = true;
         if ('上市' === name) {
           individualVueData.items.listed = [];

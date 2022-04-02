@@ -163,7 +163,7 @@ export default {
       //financial ratio table
       selectKey.idName = individualVueData.selected.value
       showState.showSpinner = true;
-      GetStockData.getUserBoard(selectKey).then(res => {
+      GetStockData.getQueryData(selectKey).then(res => {
         showState.showSpinner = false;
         console.log(res)
         // if (res.data.length > 0) {

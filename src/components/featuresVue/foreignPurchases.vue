@@ -179,7 +179,7 @@ export default {
         showState.showPagination = false
       }
 
-      GetStockData.getUserBoard(selectKey).then(res => {
+      GetStockData.getQueryData(selectKey).then(res => {
         console.log('res', res.data)
         if (res.data.length >= 0) {
           showState.showTable = true
