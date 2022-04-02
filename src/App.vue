@@ -326,4 +326,6 @@ export default {
 .setWigth {
   width: 30px;
 }
+
+
 </style>
