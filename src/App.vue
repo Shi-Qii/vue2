@@ -327,5 +327,4 @@ export default {
   width: 30px;
 }
 
-
 </style>
