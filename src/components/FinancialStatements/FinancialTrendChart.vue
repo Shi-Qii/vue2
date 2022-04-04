@@ -84,7 +84,7 @@ import GetAppVueInit from "@/services/getAppVueInit";
 import Vue from "vue";
 import FinancialTrendSpline from "@/components/FinancialStatements/FinancialTrendSpline";
 import GetField from "@/services/getMoreTableField";
-import GetStockData from "@/services/getStockData"
+// import GetStockData from "@/services/getStockData"
 
 Vue.use(VueCompositionAPI)
 export default {
