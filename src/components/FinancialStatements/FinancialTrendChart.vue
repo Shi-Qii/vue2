@@ -196,16 +196,16 @@ export default {
       vueData.stockInfo.note = vueData.stockCode.value.toLocaleString().substring(0, 4);
       showState.showSpinner = true;
       GetStockData.getQueryData(selectKey).then(res => {
-
+        let data =res.data
         showState.showSpinner = false;
-        editFinancialRatio(res.data, keyOne);//裝資料 AB會有全部
+        editFinancialRatio(data, keyOne);//裝資料 AB會有全部
         // editFinancialRatio(res.data, keyOne);//裝資料 AB會有全部
         console.log('financialRatios_A:', financialRatios.itemsA)
         console.log('financialRatios_B:', financialRatios.itemsB)
         setTableData('Financial_Ratio', 8);
 
-        vueData.stockInfo.name = res.data[0]['Stock_num'];
-        vueData.stockInfo.note = res.data[0]['Stock_name'];
+        // vueData.stockInfo.name = res.data[0]['Stock_num'];
+        // vueData.stockInfo.note = res.data[0]['Stock_name'];
 
 
       })
