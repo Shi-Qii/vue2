@@ -203,7 +203,8 @@ export default {
         console.log('financialRatios_A:', financialRatios.itemsA)
         console.log('financialRatios_B:', financialRatios.itemsB)
         setTableData('Financial_Ratio', 8);
-
+        vueData.stockInfo.name =res.data['Stock_num']
+        vueData.stockInfo.note =res.data['Stock_name']
 
       })
     }
