@@ -287,7 +287,7 @@ export default {
       setTimeout(() => {
         showState.showTable = true;
         setTableData(keyOne, vueData.selectDay['value']);
-      }, 1);
+      }, 1000);
     })
     watch(vueData.selectDay, (newValue, oldValue) => {
       showState.showTable = false;
@@ -298,7 +298,7 @@ export default {
       setTimeout(() => {
         showState.showTable = true;
         setTableData(keyOne, vueData.selectDay['value']);
-      }, 1);
+      }, 1000);
 
     })
     watch(vueData.selected, (newValue, oldValue) => {
@@ -311,7 +311,7 @@ export default {
       setTimeout(() => {
         showState.showTable = true;
         setTableData(keyOne, vueData.selectDay['value']);
-      }, 1);
+      }, 1000);
     })
 
 
