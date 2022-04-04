@@ -44,7 +44,7 @@ export default {
       chartOptions.series = []
       initChart.value['data']['fields']['value'].filter(f => {
         if ('date' !== f['key']) {
-          chartOptionsData.date.push(f['key']);
+          chartOptionsData.date.unshift(f['key']);
         }
       })
       initChart.value['data']['items']['value'].filter((x) => {
@@ -53,7 +53,7 @@ export default {
 
       chartOptions.xAxis[0].categories = chartOptionsData.date;
       for (let i = 0; i < initChart.value['data']['items']['value'].length; i++) {
-        chartOptions.series.push({
+        chartOptions.series.unshift({
           marker: {symbol: 'circle'},
           name: chartOptionsData.seriesData1[i].shift(),
           data: chartOptionsData.seriesData1[i].filter((f, idx) => {
