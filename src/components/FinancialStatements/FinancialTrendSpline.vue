@@ -70,9 +70,11 @@ export default {
       }
     }
     onMounted(() => {
-      reloadChart();
-      // console.log('chartOptions.series[0].data:',chartOptions.series[0].data.shift())
-      // console.log('chartOptions.series[0].data:',chartOptions.series[1].data.shift())
+      setTimeout(()=>{
+        reloadChart();
+      },2000)
+
+
     })
     watch(initChart.value['data'], (newValue, oldVal) => {
       /* ... */
