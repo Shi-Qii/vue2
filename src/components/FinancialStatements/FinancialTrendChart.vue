@@ -204,8 +204,8 @@ export default {
         console.log('financialRatios_B:', financialRatios.itemsB)
         setTableData('Financial_Ratio', 8);
 
-        // vueData.stockInfo.name = res.data[0]['Stock_num'];
-        // vueData.stockInfo.note = res.data[0]['Stock_name'];
+        vueData.stockInfo.name = res.data[0]['Stock_name'];
+        vueData.stockInfo.note = res.data[0]['Stock_num'];
 
 
       })
