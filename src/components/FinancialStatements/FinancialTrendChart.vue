@@ -217,7 +217,6 @@ export default {
     const editFinancialRatio = function (data, keyOne) {
       let value = data;
       let profitability = GetField.setFieldProfitability(value);
-
       let ProfitYearGrow = GetField.setFieldProfitYearGrow(value);
       let VarAssetToTotAsset = GetField.setFieldVarAssetToTotAsset(value);
       let VarAssetQuarterGrow = GetField.setFieldVarAssetQuarterGrow(value);
@@ -226,7 +225,7 @@ export default {
       let EquityDebtQuaterGrow = GetField.setFieldEquityDebtQuaterGrow(value);
       let EquityDebtYearGrow = GetField.setFieldEquityDebtYearGrow(value);
       let Solvency = GetField.setFieldSolvency(value);
-      let ManagementCapacity = GetField.setFieldOtherIndicators(value);
+      let ManagementCapacity = GetField.setFieldManagementCapacity(value);
       let CashflowStatement = GetField.setFieldCashflowStatement(value);
       let OtherIndicators = GetField.setFieldOtherIndicators(value);
 
