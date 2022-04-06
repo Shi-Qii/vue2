@@ -647,7 +647,7 @@ class getField {
         return bigObj;
     }
     //經營能力
-    setFieldCashflowStatement(data) {
+    setFieldManagementCapacity(data) {
 
         let value = data;
         let tableItemsArr = []
@@ -745,7 +745,7 @@ class getField {
         return bigObj;
     }
     //現金流量狀況
-    setFieldOtherIndicators(data) {
+    setFieldCashflowStatement(data) {
 
         let value = data;
         let tableItemsArr = []
