@@ -190,7 +190,7 @@ export default {
 }
 
 .setfront{
-  font-size:150%;
+  font-size:100%;
   font-weight: initial;
   color: #030303;
 }
