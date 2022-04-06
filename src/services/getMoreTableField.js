@@ -1,5 +1,5 @@
 class getField {
-
+    //獲利能力
     setFieldProfitability(data) {
         console.log('data', data)
 
@@ -94,7 +94,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //獲利年成長率
     setFieldProfitYearGrow(data) {
 
         let value = data;
@@ -158,7 +158,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //各項資產佔總資產比重
     setFieldVarAssetToTotAsset(data) {
 
         let value = data;
@@ -229,7 +229,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //資產季成長率
     setFieldVarAssetQuarterGrow(data) {
 
         let value = data;
@@ -301,7 +301,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //資產年成長率
     setFieldVarAssetYearGrow(data) {
 
         let value = data;
@@ -374,7 +374,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //負債&股東權益佔總資產
     setFieldEquityDebtToTotAsset(data) {
 
         let value = data;
@@ -443,7 +443,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //負債&股東權益季增減率
     setFieldEquityDebtQuaterGrow(data) {
 
         let value = data;
@@ -513,7 +513,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //負債&股東權益年增減率
     setFieldEquityDebtYearGrow(data) {
 
         let value = data;
@@ -583,7 +583,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //償債能力
     setFieldSolvency(data) {
 
         let value = data;
@@ -646,7 +646,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //經營能力
     setFieldCashflowStatement(data) {
 
         let value = data;
@@ -744,7 +744,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //現金流量狀況
     setFieldOtherIndicators(data) {
 
         let value = data;
@@ -755,12 +755,7 @@ class getField {
         let itemsObj3 = {}
         let itemsObj4 = {}
         let itemsObj5 = {}
-        let itemsObj6 = {}
-        let itemsObj7 = {}
-        let itemsObj8 = {}
-        let itemsObj9 = {}
-        let itemsObj10 = {}
-        let itemsObj11 = {}
+
         let fieldsObj1 = {}
         value.forEach(f => {
 
@@ -807,7 +802,7 @@ class getField {
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
         return bigObj;
     }
-
+    //其他指標
     setFieldOtherIndicators(data) {
 
         let value = data;

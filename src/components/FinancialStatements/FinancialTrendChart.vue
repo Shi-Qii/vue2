@@ -143,6 +143,7 @@ export default {
     const financialRatios = reactive({
       itemsA: {
         profitabilityArr: [],
+        ManagementCapacityArr: [],
         ProfitYearGrowArr: [],
         VarAssetToTotAssetArr: [],
         VarAssetQuarterGrowArr: [],
@@ -157,6 +158,7 @@ export default {
       itemsB: {
         profitabilityArr: [],
         ProfitYearGrowArr: [],
+        ManagementCapacityArr: [],
         VarAssetToTotAssetArr: [],
         VarAssetQuarterGrowArr: [],
         VarAssetYearGrowArrArr: [],
@@ -215,6 +217,7 @@ export default {
     const editFinancialRatio = function (data, keyOne) {
       let value = data;
       let profitability = GetField.setFieldProfitability(value);
+
       let ProfitYearGrow = GetField.setFieldProfitYearGrow(value);
       let VarAssetToTotAsset = GetField.setFieldVarAssetToTotAsset(value);
       let VarAssetQuarterGrow = GetField.setFieldVarAssetQuarterGrow(value);
@@ -223,11 +226,14 @@ export default {
       let EquityDebtQuaterGrow = GetField.setFieldEquityDebtQuaterGrow(value);
       let EquityDebtYearGrow = GetField.setFieldEquityDebtYearGrow(value);
       let Solvency = GetField.setFieldSolvency(value);
+      let ManagementCapacity = GetField.setFieldOtherIndicators(value);
       let CashflowStatement = GetField.setFieldCashflowStatement(value);
       let OtherIndicators = GetField.setFieldOtherIndicators(value);
+
       if (keyOne === 'Financial_Ratio_Season') {
         financialRatios.itemsB.profitabilityArr = [];
         financialRatios.itemsB.ProfitYearGrowArr = [];
+        financialRatios.itemsB.ManagementCapacityArr = [];
         financialRatios.itemsB.VarAssetToTotAssetArr = [];
         financialRatios.itemsB.VarAssetQuarterGrowArr = [];
         financialRatios.itemsB.VarAssetYearGrowArrArr = [];
@@ -240,6 +246,7 @@ export default {
         console.log(keyOne === 'Financial_Ratio_Season')
         financialRatios.itemsB.profitabilityArr.push(profitability)
         financialRatios.itemsB.ProfitYearGrowArr.push(ProfitYearGrow)
+        financialRatios.itemsB.ManagementCapacityArr.push(ManagementCapacity)
         financialRatios.itemsB.VarAssetToTotAssetArr.push(VarAssetToTotAsset)
         financialRatios.itemsB.VarAssetQuarterGrowArr.push(VarAssetQuarterGrow)
         financialRatios.itemsB.VarAssetYearGrowArrArr.push(VarAssetYearGrow)
@@ -254,6 +261,7 @@ export default {
         financialRatios.itemsA.profitabilityArr = [];
         financialRatios.itemsA.ProfitYearGrowArr = [];
         financialRatios.itemsA.VarAssetToTotAssetArr = [];
+        financialRatios.itemsA.ManagementCapacityArr = [];
         financialRatios.itemsA.VarAssetQuarterGrowArr = [];
         financialRatios.itemsA.VarAssetYearGrowArrArr = [];
         financialRatios.itemsA.EquityDebtToTotAssetArr = [];
@@ -265,6 +273,7 @@ export default {
         console.log(keyOne === 'Financial_Ratio')
         financialRatios.itemsA.profitabilityArr.push(profitability)
         financialRatios.itemsA.ProfitYearGrowArr.push(ProfitYearGrow)
+        financialRatios.itemsA.ManagementCapacityArr.push(ManagementCapacity)
         financialRatios.itemsA.VarAssetToTotAssetArr.push(VarAssetToTotAsset)
         financialRatios.itemsA.VarAssetQuarterGrowArr.push(VarAssetQuarterGrow)
         financialRatios.itemsA.VarAssetYearGrowArrArr.push(VarAssetYearGrow)
@@ -319,122 +328,301 @@ export default {
       vueData.fields.value = [];
       vueData.items.value = [];
       initChartData.data = null;
+      let formatDatafield =[];
+      let formatDataitem =[];
       if (keyOne === 'Financial_Ratio') {
         switch (selected2.value) {
           case '獲利能力' :
             showState.showTable = true
-            var formatData1field = financialRatios.itemsA.profitabilityArr[0]['field'].filter((item, idx) => {
+            formatDatafield = financialRatios.itemsA.profitabilityArr[0]['field'].filter((item, idx) => {
               return idx < (Number(defDate) + 1)
             })
-            var formatData1item = financialRatios.itemsA.profitabilityArr[0]['item'].filter((item, idx) => {
+            formatDataitem = financialRatios.itemsA.profitabilityArr[0]['item'].filter((item, idx) => {
               return idx < 15
             })
-            console.log('formatData1field', formatData1field)
-            console.log('formatData1item', formatData1item)
-            vueData.fields.value = formatData1field;
-            vueData.items.value = formatData1item;
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
             initChartData.data = vueData;
             break;
           case '獲利年成長率' :
             showState.showTable = true
-            var formatData2field = financialRatios.itemsA.ProfitYearGrowArr[0]['field'].filter((item, idx) => {
+            formatDatafield = financialRatios.itemsA.ProfitYearGrowArr[0]['field'].filter((item, idx) => {
               return idx < (Number(defDate) + 1)
             })
-            var formatData2item = financialRatios.itemsA.ProfitYearGrowArr[0]['item'].filter((item, idx) => {
-              return idx < (Number(defDate) + 1)
+            formatDataitem = financialRatios.itemsA.ProfitYearGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 8
             })
-            vueData.fields.value = formatData2field;
-            vueData.items.value = formatData2item;
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
             initChartData.data = vueData;
             break;
           case '各項資產佔總資產比重' :
             showState.showTable = true
-            var formatData3field = financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'].filter((item, idx) => {
+            formatDatafield = financialRatios.itemsA.VarAssetToTotAssetArr[0]['field'].filter((item, idx) => {
               return idx < (Number(defDate) + 1)
             })
-            var formatData3item = financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'].filter((item, idx) => {
-              return idx < (Number(defDate) + 1)
+            formatDataitem = financialRatios.itemsA.VarAssetToTotAssetArr[0]['item'].filter((item, idx) => {
+              return idx < 10
             })
-            vueData.fields.value = formatData3field;
-            vueData.items.value = formatData3item;
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
             initChartData.data = vueData;
             break;
           case '資產季成長率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.VarAssetQuarterGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.VarAssetQuarterGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 10
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '資產年成長率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.VarAssetYearGrowArrArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.VarAssetYearGrowArrArr[0]['item'].filter((item, idx) => {
+              return idx < 10
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '負債&股東權益佔總資產' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.EquityDebtToTotAssetArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.EquityDebtToTotAssetArr[0]['item'].filter((item, idx) => {
+              return idx < 9
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '負債&股東權益季增減率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.EquityDebtQuaterGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.EquityDebtQuaterGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 9
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '負債&股東權益年增減率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.EquityDebtYearGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.EquityDebtYearGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 9
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '償債能力' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.SolvencyArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.SolvencyArr[0]['item'].filter((item, idx) => {
+              return idx < 7
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '經營能力' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.ManagementCapacityArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.ManagementCapacityArr[0]['item'].filter((item, idx) => {
+              return idx < 16
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '現金流量狀況' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.CashflowStatementArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.CashflowStatementArr[0]['item'].filter((item, idx) => {
+              return idx < 6
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '其他指標' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsA.OtherIndicatorsArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsA.OtherIndicatorsArr[0]['item'].filter((item, idx) => {
+              return idx < 7
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
 
         }
       } else if (keyOne === 'Financial_Ratio_Season') {
         switch (selected2.value) {
           case '獲利能力' :
-            console.log('單季')
             showState.showTable = true
-            var formatData11field = financialRatios.itemsB.profitabilityArr[0]['field'].filter((item, idx) => {
+            formatDatafield = financialRatios.itemsB.profitabilityArr[0]['field'].filter((item, idx) => {
               return idx < (Number(defDate) + 1)
             })
-            var formatData11item = financialRatios.itemsB.profitabilityArr[0]['item'].filter((item, idx) => {
+            formatDataitem = financialRatios.itemsB.profitabilityArr[0]['item'].filter((item, idx) => {
               return idx < 15
             })
-            vueData.fields.value = formatData11field;
-            vueData.items.value = formatData11item;
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
             initChartData.data = vueData;
             break;
           case '獲利年成長率' :
             showState.showTable = true
-            var formatData21field = financialRatios.itemsB.ProfitYearGrowArr[0]['field'].filter((item, idx) => {
+            formatDatafield = financialRatios.itemsB.ProfitYearGrowArr[0]['field'].filter((item, idx) => {
               return idx < (Number(defDate) + 1)
             })
-            var formatData21item = financialRatios.itemsB.ProfitYearGrowArr[0]['item'].filter((item, idx) => {
-              return idx < (Number(defDate) + 1)
+            formatDataitem = financialRatios.itemsB.ProfitYearGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 8
             })
-            vueData.fields.value = formatData21field;
-            vueData.items.value = formatData21item;
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
             initChartData.data = vueData;
             break;
           case '各項資產佔總資產比重' :
             showState.showTable = true
-            var formatData31field = financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'].filter((item, idx) => {
+            formatDatafield = financialRatios.itemsB.VarAssetToTotAssetArr[0]['field'].filter((item, idx) => {
               return idx < (Number(defDate) + 1)
             })
-            var formatData31item = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'].filter((item, idx) => {
-              return idx < (Number(defDate) + 1)
+            formatDataitem = financialRatios.itemsB.VarAssetToTotAssetArr[0]['item'].filter((item, idx) => {
+              return idx < 10
             })
-            vueData.fields.value = formatData31field;
-            vueData.items.value = formatData31item;
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
             initChartData.data = vueData;
             break;
           case '資產季成長率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.VarAssetQuarterGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.VarAssetQuarterGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 10
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '資產年成長率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.VarAssetYearGrowArrArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.VarAssetYearGrowArrArr[0]['item'].filter((item, idx) => {
+              return idx < 10
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '負債&股東權益佔總資產' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.EquityDebtToTotAssetArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.EquityDebtToTotAssetArr[0]['item'].filter((item, idx) => {
+              return idx < 9
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '負債&股東權益季增減率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.EquityDebtQuaterGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.EquityDebtQuaterGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 9
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '負債&股東權益年增減率' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.EquityDebtYearGrowArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.EquityDebtYearGrowArr[0]['item'].filter((item, idx) => {
+              return idx < 9
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '償債能力' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.SolvencyArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.SolvencyArr[0]['item'].filter((item, idx) => {
+              return idx < 7
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '經營能力' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.ManagementCapacityArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.ManagementCapacityArr[0]['item'].filter((item, idx) => {
+              return idx < 16
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '現金流量狀況' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.CashflowStatementArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.CashflowStatementArr[0]['item'].filter((item, idx) => {
+              return idx < 6
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
           case '其他指標' :
+            showState.showTable = true
+            formatDatafield = financialRatios.itemsB.OtherIndicatorsArr[0]['field'].filter((item, idx) => {
+              return idx < (Number(defDate) + 1)
+            })
+            formatDataitem = financialRatios.itemsB.OtherIndicatorsArr[0]['item'].filter((item, idx) => {
+              return idx < 7
+            })
+            vueData.fields.value = formatDatafield;
+            vueData.items.value = formatDataitem;
+            initChartData.data = vueData;
             break;
         }
       }
