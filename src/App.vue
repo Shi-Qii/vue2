@@ -237,6 +237,17 @@
                 </b-dropdown-item>
               </b-dropdown>
             </div>
+            <div class="px-3 py-2">
+              <b-dropdown Block id="dropdown-dropright" dropright text="類股查詢" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/dailyTransactionInformation">
+                    <font-awesome-icon icon="home"/>
+                    每日成交資訊
+                  </router-link>
+                </b-dropdown-item>
+
+              </b-dropdown>
+            </div>
           </b-sidebar>
         </li>
       </div>

@@ -217,6 +217,10 @@ export const router = new Router({
             path: "/financialTrendChart",
             name: "financialTrendChart",
             component: () => import("./components/FinancialStatements/FinancialTrendChart.vue")
+        },{
+            path: "/dailyTransactionInformation",
+            name: "dailyTransactionInformation",
+            component: () => import("./components/StockInquiry/dailyTransactionInformation.vue")
         },
     ]
 });
