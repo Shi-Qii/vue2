@@ -126,7 +126,7 @@ export default {
               {key: 'Low_price', label: '最低價', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
               {key: 'Trading_volume', label: '成交股數', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
               {key: 'Yield_rate', label: '殖利率', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
-              {key: 'Yied_year', label: '股利年度', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
+              {key: 'Yield_year', label: '股利年度', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
               {key: 'PE_rate', label: '本益比', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
               {key: 'PB_rate', label: '股價淨值比', thClass: 'text-center setthfront', tdClass: 'text-center setfront', sortable: true},
 
@@ -153,7 +153,7 @@ export default {
       GetAppVueInit.getGetIndustrySectNameInitData().then((res) => {
         let data = res.data
         data.forEach(f => {
-          datalists.value.push(f['Stock_nm'])
+          datalists.value.push(f['Industry_sector'])
         })
       })
     }
