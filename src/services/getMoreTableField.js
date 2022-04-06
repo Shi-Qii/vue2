@@ -719,7 +719,7 @@ class getField {
             tableFieldsArr.push(fieldsObj2)
 
             fieldsObj1['key'] = 'date'
-            fieldsObj1['label'] = '現金流量狀況'
+            fieldsObj1['label'] = '經營能力'
             fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
             fieldsObj1['tdClass'] = 'text-left '
             fieldsObj1['sortable'] = true
@@ -770,12 +770,6 @@ class getField {
             itemsObj3['date']='每股融資現金流量 (元)'
             itemsObj4['date']='每股淨現金流量 (元)'
             itemsObj5['date']='每股自由現金流量 (元)'
-            itemsObj6['date']='負債對淨值比率'
-            itemsObj7['date']='長期資金適合率'
-            itemsObj8['date']='所得稅佔稅前淨利比率'
-            itemsObj9['date']='業外損益佔營收比率'
-            itemsObj10['date']='業外損益佔稅前淨利比率'
-            itemsObj11['date']='獲利含金量比率'
 
 
             itemsObj1[dateformat] = Math.round((f['Per_share_CFO'] + Number.EPSILON) * 100) / 100;
@@ -783,12 +777,66 @@ class getField {
             itemsObj3[dateformat] = Math.round((f['Per_share_CFF'] + Number.EPSILON) * 100) / 100;
             itemsObj4[dateformat] = Math.round((f['Per_share_CF'] + Number.EPSILON) * 100) / 100;
             itemsObj5[dateformat] = Math.round((f['Per_share_free_CF'] + Number.EPSILON) * 100) / 100;
-            itemsObj6[dateformat] = Math.round((f['Debt_net_income_ratio'] + Number.EPSILON) * 100) / 100;
-            itemsObj7[dateformat] = Math.round((f['Long_funding_adaptation_ratio'] + Number.EPSILON) * 100) / 100;
-            itemsObj8[dateformat] = Math.round((f['Tax_net_profit_ratio'] + Number.EPSILON) * 100) / 100;
-            itemsObj9[dateformat] = Math.round((f['Out_operating_revenue_ratio'] + Number.EPSILON) * 100) / 100;
-            itemsObj10[dateformat] = Math.round((f['Out_operating_preincome_ratio'] + Number.EPSILON) * 100) / 100;
-            itemsObj11[dateformat] = Math.round((f['Revenue_net_income_margin_ratio'] + Number.EPSILON) * 100) / 100;
+
+
+            let fieldsObj2 = {
+                key: null,
+                label: null,
+                thClass: 'text-center',
+                tdClass: 'text-center',
+                sortable: true
+            }
+            fieldsObj2['key'] = dateformat
+            fieldsObj2['label'] = dateformat
+            tableFieldsArr.push(fieldsObj2)
+
+            fieldsObj1['key'] = 'date'
+            fieldsObj1['label'] = '現金流量狀況'
+            fieldsObj1['thClass'] = 'text-center  text-danger setwidth'
+            fieldsObj1['tdClass'] = 'text-left '
+            fieldsObj1['sortable'] = true
+            fieldsObj1['stickyColumn'] = true
+        })
+        tableItemsArr.push(itemsObj1)
+        tableItemsArr.push(itemsObj2)
+        tableItemsArr.push(itemsObj3)
+        tableItemsArr.push(itemsObj4)
+        tableItemsArr.push(itemsObj5)
+        tableFieldsArr.unshift(fieldsObj1)
+
+        let bigObj = {item: tableItemsArr, field: tableFieldsArr}
+        return bigObj;
+    }
+
+    setFieldOtherIndicators(data) {
+
+        let value = data;
+        let tableItemsArr = []
+        let tableFieldsArr = []
+        let itemsObj1 = {}
+        let itemsObj2 = {}
+        let itemsObj3 = {}
+        let itemsObj4 = {}
+        let itemsObj5 = {}
+        let itemsObj6 = {}
+        let fieldsObj1 = {}
+        value.forEach(f => {
+
+            let dateformat = (f['Year'] + '年' + f['Season'] + '季').toString();
+            itemsObj1['date']='負債對淨值比率'
+            itemsObj2['date']='長期資金適合率'
+            itemsObj3['date']='所得稅佔稅前淨利比率'
+            itemsObj4['date']='業外損益佔營收比率'
+            itemsObj5['date']='業外損益佔稅前淨利比率'
+            itemsObj6['date']='獲利含金量比率'
+
+
+            itemsObj1[dateformat] = Math.round((f['Debt_net_income_ratio'] + Number.EPSILON) * 100) / 100;
+            itemsObj2[dateformat] = Math.round((f['Long_funding_adaptation_ratio'] + Number.EPSILON) * 100) / 100;
+            itemsObj3[dateformat] = Math.round((f['Tax_net_profit_ratio'] + Number.EPSILON) * 100) / 100;
+            itemsObj4[dateformat] = Math.round((f['Out_operating_revenue_ratio'] + Number.EPSILON) * 100) / 100;
+            itemsObj5[dateformat] = Math.round((f['Out_operating_preincome_ratio'] + Number.EPSILON) * 100) / 100;
+            itemsObj6[dateformat] = Math.round((f['Revenue_net_income_margin_ratio'] + Number.EPSILON) * 100) / 100;
 
 
             let fieldsObj2 = {
@@ -815,11 +863,6 @@ class getField {
         tableItemsArr.push(itemsObj4)
         tableItemsArr.push(itemsObj5)
         tableItemsArr.push(itemsObj6)
-        tableItemsArr.push(itemsObj7)
-        tableItemsArr.push(itemsObj8)
-        tableItemsArr.push(itemsObj9)
-        tableItemsArr.push(itemsObj10)
-        tableItemsArr.push(itemsObj11)
         tableFieldsArr.unshift(fieldsObj1)
 
         let bigObj = {item: tableItemsArr, field: tableFieldsArr}
