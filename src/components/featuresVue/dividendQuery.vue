@@ -12,7 +12,6 @@
 
           :items="VueData.items.value"
           :fields="VueData.fields.value"
-          responsive="sm"
           :per-page="VueData.perPage"
           :current-page="VueData.currentPage"
           class="setTB"
@@ -137,7 +136,9 @@ export default {
     },]
     console.log(testData)
     // VueData.items.value = testData;
-    VueData.items.value = pr.value['isTypeData'];
+    VueData.items.value = pr.value['isTypeData'].forEach(f => {
+      Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
+    });
     return {VueData}
   }
 }
