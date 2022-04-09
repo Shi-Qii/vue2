@@ -44,6 +44,7 @@ import {reactive, ref, watch, onMounted} from "@vue/composition-api";
 import Vue from "vue";
 import GetAppVueInit from "@/services/getAppVueInit";
 import basicCompanyInformation from "@/components/featuresVue/basicCompanyInformation";
+import dividendQuery from "@/components/featuresVue/dividendQuery";
 import sndividualStockInquiry from "@/components/featuresVue/sndividualStockInquiry";
 import monthlyrevenue from "@/components/featuresVue/monthlyrevenue";
 import indMonthlyRevenueShortLong from "@/components/featuresVue/IndMonthlyRevenueShortLong";
@@ -64,7 +65,8 @@ export default {
     sndividualStockInquiry,
     monthlyrevenue,
     indMonthlyRevenueShortLong,
-    basicCompanyInformation
+    basicCompanyInformation,
+    dividendQuery
   },
   setup() {
 
@@ -120,11 +122,25 @@ export default {
               functionKey: 'Oversea_Company',
               key2: '來自輸入框的值',
               key3: '1',
-              key4: '1', //預設撈60個月，預設顯示12個月
+              key4: '1',
               key5: '1',
               entrance: 'basicCompanyInformation'
             }, name: '公司基本資料'
-          }]
+          },
+          //股利查詢
+          {
+            item: {
+              idName: 'financial_report',
+              functionKey: 'Stock_Dividen',
+              key2: '來自輸入框的值',
+              key3: '1',
+              key4: '1',
+              key5: '1',
+              entrance: 'dividendQuery'
+            }
+            , name: '股利查詢'
+          }
+          ]
       }
     })
 //*************************************changevaluefoSeach***********************
@@ -228,6 +244,25 @@ export default {
           //
           //     })
 
+        }else if (mainVueData.selected.value.functionKey === 'Stock_Dividen') {
+          let selectKey = {
+            idName: mainVueData.selected.value.idName,
+            key1: mainVueData.selected.value.functionKey,
+            key2: mainVueData.stockCode.value.toLocaleString().substring(0, 4),
+            key3: mainVueData.selected.value.key3,
+            key4: mainVueData.selected.value.key4,
+            key5: mainVueData.selected.value.key5,
+          }
+          console.log('mainVueData.selected.value:', mainVueData.selected.value)
+
+          GetStockData.getQueryData(selectKey)
+              .then(res => {
+                isType.value = mainVueData.selected.value.entrance;
+                isTypeData.value = res.data;
+                console.log('res:', res)
+                showState.showSpinner = false
+
+              })
         }else {
           let selectKey = {
             idName: mainVueData.selected.value.idName,
@@ -336,6 +371,12 @@ export default {
         }
         mainVueData.stockCode.value = id;
         search();
+
+
+
+
+
+
       }
 
 
