@@ -137,7 +137,7 @@ export default {
     console.log(testData)
     // VueData.items.value = testData;
     pr.value['isTypeData'].forEach(f => {
-      Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
+      f['Price']= Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
     });
     VueData.items.value = pr.value['isTypeData'];
     return {VueData}
