@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="container-fluid">
-
+      <!--      <dividendQueryColunmChart v-if="showState.showTable" :initChartData="initChartData"></dividendQueryColunmChart>-->
+      <dividend-query-colunm-chart   :initChartData="initChartData"></dividend-query-colunm-chart>
       <b-table
           outlined
           sort
@@ -18,10 +19,9 @@
       >
         <template #thead-top>
           <b-tr>
-
             <b-th colspan="2"></b-th>
-            <b-th variant="  text-center" colspan="2">現金股利</b-th>
-            <b-th variant="  text-center" colspan="2">股票股利</b-th>
+            <b-th variant="text-center" colspan="2">現金股利</b-th>
+            <b-th variant="text-center" colspan="2">股票股利</b-th>
           </b-tr>
         </template>
       </b-table>
@@ -39,14 +39,24 @@
 
 <script>
 import {reactive, ref} from "@vue/composition-api/dist/vue-composition-api";
+import DividendQueryColunmChart from "@/components/chartFolder/dividendQueryColunmChart";
 
 
 export default {
   name: "dividendQuery",
+  components: {DividendQueryColunmChart},
   props: {
     isTypeData: Array
   },
   setup(props) {
+    const initChartData = {data: null}
+    const showState = reactive({
+      showTable: false,
+      showSpinner: false,
+      showBCardNm: false,
+      showCollapse: false,
+    })
+
     //現金股利跟股票股利 圖表
     const pr = ref(props);
     console.log('pr', pr.value['isTypeData'])
@@ -137,10 +147,11 @@ export default {
     console.log(testData)
     // VueData.items.value = testData;
     pr.value['isTypeData'].forEach(f => {
-      f['Price']= Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
+      f['Price'] = Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
     });
-    VueData.items.value = pr.value['isTypeData'];
-    return {VueData}
+    initChartData.data = testData;
+    VueData.items.value = testData;
+    return {VueData, showState, initChartData}
   }
 }
 </script>

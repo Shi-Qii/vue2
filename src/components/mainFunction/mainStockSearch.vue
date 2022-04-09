@@ -319,65 +319,63 @@ export default {
     onMounted(() => {
       const url = location.href;
       let isUrl;
-      isUrl = url.split('?')[1];
-      if (isUrl !== 'undefined') {
-        let id = "";
-        let params1 = "";
-        let type1 = "";
-        //在此直接將各自的參數資料切割放進ary中
-        let ary = url.split('?')[1].split('&');
-        //下迴圈去搜尋每個資料參數
-        for (let i = 0; i <= ary.length - 1; i++) {
-          //如果資料名稱為id的話那就把他取出來
-          if (ary[i].split('=')[0] == 'id') {
-            id = ary[i].split('=')[1];
-          } else if (ary[i].split('=')[0] == 'params') {
-            params1 = ary[i].split('=')[1];
-          }else if (ary[i].split('=')[0] == 'type') {
-            type1 = ary[i].split('=')[1];
-          }
+      var isIndexOf = url.indexOf('?');
+      // console.log('isIndexOf',isIndexOf);
+  if (isIndexOf!== -1) {
+    isUrl = url.split('?')[1];
+    if (isUrl !== 'undefined') {
+      let id = "";
+      let params1 = "";
+      let type1 = "";
+      //在此直接將各自的參數資料切割放進ary中
+      let ary = url.split('?')[1].split('&');
+      //下迴圈去搜尋每個資料參數
+      for (let i = 0; i <= ary.length - 1; i++) {
+        //如果資料名稱為id的話那就把他取出來
+        if (ary[i].split('=')[0] == 'id') {
+          id = ary[i].split('=')[1];
+        } else if (ary[i].split('=')[0] == 'params') {
+          params1 = ary[i].split('=')[1];
+        } else if (ary[i].split('=')[0] == 'type') {
+          type1 = ary[i].split('=')[1];
         }
-        console.log('type1',type1)
-        if ('institutional_investors' === params1) {
-          mainVueData.selected.value = {
-            "idName": "institutional_investors",
-            "functionKey": "Ind_Institutional_Investors_Day",
-            "key2": "來自輸入框的值",
-            "key3": "60",
-            "key4": "Foreign_investors",
-            "key5": "20",
-            "entrance": "sndividualStockInquiry"
-          }
-        } else if ('monthly_revenue' === params1&& type1 !=='Ind_Monthly_Revenue_Short_Long') {
-          mainVueData.selected.value = {
-            "idName": "monthly_revenue",
-            "functionKey": "Ind_Monthly_Revenue_Mon",
-            "key2": "來自輸入框的值",
-            "key3": "60",
-            "key4": "1",
-            "key5": "1",
-            "entrance": "monthlyrevenue"
-          }
-        }else if ('monthly_revenue' === params1 && type1 ==='Ind_Monthly_Revenue_Short_Long'){
-          mainVueData.selected.value = {
-            "idName": "monthly_revenue",
-            "functionKey": "Ind_Monthly_Revenue_Short_Long",
-            "key2": "來自輸入框的值",
-            "key3": "1",
-            "key4": "1",
-            "key5": "1",
-            "entrance": "indMonthlyRevenueShortLong"
-          }
-        }
-        mainVueData.stockCode.value = id;
-        search();
-
-
-
-
-
-
       }
+      console.log('type1', type1)
+      if ('institutional_investors' === params1) {
+        mainVueData.selected.value = {
+          "idName": "institutional_investors",
+          "functionKey": "Ind_Institutional_Investors_Day",
+          "key2": "來自輸入框的值",
+          "key3": "60",
+          "key4": "Foreign_investors",
+          "key5": "20",
+          "entrance": "sndividualStockInquiry"
+        }
+      } else if ('monthly_revenue' === params1 && type1 !== 'Ind_Monthly_Revenue_Short_Long') {
+        mainVueData.selected.value = {
+          "idName": "monthly_revenue",
+          "functionKey": "Ind_Monthly_Revenue_Mon",
+          "key2": "來自輸入框的值",
+          "key3": "60",
+          "key4": "1",
+          "key5": "1",
+          "entrance": "monthlyrevenue"
+        }
+      } else if ('monthly_revenue' === params1 && type1 === 'Ind_Monthly_Revenue_Short_Long') {
+        mainVueData.selected.value = {
+          "idName": "monthly_revenue",
+          "functionKey": "Ind_Monthly_Revenue_Short_Long",
+          "key2": "來自輸入框的值",
+          "key3": "1",
+          "key4": "1",
+          "key5": "1",
+          "entrance": "indMonthlyRevenueShortLong"
+        }
+      }
+      mainVueData.stockCode.value = id;
+      search();
+    }
+  }
 
 
     })
