@@ -2,7 +2,7 @@
   <div>
     <div class="container-fluid">
       <!--      <dividendQueryColunmChart v-if="showState.showTable" :initChartData="initChartData"></dividendQueryColunmChart>-->
-      <dividend-query-colunm-chart   :initChartData="initChartData"></dividend-query-colunm-chart>
+      <dividend-query-colunm-chart :initChartData="initChartData"></dividend-query-colunm-chart>
       <b-table
           outlined
           sort
@@ -146,11 +146,12 @@ export default {
     },]
     console.log(testData)
     // VueData.items.value = testData;
-    pr.value['isTypeData'].forEach(f => {
+    let data = pr.value['isTypeData']
+    data.forEach(f => {
       f['Price'] = Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
     });
-    initChartData.data = testData;
-    VueData.items.value = testData;
+    initChartData.data = data;
+    VueData.items.value = data;
     return {VueData, showState, initChartData}
   }
 }
