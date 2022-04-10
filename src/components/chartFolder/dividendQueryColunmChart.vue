@@ -142,12 +142,12 @@ export default {
       series: [{
         name: '現金股利',
         data: [],
-        color: '#00E3E3'
+        color: '#4A4AFF'
 
       }, {
         name: '股票股利',
         data: [],
-        color: '#FF60AF'
+        color: '#BE77FF'
       }]
     });
 
