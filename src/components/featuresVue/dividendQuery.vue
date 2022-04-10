@@ -128,8 +128,8 @@ export default {
     data.forEach(f => {
       f['Price'] = Math.round((f['Price'] + Number.EPSILON) * 100) / 100;
     });
-    initChartData.data = testData;
-    VueData.items.value = testData;
+    initChartData.data = data;
+    VueData.items.value = data;
     return {VueData, showState, initChartData}
   }
 }
