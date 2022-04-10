@@ -89,9 +89,9 @@ export default {
       chartOptions.series[1].data = chartOptionsData.seriesData2;
     }
     const filterData = (num) => {
-      stockInfo.name=globalData.value[0]['stock_name'];
-      stockInfo.note=globalData.value[0]['stock_num'];
-      console.log('globalData.value',globalData.value)
+      stockInfo.name = globalData.value[0]['Stock_name'];
+      stockInfo.note = globalData.value[0]['Stock_num'];
+      console.log('globalData.value', globalData.value)
       let filterResult = globalData.value.filter((fi, idx) => {
         return idx < num;
       })
