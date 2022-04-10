@@ -1,8 +1,33 @@
 <template>
   <div>
+    <b-collapse visible id="collapse-3" v-if="state">
+      <b-card>
+        <div class="row col-12">
+          <b-input-group prepend="股票代號" class="col-3">
+            <b-form-input type="text" class="col-5" disabled v-model="stockInfo.note"
+            ></b-form-input>
+          </b-input-group>
+          <b-input-group prepend="公司名稱" class="col-3">
+            <b-form-input type="text" class="col-5" disabled
+                          v-model="stockInfo.name"></b-form-input>
+          </b-input-group>
+
+          <b-input-group prepend="選擇查詢月份數" class=" col-6">
+            <b-form-select
+                class="col-5"
+                v-model="selectDay"
+                :options="stockInfo.selectDayOptions"
+                disabled-field="notEnabled"
+            ></b-form-select>
+          </b-input-group>
+        </div>
+      </b-card>
+    </b-collapse>
+
+
     <div v-if="state">
       <hr/>
-      {{ '圖表1' }}
+      <br>
       <highcharts :options="chartOptions"></highcharts>
 
     </div>
@@ -28,7 +53,15 @@ export default {
 
     let state = ref(false);
     const initChart = ref(prop.initChartData)
-    console.log('data__:', initChart.value['data'])
+    // console.log('data__:', initChart.value['data'])
+    let globalData = ref(null);
+    let selectDay = ref('5')
+    const stockInfo = reactive({
+      note: '',
+      name: '',
+      selectDayOptions: ['5', '10', '15', '20', '30'],
+
+    })
     const chartOptionsData = reactive({
       date: null
       , seriesData1: null
@@ -36,38 +69,43 @@ export default {
       , seriesData3: null
       , seriesData4: null
     })
-    onMounted(() => {
-
+    const setChart = (data) => {
       chartOptionsData.date = []
       chartOptionsData.seriesData1 = []
       chartOptionsData.seriesData2 = []
-      chartOptionsData.seriesData3 = []
+      chartOptions.xAxis.categories = []
+      chartOptions.series[0].data = []
+      chartOptions.series[1].data = []
 
-      initChart.value['data'].forEach(f => {
+      data.forEach(f => {
         let fromatdate = (f.Year).toString();
         chartOptionsData.date.unshift(fromatdate)
         chartOptionsData.seriesData1.unshift(f.total_cash)
         chartOptionsData.seriesData2.unshift(f.total_stock)
 
-
       })
       chartOptions.xAxis.categories = chartOptionsData.date;
       chartOptions.series[0].data = chartOptionsData.seriesData1;
       chartOptions.series[1].data = chartOptionsData.seriesData2;
-
+    }
+    const filterData = (num) => {
+      let filterResult = globalData.value.filter((fi, idx) => {
+        return idx < num;
+      })
+      setChart(filterResult);
+    }
+    onMounted(() => {
+      globalData.value = initChart.value['data'];
+      filterData(5);
 
       if (initChart.value['data'].data !== null) {
-        console.log('newValue!== null:', initChart.value['data'])
-        console.log('chartOptionsData', chartOptionsData)
         state.value = true;
       }
     })
-    watch(initChart.value['data'], (newValue, oldVal) => {
+    watch(selectDay, (newValue, oldVal) => {
       /* ... */
-      console.log('newValue:', newValue)
-      console.log('oldVal:', oldVal)
-
-
+      console.log('newValue:', newValue, 'oldVal:', oldVal)
+      filterData(Number(newValue));
     })
 
 
@@ -101,14 +139,19 @@ export default {
       series: [{
         name: '現金股利',
         data: [],
+        color: '#00E3E3'
 
       }, {
         name: '股票股利',
         data: [],
-
+        color: '#FF60AF'
       }]
     });
-    return {chartOptions, initChart, chartOptionsData, state}
+
+    const showState = reactive({
+      showCollapse: false,
+    })
+    return {chartOptions, initChart, chartOptionsData, state, showState, selectDay, stockInfo}
   }
 
 }

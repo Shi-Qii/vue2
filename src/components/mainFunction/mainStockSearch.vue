@@ -113,20 +113,20 @@ export default {
               entrance: 'indMonthlyRevenueShortLong'
             }, name: '長短期月營收'
           },
-          {
-            item: {
-              // 個股_基本資料	Basic_Info	Basic_info	basic_info.py	Check代碼	股票代碼
-              // 個股_重要子公司	Important_Subsidiary	Important_subsidiary	basic_info.py	Check代碼	股票代碼
-              // 個股_海外子公司	Oversea_Company	Oversea_company	basic_info.py	Check代碼	股票代碼
-              idName: 'basic_info',
-              functionKey: 'Oversea_Company',
-              key2: '來自輸入框的值',
-              key3: '1',
-              key4: '1',
-              key5: '1',
-              entrance: 'basicCompanyInformation'
-            }, name: '公司基本資料'
-          },
+          // {
+          //   item: {
+          //     // 個股_基本資料	Basic_Info	Basic_info	basic_info.py	Check代碼	股票代碼
+          //     // 個股_重要子公司	Important_Subsidiary	Important_subsidiary	basic_info.py	Check代碼	股票代碼
+          //     // 個股_海外子公司	Oversea_Company	Oversea_company	basic_info.py	Check代碼	股票代碼
+          //     idName: 'basic_info',
+          //     functionKey: 'Oversea_Company',
+          //     key2: '來自輸入框的值',
+          //     key3: '1',
+          //     key4: '1',
+          //     key5: '1',
+          //     entrance: 'basicCompanyInformation'
+          //   }, name: '公司基本資料'
+          // },
           //股利查詢
           {
             item: {
