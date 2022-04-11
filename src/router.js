@@ -221,6 +221,10 @@ export const router = new Router({
             path: "/dailyTransactionInformation",
             name: "dailyTransactionInformation",
             component: () => import("./components/StockInquiry/dailyTransactionInformation.vue")
+        },{
+            path: "/stockPicking",
+            name: "stockPicking",
+            component: () => import("./components/stockPickingView/stockPicking.vue")
         },
     ]
 });

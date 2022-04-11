@@ -248,6 +248,17 @@
 
               </b-dropdown>
             </div>
+            <div class="px-3 py-2">
+              <b-dropdown Block id="dropdown-dropright" dropright text="選股" variant="primary" class="m-2 ">
+                <b-dropdown-item>
+                  <router-link to="/stockPicking">
+                    <font-awesome-icon icon="home"/>
+                    選股
+                  </router-link>
+                </b-dropdown-item>
+
+              </b-dropdown>
+            </div>
           </b-sidebar>
         </li>
       </div>
