@@ -8,7 +8,6 @@
         <el-menu
             collapse-transition
             unique-opened
-
             default-active="1-4-1" class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
@@ -63,15 +62,9 @@
       <!--      </div>-->
       <div class="col-md-5 setBg setBorderRight">
         <p>加入條件</p>
-        <p>{{ '獲利能力' }}</p>
-        <el-radio-group v-if="false" v-model="tabPosition" style="margin-bottom: 30px;">
-          <el-radio-button label="top">top</el-radio-button>
-          <el-radio-button label="right">right</el-radio-button>
-          <el-radio-button label="bottom">bottom</el-radio-button>
-          <el-radio-button label="left">left</el-radio-button>
-        </el-radio-group>
-        <el-tabs v-if="false" :tab-position="tabPosition" style="height: 200px;">
 
+        <el-tabs v-if="middle['獲利能力']" :tab-position="tabPosition" style="height: 200px;">
+          <p>{{ '獲利能力' }}</p>
           <el-tab-pane label="營業毛利率">
             毛利率大於:
             <el-checkbox v-model="filterText">use</el-checkbox>
@@ -96,7 +89,7 @@
             </el-input>
           </el-tab-pane>
         </el-tabs>
-        <el-tabs :tab-position="tabPosition" style="height: 200px;">
+        <el-tabs v-if="middle['獲利年成長率']" :tab-position="tabPosition" style="height: 200px;">
           <p>{{ '獲利年成長率' }}</p>
           <el-tab-pane label="營收年成長率">
             毛利率大於:
@@ -135,12 +128,16 @@
             Toggle Collapse
           </b-button>
           <di v-for="(collapse) in collapses " :key="collapse.index">
-<!--            {{ collapse.items + '分隔線 ' + idx }}-->
+            <!--            {{ collapse.items + '分隔線 ' + idx }}-->
             <b-collapse
                 class="mt-2"
                 id="collapse-4"
                 v-model="collapse.items">
-              <b-card>{{collapse.value}}</b-card>
+              <b-card>
+                <div class="card-body p-0 m-2">
+                  {{ collapse.value }}
+                </div>
+              </b-card>
             </b-collapse>
           </di>
 
@@ -157,6 +154,14 @@ import {ref, reactive, watch, getCurrentInstance} from "@vue/composition-api";
 export default {
   name: "stockPicking",
   setup() {
+    /*
+      *middle 放中間的狀態
+     */
+    const middle = reactive({
+      '獲利能力': false, '獲利年成長率': false
+    })
+
+
     const tabPosition = ref('top')
     const handleNodeClick = function (data) {
       console.log(data['label']);
@@ -217,6 +222,13 @@ export default {
     }
     const handleOpen = function (key, keyPath) {
       console.log(key, keyPath);
+      if ('1'===key){
+        middle.獲利能力 =true;
+        middle.獲利年成長率 =false;
+      }else if ('2'===key){
+        middle.獲利能力 =false;
+        middle.獲利年成長率 =true;
+      }
     }
     const handleClose = function (key, keyPath) {
       console.log(key, keyPath);
@@ -225,6 +237,13 @@ export default {
     const handleSelect = function (key, keyPath) {
       console.log('key:', key);
       console.log('keyPath:', keyPath);
+      // if ('營業毛利率'===key){
+      //   middle.獲利能力 =true;
+      //   middle.獲利年成長率 =false;
+      // }else if ('營收年成長率'===key){
+      //   middle.獲利能力 =false;
+      //   middle.獲利年成長率 =true;
+      // }
     }
     const isCollapse = ref(false);
     const btfunction = function () {
@@ -235,20 +254,20 @@ export default {
     const collapses = reactive([{
       items: '',
       index1: 1,
-      value:'第一個'
+      value: '第一個'
     }, {
       items: '',
       index2: 2,
-      value:'第二個'
+      value: '第二個'
     }])
     let count = 3;
-    const insert =function () {
+    const insert = function () {
 
 
       collapses.push({
         items: '',
         index3: count,
-        value:'第'+count+'個'
+        value: '第' + count + '個'
       })
       count++
     }
@@ -266,7 +285,8 @@ export default {
       btfunction,
       visible,
       collapses,
-      insert
+      insert,
+      middle
     }
   }
 }
@@ -278,12 +298,17 @@ export default {
   min-height: 400px;
 }
 
-.setBorderRight{
+.setBorderRight {
   border-right: solid 1px #e6e6e6;
 }
 
-.setMargin{
+.setMargin {
   margin-left: 7%;
+}
+
+.card-body {
+  padding: 0px;
+  margin: 1%;
 }
 
 .setBg {
