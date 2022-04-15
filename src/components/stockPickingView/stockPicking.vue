@@ -220,14 +220,19 @@ export default {
 
       return boolean;
     }
+    let copy = {}
+    Object.assign(copy, middle)
+    /*
+     handleOpen is controller middle states
+     *param: key is select headle
+     */
     const handleOpen = function (key, keyPath) {
+      Object.assign(middle, copy);
       console.log(key, keyPath);
-      if ('1'===key){
-        middle.獲利能力 =true;
-        middle.獲利年成長率 =false;
-      }else if ('2'===key){
-        middle.獲利能力 =false;
-        middle.獲利年成長率 =true;
+      if ('1' === key) {
+        middle.獲利能力 = true;
+      } else if ('2' === key) {
+        middle.獲利年成長率 = true;
       }
     }
     const handleClose = function (key, keyPath) {
