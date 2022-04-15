@@ -2,7 +2,8 @@
   <div>
     <div class="row mt-3">
       <div class="col-md-3 setBg ">
-        <el-button @click="btfunction" native-type="button" type="warning" icon="el-icon-star-off" circle ></el-button>
+        <b-button @click="insert">test</b-button>
+        <el-button @click="btfunction" native-type="button" type="warning" icon="el-icon-star-off" circle></el-button>
 
         <el-menu
             collapse-transition
@@ -60,15 +61,17 @@
       <!--            @node-click="handleNodeClick">-->
       <!--        </el-tree>-->
       <!--      </div>-->
-      <div class="col-md-6 setBg">
+      <div class="col-md-5 setBg setBorderRight">
         <p>加入條件</p>
+        <p>{{ '獲利能力' }}</p>
         <el-radio-group v-if="false" v-model="tabPosition" style="margin-bottom: 30px;">
           <el-radio-button label="top">top</el-radio-button>
           <el-radio-button label="right">right</el-radio-button>
           <el-radio-button label="bottom">bottom</el-radio-button>
           <el-radio-button label="left">left</el-radio-button>
         </el-radio-group>
-        <el-tabs :tab-position="tabPosition" style="height: 200px;">
+        <el-tabs v-if="false" :tab-position="tabPosition" style="height: 200px;">
+
           <el-tab-pane label="營業毛利率">
             毛利率大於:
             <el-checkbox v-model="filterText">use</el-checkbox>
@@ -93,9 +96,55 @@
             </el-input>
           </el-tab-pane>
         </el-tabs>
+        <el-tabs :tab-position="tabPosition" style="height: 200px;">
+          <p>{{ '獲利年成長率' }}</p>
+          <el-tab-pane label="營收年成長率">
+            毛利率大於:
+            <el-checkbox v-model="filterText">use</el-checkbox>
+            <el-input
+                placeholder="請输入内容"
+                prefix-icon="el-icon-search"
+                v-model="filterText">
+            </el-input>
+            毛利率小於:
+            <el-checkbox v-model="filterText">use</el-checkbox>
+            <el-input
+                placeholder="請输入内容"
+                prefix-icon="el-icon-search"
+                v-model="filterText">
+            </el-input>
+          </el-tab-pane>
+          <el-tab-pane label="毛利年成長率">
+            <el-input
+                placeholder="請输入内容"
+                prefix-icon="el-icon-search"
+                v-model="filterText">
+            </el-input>
+          </el-tab-pane>
+        </el-tabs>
       </div>
-      <div class="col-md-3 setBg">
+      <div class="col-md-3 setBg setMargin">
         <p>結果清單</p>
+        <div>
+          <b-button
+              :class="visible ? null : 'collapsed'"
+              :aria-expanded="visible ? 'true' : 'false'"
+              aria-controls="collapse-4"
+              @click="visible = !visible"
+          >
+            Toggle Collapse
+          </b-button>
+          <di v-for="(collapse) in collapses " :key="collapse.index">
+<!--            {{ collapse.items + '分隔線 ' + idx }}-->
+            <b-collapse
+                class="mt-2"
+                id="collapse-4"
+                v-model="collapse.items">
+              <b-card>{{collapse.value}}</b-card>
+            </b-collapse>
+          </di>
+
+        </div>
       </div>
     </div>
   </div>
@@ -178,9 +227,26 @@ export default {
       console.log('keyPath:', keyPath);
     }
     const isCollapse = ref(false);
-    const btfunction =function () {
-      console.log('btfunction:',isCollapse.value);
+    const btfunction = function () {
+      console.log('btfunction:', isCollapse.value);
       isCollapse.value = !isCollapse.value;
+    }
+    const visible = ref(true);
+    const collapses = reactive([{
+      items: '',
+      index1: 1,
+      value:'第一個'
+    }, {
+      items: '',
+      index2: 2,
+      value:'第二個'
+    }])
+    const insert =function () {
+      collapses.push({
+        items: '',
+        index3: 3,
+        value:'第3個'
+      })
     }
     return {
       data,
@@ -193,7 +259,10 @@ export default {
       handleClose,
       handleOpen,
       handleSelect,
-      btfunction
+      btfunction,
+      visible,
+      collapses,
+      insert
     }
   }
 }
@@ -204,7 +273,16 @@ export default {
   width: 200px;
   min-height: 400px;
 }
-.setBg{
+
+.setBorderRight{
+  border-right: solid 1px #e6e6e6;
+}
+
+.setMargin{
+  margin-left: 7%;
+}
+
+.setBg {
   /*background-color: #007799;*/
 }
 </style>
