@@ -128,7 +128,7 @@
           >
             送出
           </b-button>
-          <di v-for="(collapse) in collapses " :key="collapse.index">
+          <div v-for="(collapse) in collapses " :key="collapse.value+'a'">
             <!--            {{ collapse.items + '分隔線 ' + idx }}-->
             <b-collapse
                 class="mt-2"
@@ -140,13 +140,18 @@
                 </div>
               </b-card>
             </b-collapse>
-          </di>
+          </div>
           <el-dialog
-              title="提示"
+              center
+              title=">>>即將跳轉結果頁面<<<"
               :visible.sync="dialogVisible"
               width="30%"
           >
-            <span>即將跳轉結果頁面</span>
+            <p class="text-center">---確定選定結果---</p>
+            <di v-for="(collapse) in collapses " :key="collapse.value">
+
+            <p>{{ collapse.value }}</p>
+            </di>
             <span slot="footer" class="dialog-footer">
               <b-button variant="info" @click="ok">確定</b-button>
           </span>
