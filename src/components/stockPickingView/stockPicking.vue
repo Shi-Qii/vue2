@@ -123,9 +123,10 @@
               :class="visible ? null : 'collapsed'"
               :aria-expanded="visible ? 'true' : 'false'"
               aria-controls="collapse-4"
-              @click="visible = !visible"
+              @click="queryFunction"
+              variant="success"
           >
-            Toggle Collapse
+            送出
           </b-button>
           <di v-for="(collapse) in collapses " :key="collapse.index">
             <!--            {{ collapse.items + '分隔線 ' + idx }}-->
@@ -140,7 +141,16 @@
               </b-card>
             </b-collapse>
           </di>
-
+          <el-dialog
+              title="提示"
+              :visible.sync="dialogVisible"
+              width="30%"
+          >
+            <span>即將跳轉結果頁面</span>
+            <span slot="footer" class="dialog-footer">
+              <b-button variant="info" @click="ok">確定</b-button>
+          </span>
+          </el-dialog>
         </div>
       </div>
     </div>
@@ -276,6 +286,13 @@ export default {
       })
       count++
     }
+    const dialogVisible = ref(false);
+    const queryFunction = function () {
+      dialogVisible.value = !dialogVisible.value;
+    }
+    const ok = () => {
+      dialogVisible.value = !dialogVisible.value;
+    }
     return {
       data,
       defaultProps,
@@ -291,7 +308,10 @@ export default {
       visible,
       collapses,
       insert,
-      middle
+      middle,
+      queryFunction,
+      dialogVisible,
+      ok
     }
   }
 }
