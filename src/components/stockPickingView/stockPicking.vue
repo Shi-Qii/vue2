@@ -241,12 +241,16 @@ export default {
       index2: 2,
       value:'第二個'
     }])
+    let count = 3;
     const insert =function () {
+
+
       collapses.push({
         items: '',
-        index3: 3,
-        value:'第3個'
+        index3: count,
+        value:'第'+count+'個'
       })
+      count++
     }
     return {
       data,
