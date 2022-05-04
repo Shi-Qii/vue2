@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="container-fluid">
+      <p>test git </p>
+      <p>test git 2</p>
       <!--      <dividendQueryColunmChart v-if="showState.showTable" :initChartData="initChartData"></dividendQueryColunmChart>-->
       <dividend-query-colunm-chart :initChartData="initChartData"></dividend-query-colunm-chart>
       <b-table
