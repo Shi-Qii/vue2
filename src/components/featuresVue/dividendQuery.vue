@@ -8,6 +8,7 @@
       <p>test git 5</p>
       <p>test git 6</p>
       <p>test git 7</p>
+      <p>test git 8</p>
       <!--      <dividendQueryColunmChart v-if="showState.showTable" :initChartData="initChartData"></dividendQueryColunmChart>-->
       <dividend-query-colunm-chart :initChartData="initChartData"></dividend-query-colunm-chart>
       <b-table
