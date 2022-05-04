@@ -3,6 +3,7 @@
 
     <div class="container-fluid ">
       <p>test git </p>
+      <p>test rebase git </p>
       <!--      <dividendQueryColunmChart v-if="showState.showTable" :initChartData="initChartData"></dividendQueryColunmChart>-->
       <dividend-query-colunm-chart :initChartData="initChartData"></dividend-query-colunm-chart>
       <b-table
