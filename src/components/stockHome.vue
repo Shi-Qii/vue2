@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ 'Welcome' }}
+    {{ 'Welcome__' +items }}
   </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
     const items = ref();
     const showSidebar = ref(true)
     onMounted(() => {
-      const API_URL = 'http://localhost:8070/api/test';
+      const API_URL = 'localhost:8070/api/test';
       axios.get(API_URL).then((res) => {
         items.value = res.data;
       })
