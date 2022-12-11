@@ -13,7 +13,8 @@ export default {
     const items = ref();
     const showSidebar = ref(true)
     onMounted(() => {
-      const API_URL = 'localhost:8070/api/test';
+      // http://45.32.108.38:8070/api/test
+      const API_URL = 'http://45.32.108.38:8070/api/test';
       axios.get(API_URL).then((res) => {
         items.value = res.data;
       })
